@@ -1,0 +1,39 @@
+## Notes:
+
+## Components:
+
+CHARTS:
+--------
+-2 PI charts
+-2 vertical bar charts
+-1 horizontal bar chart
+
+ZONES:
+-------
+- Zone selector
+- Single Zone
+
+LAYOUT FILES:
+-----------------
+-Main layout file
+
+POPUPS:
+-------
+- Login popup
+- register popup
+- Welcome popup
+- Submit a survery popup
+
+TABLE:
+--------
+data table
+filter
+
+PAGES:
+-------
+Contact pages
+My Account 
+About
+
+
+
