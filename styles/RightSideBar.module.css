@@ -1,0 +1,48 @@
+.sideHeader {
+    background-color: #F9F9F9;
+    text-align: center;
+    padding-top: 7rem;
+    padding-bottom: 4.3rem;
+
+}
+
+.sideHeader h1 {
+    font-family: 'DIN-Bold';
+    font-size: 1.8rem;
+    letter-spacing: 0.7rem;
+    line-height: 2rem;
+}
+
+.sideHeader a {
+    font-family: 'DIN-Bold';
+    font-size: 1.5rem;
+    color: #038487;
+    border: 2px solid #038487;
+    /* padding: 1.3rem 3rem; */
+    width: 10rem;
+    height: 3.9rem;
+    line-height: 3.9rem;
+    display: block;
+    margin: 0 auto;
+    margin-top: 4.3rem;
+}   
+
+.mainContent{
+    padding-top: 4.8rem;
+}
+.mainContentTitle {
+    text-align: center;
+    font-family: 'DIN-Regular';
+    font-size: 1.8rem;
+    color: #344093;
+    letter-spacing: 0.5rem;
+    margin-bottom: 3rem;
+}
+
+.chartContainer::after{
+    content:'';
+    display:block;
+    width: 70%;
+    border-top: 1px solid #F0F0F0;
+    
+}

@@ -1,8 +1,9 @@
-import Head from 'next/head'
 import Link from 'next/link'
 import Image from 'next/image'
 import styles from '../styles/Layout.module.css'
 import Header from '../pages/head/Header'
+import GraphSideMenu from './GraphSideMenu.js'
+
 export default function Layout({ children }) {
     return (
         <div className={styles.main}>
@@ -43,10 +44,14 @@ export default function Layout({ children }) {
                         </div>
                     </div>
                 </header>
+
+                <div>
+                    {children}
+                </div>
             </div>
 
             <div className={styles.rightSide}>
-
+                <GraphSideMenu />
             </div>
         </div >
     )

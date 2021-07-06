@@ -1,0 +1,52 @@
+.barChart {
+    padding: 0 7rem;
+    width: 100%;
+    position: relative;
+    height: 220px;
+}
+
+.legendLeft {
+    transform: rotate( -90deg) translateY(-50%);
+    top: 30%;
+    position: absolute;
+    left: -10px;
+    bottom:50px;
+    font-size: 1.2rem;
+    font-family: 'DIN-Regular';
+}
+
+.legendBottom {
+    margin-top: 0.5rem;
+    font-family: 'DIN-Regular';
+    font-size: 1.2rem;
+}
+
+.count {
+    transform: rotate(-90deg) ;
+    font-size: 1.4rem;
+    font-family: 'DIN-Regular';
+    color: white
+}
+
+.bar {
+
+    width: 3.3rem;
+    max-height: 150px;
+    border-radius: 5px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding-bottom: 5px;
+    min-height: 30px;
+}
+
+.barsContainer {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    height: 150px;
+    align-items: flex-end;
+}
+
