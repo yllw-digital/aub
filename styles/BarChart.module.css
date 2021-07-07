@@ -1,8 +1,8 @@
 .barChart {
-    padding: 0 7rem;
+    padding: 2rem 7rem;
     width: 100%;
     position: relative;
-    height: 220px;
+    /* height: 220px; */
 }
 
 .legendLeft {
@@ -12,12 +12,17 @@
     left: -10px;
     bottom:50px;
     font-size: 1.2rem;
-    font-family: 'DIN-Regular';
+    font-family: 'Interstate-Light';
+}
+
+.legendHorizontal {
+    font-size: 1.2rem;
+    font-family: 'Interstate-Light';
 }
 
 .legendBottom {
     margin-top: 0.5rem;
-    font-family: 'DIN-Regular';
+    font-family: 'Interstate-Light';
     font-size: 1.2rem;
 }
 
@@ -50,3 +55,35 @@
     align-items: flex-end;
 }
 
+.mainContentTitle {
+    text-align: center;
+    font-family: 'DIN-Regular';
+    font-size: 1.8rem;
+    color: #344093;
+    letter-spacing: 0.5rem;
+    margin-bottom: 3rem;
+}
+
+.horizontalBarsContainer {
+    position: relative;
+    height: 150px;
+}
+
+.horizontalBarContainer{
+    width:100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.horizontalBar{
+    height: 8px;
+    background-color: #073484;
+}
+
+.horizontalBarLegend {
+    margin-left: 10px;
+    font-size: 1rem;
+    font-family: 'Interstate-Light';
+}

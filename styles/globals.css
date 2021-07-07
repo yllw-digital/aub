@@ -18,7 +18,23 @@
     /* font-display: swap; */
   }
 
+  @font-face {
+    font-family: "Interstate-Light";
+    src: url("/fonts/Interstate-Light-Regular.otf");
+    font-style: normal;
+    font-weight: 400;
+    /* font-display: swap; */
+  }
+
 
   html {
     font-size: 62.5%;
+  }
+
+  .separated::after {
+    content:'';
+    display:block;
+    width: 100%;
+    border-top: 1px solid #F0F0F0;
+    margin-top:2.2rem;
   }

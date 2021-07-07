@@ -15,6 +15,12 @@ export default function Header() {
           as="font"
         crossOrigin=""
         />
+            <link
+          href="/fonts/Interstate-Light-Regular.woff"
+          rel="preload"
+          as="font"
+        crossOrigin=""
+        />
       </Head>
   )
 }

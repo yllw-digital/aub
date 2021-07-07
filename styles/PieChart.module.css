@@ -1,0 +1,66 @@
+.pieChartContainer {
+    padding: 2rem 3.5rem;
+}
+
+.pieChartGrid {
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content : space-between;
+    width:100%;
+}
+
+.results {
+    text-align: center;
+    font-family: 'DIN-Regular';
+    font-size: 1rem;
+}
+
+.results p {
+    line-height: 22px;
+}
+
+.emphasis {
+    font-family: 'DIN-Bold' !important;
+    font-size: 2.8rem;
+}
+
+.pieOuter {
+    height: 132px;
+    width: 132px;
+}
+
+.info {
+    font-size: 1.4rem;
+    font-family: 'Interstate-Light';
+    text-align: center;
+    padding: 1rem 3rem 0;
+}
+
+/** circled number */
+
+.circledNumberContainer {
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content : center;
+    width:100%;
+
+}
+
+.circledNumber {
+    flex-direction: column;
+    height: 132px;
+    width: 132px;
+    background-color: #038487;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 132px;
+}
+
+.circledNumber p {
+    line-height: 22px;
+    color: white;
+    font-family: 'Din-Regular';
+}
