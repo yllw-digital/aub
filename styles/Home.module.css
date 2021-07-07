@@ -109,8 +109,22 @@
 }
 
 .logo {
-  height: 1em;
+  height: 9rem;
   margin-left: 0.5rem;
+}
+
+.aubLogo {
+  position: absolute;
+  bottom: 22px;
+  left: 140px;
+  width: 90px;
+}
+
+.beirutLogo {
+  position: absolute;
+  bottom: 22px;
+  left: 22px;
+  width: 90px;
 }
 
 @media (max-width: 600px) {
