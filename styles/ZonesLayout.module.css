@@ -85,6 +85,14 @@
     overflow-y: scroll;
 }
 
+.accountSectionContainer {
+    /* padding: 5.8rem; */
+    width: 100%;
+    height: calc(100vh - 220px);
+    border: 1px solid black;
+    overflow-y: scroll;
+}
+
 .pageTitle {
     margin-bottom: 3rem;
     padding-left: 0.8rem;
@@ -96,4 +104,54 @@
 .text {
     font-size: 1.4rem;
     font-family: 'Interstate-Light';
+}
+
+.profileName{
+    font-family: 'DIN-Regular';
+    font-size: 1.8rem;
+    color: #344093;
+    letter-spacing: 0.8rem;
+}
+
+.info {
+    display:flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.info p {
+    font-size: 1.4rem;
+    font-family: 'Interstate-Light';
+    margin-left: 1.8rem;
+}
+
+.info img {
+    width: 17px;
+}
+
+.profileInfoContainer {
+    margin-top: 3rem;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.profileInfoContainer a {
+    font-size: 1.5rem;
+    font-family: 'DIN-bold';
+    border: 1px solid #1A8487;
+    width: 12.6rem;
+    height: 3.9rem;
+    color: #1A8487;
+    line-height: 3.9rem;
+    text-align: center;
+}
+
+.profileSurveySection {
+    padding: 5.8rem;
+    height: 100%;
+    width: 100%;
+    overflow-y: scroll;
 }
