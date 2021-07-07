@@ -11,7 +11,7 @@ import HorizontalChart from './charts/HorizontalChart/HorizontalChart'
 
 export default function GraphSideMenu() {
     return (
-        <div style={{ display: 'flex', flexFlow: 'column', height: '100%' }}>
+        <div className={styles.sideMenuContainer}>
             <div className={styles.sideHeader}>
                 <h1>WANT TO LEAVE</h1>
                 <h1>A SURVEY</h1>
