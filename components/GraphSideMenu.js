@@ -16,7 +16,7 @@ export default function GraphSideMenu() {
                 <h1>WANT TO LEAVE</h1>
                 <h1>A SURVEY</h1>
 
-                <Link href={'/'} className={styles.loginButton}>
+                <Link href={'/'} >
                     LOGIN
                 </Link>
             </div>
@@ -29,11 +29,21 @@ export default function GraphSideMenu() {
                 <HorizontalChart title="TOTAL MONTHLY PAYABLE UTILITY FEES (USD)" />
             </div>
             <footer >
-                <p>asdfasdf</p>
-                <p>asdfasdf</p>
-                <p>asdfasdf</p>
-                <p>asdfasdf</p>
+                <div className={styles.footerContainer}>
+                    <div className={styles.surveyCount}>
+                        <p className={styles.emphasised}> 2,342</p>
+                        <p>Submitted Surveys</p>
+                    </div>
 
+                    <div className={styles.buttonContainer}>
+                        <Link href={'/'} >
+                            MORE STATS
+                        </Link>
+                        <Link href={'/'} >
+                            VIEW SURVEYS
+                        </Link>
+                    </div>
+                </div>
             </footer>
         </div>
     )

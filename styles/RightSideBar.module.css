@@ -36,11 +36,42 @@
     overflow-y: scroll;
 }
 
+.footerContainer  {
+    padding: 2rem 0;
+}
 
+footer .surveyCount {
+    text-align: center;
+    margin-bottom: 2rem;
+}
 
+footer .surveyCount p {
+    font-family: 'DIN-Regular';
+    font-size: 1.4rem;
+    line-height: 20px;
+}
 
-/* 
-.chartContainer::after{
+footer .surveyCount .emphasised {
+    font-size: 2.8rem !important;
+    color: #344093;
+    font-family: 'DIN-Bold' !important;
+}
 
-    
-} */
+footer .buttonContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+footer .buttonContainer a{
+    width: 209px;
+    height: 39px;
+    display: block;
+    line-height: 39px;
+    border: 2px solid #344093;
+    color: #344093;
+    font-family: 'DIN-Bold';
+    font-size: 1.6rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
