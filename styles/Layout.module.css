@@ -79,3 +79,19 @@
  .logo {
      background-color: white;
  }
+
+
+ .aubLogo {
+    position: absolute;
+    bottom: 22px;
+    left: 140px;
+    width: 90px;
+  }
+  
+  .beirutLogo {
+    position: absolute;
+    bottom: 22px;
+    left: 22px;
+    width: 90px;
+  }
+  

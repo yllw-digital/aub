@@ -15,7 +15,13 @@
     src: url("/fonts/D-DIN.woff");
     font-style: normal;
     font-weight: 400;
-    /* font-display: swap; */
+  }
+
+  @font-face {
+    font-family: "DIN-Condensed";
+    src: url("/fonts/D-DINCondensed.woff");
+    font-style: normal;
+    font-weight: 400;
   }
 
   @font-face {
@@ -31,10 +37,14 @@
     font-size: 62.5%;
   }
 
+  .separated {
+    position: relative;
+  }
   .separated::after {
     content:'';
     display:block;
-    width: 100%;
+    width:270px;
     border-top: 1px solid #F0F0F0;
-    margin-top:2.2rem;
+    bottom: 0rem;
+    position: absolute;
   }
