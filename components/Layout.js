@@ -38,7 +38,7 @@ export default function Layout({ children }) {
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link href={"/"}>
+                                        <Link href={"/contact"}>
                                             <a>CONTACT US</a>
                                         </Link>
                                     </li>

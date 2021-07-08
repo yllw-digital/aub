@@ -36,10 +36,10 @@ export default function GraphSideMenu() {
                     </div>
 
                     <div className={styles.buttonContainer}>
-                        <Link href={'/'} >
+                        <Link href={'/zones'} >
                             MORE STATS
                         </Link>
-                        <Link href={'/'} >
+                        <Link href={'/zones'} >
                             VIEW SURVEYS
                         </Link>
                     </div>

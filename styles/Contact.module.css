@@ -1,6 +1,7 @@
 .label {
     font-family: 'DIN-Bold';
     font-size: 1.4rem;
+    letter-spacing: 1px;
 }
 
 .formInput {
@@ -22,6 +23,12 @@
 
 .formItem {
     margin-bottom: 2rem;
+}
+
+.formItem p {
+    font-size: 1.4rem;
+    font-size: 'DIN-Regular';
+    margin-bottom: 1rem;
 }
 
 .contactForm {

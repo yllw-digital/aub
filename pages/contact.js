@@ -6,7 +6,7 @@ import * as contactStyles from '../styles/Contact.module.css';
 export default function About() {
     return (
         <Layout>
-            <div className={styles.pageContainer} >
+            <div className={styles.pageContainer}>
                 <h1 className={styles.pageTitle}>CONTACT US</h1>
 
                 <div className={contactStyles.gridHalf}>

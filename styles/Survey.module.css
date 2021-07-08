@@ -1,0 +1,78 @@
+.formItem {
+    margin-bottom: 4rem;
+}
+
+.formItem p {
+    font-size: 1.4rem;
+    font-size: 'DIN-Regular';
+    margin-bottom: 1rem;
+}
+
+.thirdGrid {
+    display:grid;
+    grid-template-columns: 2fr 3fr;
+    column-gap: 5rem;
+}
+
+.table {
+    width: 100%;
+}
+
+.tableBody tr {
+    background-color: #F9F9F9;
+    font-family: 'DIN-Regular';
+    font-size: 1.4rem;
+    border-bottom: 4px solid white;
+}
+
+.table thead tr th {
+    font-size: 1.7rem;
+    font-family: 'DIN-Bold';
+    color: #038487;
+}
+
+.tableBody tr td{
+    padding: 1rem 1.4rem;
+}
+
+.inlineRadioContainer{
+    display:flex;
+    flex-direction: row;
+    padding: 1rem 0;
+}
+
+.inlineRadio{
+    font-size: 1.4rem;
+    margin-right: 5rem;
+}
+.inlineRadio input{
+    margin-right: 10px;
+}
+
+.formItem input[type='radio']:after {
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    top: -2px;
+    left: -1px;
+    position: relative;
+    background-color: white;
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    border: 1px solid #038487;
+}
+
+.formItem input[type='radio']:checked:after {
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    top: -2px;
+    left: -1px;
+    position: relative;
+    background-color: #038487;
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    border: 1px solid #038487;
+}
