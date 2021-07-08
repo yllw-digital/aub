@@ -1,0 +1,75 @@
+.label {
+    font-family: 'DIN-Bold';
+    font-size: 1.4rem;
+}
+
+.formInput {
+    width:100%;
+    max-width: 338px;
+    height: 4rem;
+    border: 1px solid;
+    display: block;
+}
+
+.formTextarea {
+    width:100%;
+    max-width: 338px;
+    border: 1px solid;
+    display: block;
+    height: 10rem;
+    padding-top: 1rem;
+}
+
+.formItem {
+    margin-bottom: 2rem;
+}
+
+.contactForm {
+    margin-top: 4.5rem;;
+}
+
+.formInput, .formTextarea  {
+    font-family: 'DIN-Regular';
+    font-size: 1.4rem;
+    padding-left: 1rem;
+}
+
+.submitBtn {
+    font-family: 'DIN-Bold';
+    font-size: 1.4rem;
+    color: white;
+    background-color: #1A8487;
+    width: 166px;
+    height: 39px;
+}
+
+.info {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    margin-bottom: 1rem;
+}
+
+.info p{
+    font-size: 1.4rem;
+    font-family: 'Interstate-Light';
+    margin-left: 1rem;
+}
+
+/* Contact grid */
+
+.gridHalf{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 5rem;
+}
+
+.contactDetailsContainer {
+    padding-bottom: 2rem;
+    border-bottom: 1px solid;
+}
+
+.map {
+    margin-top: 2rem;
+}

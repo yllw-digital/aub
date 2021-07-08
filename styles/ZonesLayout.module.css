@@ -92,7 +92,7 @@
 
 .pageTitle {
     margin-bottom: 3rem;
-    padding-left: 0.8rem;
+    /* padding-left: 0.8rem; */
     font-size: 1.8rem;
     font-family: 'DIN-Bold';
     letter-spacing: 0.8rem;
@@ -255,7 +255,3 @@
 
 
 
-
-/* scrollbar */
-
-/* width */
