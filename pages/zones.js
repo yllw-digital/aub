@@ -25,6 +25,7 @@ export default function Zones() {
             </div>
         )
     }
+
     return (
         <Layout>
             <div className={styles.zonesLayoutContainer}>
@@ -59,7 +60,314 @@ export default function Zones() {
 
 
                 <div className={styles.tableContainer}>
+                    <table className={styles.table}>
+                        <thead>
+                            <tr>
+                                <td>SURVEY</td>
+                                <td>PRICE</td>
+                                <td>NEIGHBORHOOD</td>
+                                <td>AMENITIES</td>
+                                <td>QUALITY</td>
+                                <td>CONTRACT TYPR</td>
+                                <td>UTILITIES</td>
+                            </tr>
+                        </thead>
 
+                        <tbody>
+                            <tr>
+                                <td>
+                                    1
+                                </td>
+                                <td>
+                                    <span>950$</span>
+                                </td>
+                                <td>
+                                    info needed
+                                </td>
+                                <td>
+                                    <p><span>YES</span> Private Security</p>
+                                    <p><span>YES</span> Concierge</p>
+                                    <p><span>YES</span> Functional elevator</p>
+                                </td>
+
+                                <td>
+                                    <p><span>YES</span> New kitchen</p>
+                                    <p><span>YES</span> New bedroom</p>
+                                    <p><span>YES</span> Lorem ipsum</p>
+                                </td>
+
+                                <td>
+                                    info needed
+                                </td>
+
+                                <td>
+                                    info needed
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    1
+                                </td>
+                                <td>
+                                    <span>950$</span>
+                                </td>
+                                <td>
+                                    info needed
+                                </td>
+                                <td>
+                                    <p><span>YES</span> Private Security</p>
+                                    <p><span>YES</span> Concierge</p>
+                                    <p><span>YES</span> Functional elevator</p>
+                                </td>
+
+                                <td>
+                                    <p><span>YES</span> New kitchen</p>
+                                    <p><span>YES</span> New bedroom</p>
+                                    <p><span>YES</span> Lorem ipsum</p>
+                                </td>
+
+                                <td>
+                                    info needed
+                                </td>
+
+                                <td>
+                                    info needed
+                                </td>
+                            </tr> <tr>
+                                <td>
+                                    1
+                                </td>
+                                <td>
+                                    <span>950$</span>
+                                </td>
+                                <td>
+                                    info needed
+                                </td>
+                                <td>
+                                    <p><span>YES</span> Private Security</p>
+                                    <p><span>YES</span> Concierge</p>
+                                    <p><span>YES</span> Functional elevator</p>
+                                </td>
+
+                                <td>
+                                    <p><span>YES</span> New kitchen</p>
+                                    <p><span>YES</span> New bedroom</p>
+                                    <p><span>YES</span> Lorem ipsum</p>
+                                </td>
+
+                                <td>
+                                    info needed
+                                </td>
+
+                                <td>
+                                    info needed
+                                </td>
+                            </tr> <tr>
+                                <td>
+                                    1
+                                </td>
+                                <td>
+                                    <span>950$</span>
+                                </td>
+                                <td>
+                                    info needed
+                                </td>
+                                <td>
+                                    <p><span>YES</span> Private Security</p>
+                                    <p><span>YES</span> Concierge</p>
+                                    <p><span>YES</span> Functional elevator</p>
+                                </td>
+
+                                <td>
+                                    <p><span>YES</span> New kitchen</p>
+                                    <p><span>YES</span> New bedroom</p>
+                                    <p><span>YES</span> Lorem ipsum</p>
+                                </td>
+
+                                <td>
+                                    info needed
+                                </td>
+
+                                <td>
+                                    info needed
+                                </td>
+                            </tr> <tr>
+                                <td>
+                                    1
+                                </td>
+                                <td>
+                                    <span>950$</span>
+                                </td>
+                                <td>
+                                    info needed
+                                </td>
+                                <td>
+                                    <p><span>YES</span> Private Security</p>
+                                    <p><span>YES</span> Concierge</p>
+                                    <p><span>YES</span> Functional elevator</p>
+                                </td>
+
+                                <td>
+                                    <p><span>YES</span> New kitchen</p>
+                                    <p><span>YES</span> New bedroom</p>
+                                    <p><span>YES</span> Lorem ipsum</p>
+                                </td>
+
+                                <td>
+                                    info needed
+                                </td>
+
+                                <td>
+                                    info needed
+                                </td>
+                            </tr> <tr>
+                                <td>
+                                    1
+                                </td>
+                                <td>
+                                    <span>950$</span>
+                                </td>
+                                <td>
+                                    info needed
+                                </td>
+                                <td>
+                                    <p><span>YES</span> Private Security</p>
+                                    <p><span>YES</span> Concierge</p>
+                                    <p><span>YES</span> Functional elevator</p>
+                                </td>
+
+                                <td>
+                                    <p><span>YES</span> New kitchen</p>
+                                    <p><span>YES</span> New bedroom</p>
+                                    <p><span>YES</span> Lorem ipsum</p>
+                                </td>
+
+                                <td>
+                                    info needed
+                                </td>
+
+                                <td>
+                                    info needed
+                                </td>
+                            </tr> <tr>
+                                <td>
+                                    1
+                                </td>
+                                <td>
+                                    <span>950$</span>
+                                </td>
+                                <td>
+                                    info needed
+                                </td>
+                                <td>
+                                    <p><span>YES</span> Private Security</p>
+                                    <p><span>YES</span> Concierge</p>
+                                    <p><span>YES</span> Functional elevator</p>
+                                </td>
+
+                                <td>
+                                    <p><span>YES</span> New kitchen</p>
+                                    <p><span>YES</span> New bedroom</p>
+                                    <p><span>YES</span> Lorem ipsum</p>
+                                </td>
+
+                                <td>
+                                    info needed
+                                </td>
+
+                                <td>
+                                    info needed
+                                </td>
+                            </tr> <tr>
+                                <td>
+                                    1
+                                </td>
+                                <td>
+                                    <span>950$</span>
+                                </td>
+                                <td>
+                                    info needed
+                                </td>
+                                <td>
+                                    <p><span>YES</span> Private Security</p>
+                                    <p><span>YES</span> Concierge</p>
+                                    <p><span>YES</span> Functional elevator</p>
+                                </td>
+
+                                <td>
+                                    <p><span>YES</span> New kitchen</p>
+                                    <p><span>YES</span> New bedroom</p>
+                                    <p><span>YES</span> Lorem ipsum</p>
+                                </td>
+
+                                <td>
+                                    info needed
+                                </td>
+
+                                <td>
+                                    info needed
+                                </td>
+                            </tr> <tr>
+                                <td>
+                                    1
+                                </td>
+                                <td>
+                                    <span>950$</span>
+                                </td>
+                                <td>
+                                    info needed
+                                </td>
+                                <td>
+                                    <p><span>YES</span> Private Security</p>
+                                    <p><span>YES</span> Concierge</p>
+                                    <p><span>YES</span> Functional elevator</p>
+                                </td>
+
+                                <td>
+                                    <p><span>YES</span> New kitchen</p>
+                                    <p><span>YES</span> New bedroom</p>
+                                    <p><span>YES</span> Lorem ipsum</p>
+                                </td>
+
+                                <td>
+                                    info needed
+                                </td>
+
+                                <td>
+                                    info needed
+                                </td>
+                            </tr> <tr>
+                                <td>
+                                    1
+                                </td>
+                                <td>
+                                    <span>950$</span>
+                                </td>
+                                <td>
+                                    info needed
+                                </td>
+                                <td>
+                                    <p><span>YES</span> Private Security</p>
+                                    <p><span>YES</span> Concierge</p>
+                                    <p><span>YES</span> Functional elevator</p>
+                                </td>
+
+                                <td>
+                                    <p><span>YES</span> New kitchen</p>
+                                    <p><span>YES</span> New bedroom</p>
+                                    <p><span>YES</span> Lorem ipsum</p>
+                                </td>
+
+                                <td>
+                                    info needed
+                                </td>
+
+                                <td>
+                                    info needed
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </Layout>

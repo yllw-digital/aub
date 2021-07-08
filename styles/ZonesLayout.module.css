@@ -9,13 +9,10 @@
     height: 100%;
     width: 100%;
     overflow-y: scroll;
+    border-right: 1px solid;
 }
 
-.tableContainer {
-    background-color: red;
-    height: 100%;
-    width: 100%;
-}
+
 
 
 /** left side bar */
@@ -211,3 +208,54 @@
     flex-direction: column;
     justify-content: center;
 }
+
+
+/* TABLE STYLES */
+
+.tableContainer {
+    padding-top: 10rem;
+    overflow: scroll;;
+    height: 100%;
+    width: 100%;
+}
+
+.table {
+    width:100%;
+}
+
+.table thead {
+    font-family: 'DIN-Bold';
+    font-size: 1.4rem;
+}
+
+.table thead td {
+    border-right: 1px solid;
+    border-bottom: 1px solid;
+
+    padding: 2rem;
+}
+
+.table tbody td {
+    border-right: 1px solid;
+    border-bottom: 1px solid;
+    padding: 2rem;
+    font-family: 'DIN-Regular';
+    font-size: 1.4rem;
+}
+
+.table tbody td p {
+    margin-bottom: 1rem;;
+}
+
+.table tbody td span {
+    font-family: 'DIN-Bold' !important;
+    font-size: 1.4rem !important;
+    color: #038487;
+}
+
+
+
+
+/* scrollbar */
+
+/* width */
