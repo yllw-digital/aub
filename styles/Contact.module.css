@@ -50,6 +50,12 @@
     height: 39px;
 }
 
+.buttonClear {
+    background-color: white !important;
+    color: #1A8487 !important;
+    border: 2px solid #1A8487;
+}
+
 .info {
     display: flex;
     flex-direction: row;
