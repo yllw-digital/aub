@@ -1,10 +1,16 @@
 import Layout from '../components/Layout';
 import styles from '../styles/ZonesLayout.module.css';
 import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { PopupsContext } from '../context/PopupContext';
+
+import { useContext} from 'react';
 
 export default function Zones() {
+    const router = useRouter();
+    const popupContext = useContext(PopupsContext)
 
-    const Zone = () => {
+    const Zone = () => {    
         return (
             <div className={`${styles.zoneContainer} separated`}>
                 <img src="/zone.png" />
@@ -21,7 +27,6 @@ export default function Zones() {
                         <p>250 - 350 SQM</p>
                     </div>
                 </div>
-
             </div>
         )
     }
@@ -38,7 +43,9 @@ export default function Zones() {
                         </div>
 
                         <Link href="">
-                            <div className={styles.submit}>
+                            <div className={styles.submit} onClick={() => {
+                                popupContext.showPopup('submitSurvey')
+                            }}>
                                 <img src="/editpen.png" />
                                 SUBMIT A SURVEY
                             </div>

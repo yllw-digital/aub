@@ -1,37 +1,41 @@
 import Link from 'next/link'
-import { createContext, useState } from 'react';
+import { useContext } from 'react';
 import Image from 'next/image'
 import styles from '../styles/Layout.module.css'
 import * as forms from '../styles/Contact.module.css'
-
+import { useRouter } from 'next/router'
 import Header from './head/Header'
 import GraphSideMenu from './GraphSideMenu.js'
-
-const PopupsContext = createContext({});
+import { PopupsContext } from '../context/PopupContext';
+// export const PopupsContext = createContext({test: ''});
 
 export default function Layout({ children }) {
-    const [showPopups, setShowPopups] = useState({
-        login: false,
-        register: false,
-        welcome: false,
-        submitSurvey: false
-    });
-    const handleShowPopup = (popup) => {
-        let popupCopy = { ...showPopups };
-        Object.keys(popupCopy).map((pup) => {
-            popupCopy[pup] = false;
-        })
-        popupCopy[popup] = true;
-        setShowPopups(popupCopy)
-    }
+    // const [showPopups, setShowPopups] = useState({
+    //     login: false,
+    //     register: false,
+    //     welcome: false,
+    //     submitSurvey: false
+    // });
+    const popupContext = useContext(PopupsContext)
+    console.log(popupContext)
+    const router = useRouter();
 
-    const handleClosePopup = (popup) => {
-        let popupCopy = { ...showPopups };
-        Object.keys(popupCopy).map((pup) => {
-            popupCopy[pup] = false;
-        })
-        setShowPopups(popupCopy)
-    }
+    // const popupContext.showPopup = (popup) => {
+    //     let popupCopy = { ...showPopups };
+    //     Object.keys(popupCopy).map((pup) => {
+    //         popupCopy[pup] = false;
+    //     })
+    //     popupCopy[popup] = true;
+    //     setShowPopups(popupCopy)
+    // }
+
+    // const popupContext.closePopup = (popup) => {
+    //     let popupCopy = { ...showPopups };
+    //     Object.keys(popupCopy).map((pup) => {
+    //         popupCopy[pup] = false;
+    //     })
+    //     setShowPopups(popupCopy)
+    // }
 
     const Popup = (props) => {
         const { children } = props;
@@ -39,7 +43,7 @@ export default function Layout({ children }) {
         return (
             <div className={styles.overlay}>
                 <div className={`${styles.popupContainer} ${props.popupStyle}`}>
-                    <img src="/close.png" className={styles.closeBtn} onClick={handleClosePopup} />
+                    <img src="/close.png" className={styles.closeBtn} onClick={popupContext.closePopup} />
                     {children}
 
                     <div className={styles.inlineButtons}>
@@ -53,10 +57,10 @@ export default function Layout({ children }) {
 
     return (
         <div>
-            <PopupsContext.Provider value={{
-                showPopup: (popup) => handleShowPopup(popup),
-                closePopup: () => handleClosePopup()
-            }}>
+            {/* <PopupsContext.Provider value={{
+                showPopup: (popup) => popupContext.showPopup(popup),
+                closePopup: () => popupContext.closePopup()
+            }}> */}
                 <div className={styles.main}>
                     <Header />
                     <div className={styles.leftSide}>
@@ -107,14 +111,17 @@ export default function Layout({ children }) {
                 </div >
                 <img src="/aub-logo.png" className={styles.aubLogo} />
                 <img src="/beirut-logo.png" className={styles.beirutLogo} />
-            </PopupsContext.Provider>
+            {/* </PopupsContext.Provider> */}
 
-            {showPopups.login && <Popup
+            {popupContext.showPopups.login && <Popup
                 popupStyle={styles.signinContainer}
                 leftButtonText="SIGN UP INSTEAD"
-                handleLeftButtonPress={() => handleShowPopup('register')}
+                handleLeftButtonPress={() => popupContext.showPopup('register')}
                 rightButtonText="SIGN IN"
-                handleRightButtonPress={() => console.log('login')}
+                handleRightButtonPress={() => {
+                    popupContext.closePopup()
+                    router.push('/account')
+                }}
             >
                 <h2 className={styles.popupTitle}>LOGIN</h2>
                 <form className={forms.contactForm}>
@@ -131,12 +138,12 @@ export default function Layout({ children }) {
                 </form>
             </Popup>}
 
-            {showPopups.welcome && <Popup
+            {popupContext.showPopups.welcome && <Popup
                 popupStyle={styles.welcomePopup}
                 leftButtonText="LOG IN"
-                handleLeftButtonPress={() => handleShowPopup('login')}
+                handleLeftButtonPress={() => popupContext.showPopup('login')}
                 rightButtonText="CONTINUE TO SITE"
-                handleRightButtonPress={handleClosePopup}
+                handleRightButtonPress={popupContext.closePopup}
             >
                 <img src="/logo-line.png" />
                 <h2 className={styles.popupTitle}>WELCOME TO CITY OF TENANTS</h2>
@@ -148,10 +155,13 @@ export default function Layout({ children }) {
                 </p>
             </Popup>}
 
-            {showPopups.submitSurvey && <Popup
+            {popupContext.showPopups.submitSurvey && <Popup
                 popupStyle={styles.submitSurvey}
                 rightButtonText="I CONFIRM"
-                handleRightButtonPress={handleClosePopup}
+                handleRightButtonPress={() => {
+                    popupContext.closePopup()
+                    router.push('/survey')
+                }}
             >
                 <h2 className={styles.popupTitle}>SUBMIT A SURVEY</h2>
 
@@ -164,12 +174,12 @@ export default function Layout({ children }) {
                 <p>If you have any questions about this project, you may contact the Beirut Urban Lab on cityoftenants@aub.edu.lb </p>
             </Popup>}
 
-            {showPopups.register && <Popup
+            {popupContext.showPopups.register && <Popup
                 popupStyle={styles.registerContainer}
                 leftButtonText="LOGIN INSTEAD"
-                handleLeftButtonPress={ () => handleShowPopup('login')}
+                handleLeftButtonPress={ () => popupContext.showPopup('login')}
                 rightButtonText="REGISTER"
-                handleRightButtonPress={handleClosePopup}
+                handleRightButtonPress={popupContext.closePopup}
             >
                 <h2 className={styles.popupTitle}>SIGN UP</h2>
                 <form className={forms.contactForm}>

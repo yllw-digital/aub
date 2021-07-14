@@ -5,20 +5,24 @@ import BarChart from './charts/BarChart/BarChart'
 import PieChart from './charts/PieChart/PieChart'
 import CircledNumber from './charts/CircledNumber/CircledNumber'
 import HorizontalChart from './charts/HorizontalChart/HorizontalChart'
-
-
+import { useContext } from 'react'
+import { PopupsContext } from '../context/PopupContext'
 
 
 export default function GraphSideMenu() {
+    const {showPopup} = useContext(PopupsContext)
+
     return (
         <div className={styles.sideMenuContainer}>
             <div className={styles.sideHeader}>
                 <h1>WANT TO LEAVE</h1>
                 <h1>A SURVEY</h1>
 
-                <Link href={'/'} >
+                <button href={'/'} onClick={(e) => {
+                    showPopup('login')
+                }} >
                     LOGIN
-                </Link>
+                </button>
             </div>
 
             <div className={styles.mainContent}>
