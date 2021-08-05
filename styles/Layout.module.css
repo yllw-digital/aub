@@ -9,10 +9,14 @@
      margin: 0 auto;
  }
  
+ .mobileMenu, .floatingTabContainer {
+     display: none;
+ }
+ 
  .main {
-    display: grid;
-    grid-template-columns: 5fr minmax(375px, 1fr);
-    padding-left: 100px;
+     display: grid;
+     grid-template-columns: 5fr minmax(375px, 1fr);
+     padding-left: 100px;
      height: 100vh;
  }
  
@@ -25,7 +29,6 @@
  .rightSide {
      width: 100%;
      max-width: 375px;
-
  }
  
  .leftSide,
@@ -53,8 +56,8 @@
      top: 50%;
      transform: translate(0, -50%);
      z-index: -1;
-     right:0px;
-     left:0px;
+     right: 0px;
+     left: 0px;
  }
  
  .menuItems {
@@ -66,12 +69,12 @@
      display: inline-block;
      margin-right: 2rem;
  }
-
- .menuItems li:last-child{
+ 
+ .menuItems li:last-child {
      margin-right: 0;
  }
-
- .menuItems li a{
+ 
+ .menuItems li a {
      font-family: 'DIN-Bold';
      font-size: 1.5rem;
  }
@@ -79,121 +82,204 @@
  .logo {
      background-color: white;
  }
-
-
+ 
  .aubLogo {
-    position: absolute;
-    bottom: 22px;
-    left: 140px;
-    width: 90px;
-  }
-  
-  .beirutLogo {
-    position: absolute;
-    bottom: 22px;
-    left: 22px;
-    width: 90px;
-  }
+     position: absolute;
+     bottom: 22px;
+     left: 140px;
+     width: 90px;
+ }
+ 
+ .beirutLogo {
+     position: absolute;
+     bottom: 22px;
+     left: 22px;
+     width: 90px;
+ }
 
-
-  /* POPUPS */
-  .overlay {
-      position: absolute;
-      background:rgba(0,0,0, 0.63);
-      top: 0;
-      bottom:0;
-      left:0;
-      right:0;
-  }
-
-  .popupContainer{
-    background-color: white;
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform: translate(-50%,-50%);
-  }
-
-
-
-  .signinContainer {
-      width: 100%;
-      max-width: 43.4rem;
-      padding: 4.2rem 4.6rem;
-  }
-
-  .registerContainer {
-    width: 100%;
-    max-width: 84.3rem;
-    padding: 4.2rem 4.6rem;
-}
-
-.welcomePopup {
-    width: 100%;
-    max-width: 89.7rem;
-    padding: 4.2rem 4.6rem;
-    text-align: center;
-}
-
-.submitSurvey {
-    width: 100%;
-    max-width: 89.7rem;
-    padding: 4.2rem 4.6rem;
-}
-
-.welcomePopup p {
-    font-family: 'Interstate-Light';
-    font-size: 1.4rem;
-    line-height: 2.5rem;
-}
-
-.submitSurvey h2 {
-    margin-bottom: 4.5rem;
-    text-align: center;
-}
-
-
-.submitSurvey p {
-    font-family: 'Interstate-Light';
-    font-size: 1.4rem;
-    line-height: 2.5rem;
-}
-
-.welcomePopup img {
-    margin: 0 auto;
-    margin-bottom: 4.5rem;
-}
-
-
+ .map {
+     width: 100%;
+     height: calc(100vh - 220px);
+ }
+ /* POPUPS */
+ 
+ .overlay {
+     position: absolute;
+     background: rgba(0, 0, 0, 0.63);
+     top: 0;
+     bottom: 0;
+     left: 0;
+     right: 0;
+ }
+ 
+ .popupContainer {
+     background-color: white;
+     position: absolute;
+     top: 50%;
+     left: 50%;
+     transform: translate(-50%, -50%);
+ }
+ 
+ .signinContainer {
+     width: 100%;
+     max-width: 43.4rem;
+     padding: 4.2rem 4.6rem;
+ }
+ 
+ .registerContainer {
+     width: 100%;
+     max-width: 84.3rem;
+     padding: 4.2rem 4.6rem;
+ }
+ 
+ .welcomePopup {
+     width: 100%;
+     max-width: 89.7rem;
+     padding: 4.2rem 4.6rem;
+     text-align: center;
+ }
+ 
+ .submitSurvey {
+     width: 100%;
+     max-width: 89.7rem;
+     padding: 4.2rem 4.6rem;
+ }
+ 
+ .welcomePopup p {
+     font-family: 'Interstate-Light';
+     font-size: 1.4rem;
+     line-height: 2.5rem;
+ }
+ 
+ .submitSurvey h2 {
+     margin-bottom: 4.5rem;
+     text-align: center;
+ }
+ 
+ .submitSurvey p {
+     font-family: 'Interstate-Light';
+     font-size: 1.4rem;
+     line-height: 2.5rem;
+ }
+ 
+ .welcomePopup img {
+     margin: 0 auto;
+     margin-bottom: 4.5rem;
+ }
+ 
  .popupTitle {
      font-size: 2.5rem;
      font-family: 'DIN-Regular';
      letter-spacing: 10px;
      text-align: center;
-     color:#344093;
+     color: #344093;
  }
+ 
+ .inlineButtons {
+     display: flex;
+     flex-direction: row;
+     justify-content: space-evenly;
+     align-items: center;
+     width: 34rem;
+     margin: 0 auto;
+     margin-top: 4rem;
+ }
+ 
+ .closeBtn {
+     position: absolute;
+     top: 20px;
+     right: 20px;
+     cursor: pointer;
+ }
+ 
+ .registerGrid {
+     display: grid;
+     grid-template-columns: 1fr 1fr;
+ }
+ /* MOBILE VIEW */
+ 
+ @media (max-width: 1200px) {
 
-  .inlineButtons {
-    display:flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    align-items: center;
-    width:34rem;
-    margin:0 auto;
-    margin-top: 4rem;
+    .map {
+        height: calc(100vh - 110px);
+    }
 
-  }
+     .desktopMenu {
+         display: none;
+     }
+     .mobileMenu {
+         /* display: flex;
+         flex-direction: row; */
+         justify-content: space-between;
+         align-items: center;
+         display: grid;
+         grid-template-columns: 1fr 1fr 1fr;
+         padding: 20px 20px;
+     }
+     .btnSmall {
+         font-family: 'DIN-Bold';
+         font-size: 1.2rem;
+         color: #038487;
+         border: 2px solid #038487;
+         /* padding: 1.3rem 3rem; */
+         width: 6rem;
+         height: 2rem;
+         /* line-height: 3.9rem; */
+         display: block;
+     }
+     .main {
+         grid-template-columns: 1fr;
+         padding-left: 0px;
+     }
+     .rightSide {
+         display: none;
+     }
+     .floatingTabContainer {
+         display: block;
+         position: absolute;
+         z-index: 999;
+         top: 120px;
+         overflow-x: scroll;
+         width: 95%;
+         left: 50%;
+         transform: translate(-50%, 0);
+     }
+     .floatingTab {
+         background-color: rgba(255, 255, 255, 0.9);
+         border: 1px solid;
+        margin-bottom: 10px;
+     }
 
-  .closeBtn {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      cursor: pointer;
-  }
+     .tabContent{
+        animation-name: expand;
+        animation-duration: 1s;
+        overflow: hidden;
+        height: calc(100vh - 100px);
 
-  .registerGrid {
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      
-  }
-  
+
+     }
+
+     @keyframes expand {
+         from {
+             height: 0px;
+             display:none;
+         }
+         to {
+             height: calc(100vh - 120px);
+         }
+     }
+     .tabTitle {
+         font-family: 'DIN-Bold';
+         font-size: 2rem;
+         padding: 20px 20px;
+         color: #344093;
+         display: flex;
+         flex-direction: row;
+         justify-content: flex-start;
+         align-items: center;
+     }
+
+     .hiddenOnMobile{
+         display: none;
+     }
+ }

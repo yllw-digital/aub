@@ -7,35 +7,14 @@ import { useRouter } from 'next/router'
 import Header from './head/Header'
 import GraphSideMenu from './GraphSideMenu.js'
 import { PopupsContext } from '../context/PopupContext';
-// export const PopupsContext = createContext({test: ''});
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBars, faChevronDown } from '@fortawesome/free-solid-svg-icons'
+import FloatingTab from '../components/FloatingTab';
 
 export default function Layout({ children }) {
-    // const [showPopups, setShowPopups] = useState({
-    //     login: false,
-    //     register: false,
-    //     welcome: false,
-    //     submitSurvey: false
-    // });
+
     const popupContext = useContext(PopupsContext)
-    console.log(popupContext)
     const router = useRouter();
-
-    // const popupContext.showPopup = (popup) => {
-    //     let popupCopy = { ...showPopups };
-    //     Object.keys(popupCopy).map((pup) => {
-    //         popupCopy[pup] = false;
-    //     })
-    //     popupCopy[popup] = true;
-    //     setShowPopups(popupCopy)
-    // }
-
-    // const popupContext.closePopup = (popup) => {
-    //     let popupCopy = { ...showPopups };
-    //     Object.keys(popupCopy).map((pup) => {
-    //         popupCopy[pup] = false;
-    //     })
-    //     setShowPopups(popupCopy)
-    // }
 
     const Popup = (props) => {
         const { children } = props;
@@ -57,60 +36,90 @@ export default function Layout({ children }) {
 
     return (
         <div>
-            {/* <PopupsContext.Provider value={{
-                showPopup: (popup) => popupContext.showPopup(popup),
-                closePopup: () => popupContext.closePopup()
-            }}> */}
-                <div className={styles.main}>
-                    <Header />
-                    <div className={styles.leftSide}>
-                        <header>
-                            <div className={`${styles.container} ${styles.menuBar}`}>
-                                <div className={styles.logo}>
-                                    <Link href="/">
-                                        <a>
-                                            <Image
-                                                src="/logo.png"
-                                                height={100}
-                                                width={165}
-                                            />
-                                        </a>
-                                    </Link>
-                                </div>
-
-                                <div className={styles.menuItems}>
-                                    <ul>
-                                        <li>
-                                            <Link href={"/"}>
-                                                <a>THE MAP</a>
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link href={"/about"}>
-                                                <a>ABOUT</a>
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link href={"/contact"}>
-                                                <a>CONTACT US</a>
-                                            </Link>
-                                        </li>
-                                    </ul>
-                                </div>
+            <div className={styles.main}>
+                <Header />
+                <div className={styles.leftSide}>
+                    <header>
+                        <div className={`${styles.container} ${styles.menuBar} ${styles.desktopMenu}`}>
+                            <div className={styles.logo}>
+                                <Link href="/">
+                                    <a>
+                                        <Image
+                                            src="/logo.png"
+                                            height={100}
+                                            width={165}
+                                        />
+                                    </a>
+                                </Link>
                             </div>
-                        </header>
 
-                        <div>
-                            {children}
+                            <div className={styles.menuItems}>
+                                <ul>
+                                    <li>
+                                        <Link href={"/"}>
+                                            <a>THE MAP</a>
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link href={"/about"}>
+                                            <a>ABOUT</a>
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link href={"/contact"}>
+                                            <a>CONTACT US</a>
+                                        </Link>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
-                    </div>
 
-                    <div className={styles.rightSide}>
-                        <GraphSideMenu />
+                        <div className={`${styles.mobileMenu}`}>
+                            <FontAwesomeIcon icon={faBars} style={{ width: 20 }} />
+                            <a href="/" style={{ textAlign: 'center' }}>
+                                <div className={`${styles.mobileLogo}`}>
+                                    <Image
+
+                                        src="/logo.png"
+                                        height={60}
+                                        width={130}
+                                    />
+                                </div>
+                            </a>
+
+                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}>
+                                <button className={`${styles.btnSmall}`} onClick={(e) => {
+                                    popupContext.showPopup('login')
+                                }} >
+                                    LOGIN
+                                </button>
+                            </div>
+
+                        </div>
+                    </header>
+
+                    <div>
+                        <div className={styles.floatingTabContainer}>
+
+                            <FloatingTab title="DASHBOARD">
+                                <GraphSideMenu />
+                            </FloatingTab>
+
+                            <FloatingTab title="LEGEND">
+                                <GraphSideMenu />
+                            </FloatingTab>
+
+                        </div>
+                        {children}
                     </div>
-                </div >
-                <img src="/aub-logo.png" className={styles.aubLogo} />
-                <img src="/beirut-logo.png" className={styles.beirutLogo} />
+                </div>
+
+                <div className={styles.rightSide}>
+                    <GraphSideMenu />
+                </div>
+            </div >
+            <img src="/aub-logo.png" className={`${styles.aubLogo} ${styles.hiddenOnMobile}`} />
+            <img src="/beirut-logo.png" className={`${styles.beirutLogo} ${styles.hiddenOnMobile}`} />
             {/* </PopupsContext.Provider> */}
 
             {popupContext.showPopups.login && <Popup
@@ -177,7 +186,7 @@ export default function Layout({ children }) {
             {popupContext.showPopups.register && <Popup
                 popupStyle={styles.registerContainer}
                 leftButtonText="LOGIN INSTEAD"
-                handleLeftButtonPress={ () => popupContext.showPopup('login')}
+                handleLeftButtonPress={() => popupContext.showPopup('login')}
                 rightButtonText="REGISTER"
                 handleRightButtonPress={popupContext.closePopup}
             >
