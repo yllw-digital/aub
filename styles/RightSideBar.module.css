@@ -84,6 +84,16 @@ footer .buttonContainer a {
     margin-bottom: 1.5rem;
 }
 
+.leftArrow {
+    margin-right: 0.5rem;
+    cursor: pointer;
+}
+
+.rightArrow{
+    margin-left: 0.5rem;
+    cursor: pointer;
+}
+
 /* MOBILE RESPONSIVE */
 
 @media (max-width: 1200px) {
