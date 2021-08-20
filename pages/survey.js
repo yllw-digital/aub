@@ -6,10 +6,13 @@ import * as surveyStyles from '../styles/Survey.module.css';
 import { getQuestions } from '../services/questions/questions';
 import DatePicker from "react-datepicker";
 import "../node_modules/react-datepicker/dist/react-datepicker.css";
+import { useForm } from "react-hook-form";
 
 export default function Survey() {
     const [questions, setQuestions] = useState(null);
-    const [startDate, setStartDate] = useState(new Date);
+    const [dates, setDates] = useState({ 46: new Date, 47: new Date })
+    const { register, handleSubmit, setValue, formState: { errors } } = useForm();
+
 
     useEffect(() => {
         const fetchQuestions = async () => {
@@ -19,15 +22,16 @@ export default function Survey() {
         fetchQuestions();
     }, []);
 
+
     const renderQuestions = (questions) => {
         let display = [];
         questions.map((question, index) => {
-            display.push(prepareField(question.config, index));
+            display.push(prepareField(question.config, question.question_id, index));
         })
         return display;
     }
 
-    const prepareField = (configJson, index) => {
+    const prepareField = (configJson, questionId, index) => {
         const config = JSON.parse(configJson);
         const { question } = config
 
@@ -35,23 +39,30 @@ export default function Survey() {
             case "textfield":
                 return <div className={surveyStyles.formItem} key={index.toString()}>
                     <label className={contactStyles.label}>{question}</label>
-                    <input className={contactStyles.formInput} type="text" />
+                    {errors[questionId.toString()]?.type === 'required' && <p style={{color: 'red', display: 'inline', marginLeft: 5}}>Field is required</p>}
+                    <input className={contactStyles.formInput} type="text"  {...register(questionId.toString(), { required: config.user_validation == 'required' })} />
                 </div>
-            case "textarea":
 
+            case "textarea":
                 return <div className={surveyStyles.formItem} key={index.toString()}>
                     <label className={contactStyles.label}>{question}</label>
-                    <textarea className={contactStyles.formTextarea} rows="10"></textarea>
+                    {errors[questionId.toString()]?.type === 'required' && <p style={{color: 'red', display: 'inline', marginLeft: 5}}>Field is required</p>}
+
+                    <textarea className={contactStyles.formTextarea} rows="10"  {...register(questionId.toString(), { required: config.user_validation == 'required' })}></textarea>
                 </div>
 
             case "dropdown":
-
                 return <div className={surveyStyles.formItem} key={index.toString()}>
                     <label className={contactStyles.label}>{question}</label>
-                    <select className={contactStyles.formInput} >
-                        <option>Please specify</option>
-                        {config.options.map((option) => {
-                            return <option>{option}</option>
+                    {errors[questionId.toString()]?.type === 'required' && <p style={{color: 'red', display: 'inline', marginLeft: 5}}>Field is required</p>}
+
+                    <select
+                        className={contactStyles.formInput}
+                        {...register(questionId.toString(), { required: config.user_validation == 'required' })}
+                    >
+                        <option value="">Specify Option</option>
+                        {config.options.map((option, index) => {
+                            return <option value={camelize(option)}>{option}</option>
                         })}
                     </select>
                 </div>
@@ -59,20 +70,70 @@ export default function Survey() {
             case "checkbox":
                 return <div className={surveyStyles.formItem} key={index.toString()}>
                     <label className={contactStyles.label}>{question}</label>
-                    {config.options.map((option) => {
-                        return <div className={contactStyles.checkboxContainer}><input type="checkbox" />{option}</div>
+                    {errors[questionId.toString()]?.type === 'required' && <p style={{color: 'red', display: 'inline', marginLeft: 5}}>Field is required</p>}
+
+                    {config.options.map((option, optionIndex) => {
+                        return <div className={contactStyles.checkboxContainer}><input type="checkbox" value={camelize(option)} {...register(`${questionId}[]`, { required: config.user_validation == 'required' })} />{option}</div>
                     })}
                 </div>
-                break;
+
 
             case "date":
-
                 return <div className={surveyStyles.formItem} key={index.toString()}>
                     <label className={contactStyles.label}>{question}</label>
-                    <DatePicker selected={startDate} className={contactStyles.formInput} onChange={(date) => setStartDate(date)} />
+                    {errors[questionId.toString()]?.type === 'required' && <p style={{color: 'red', display: 'inline', marginLeft: 5}}>Field is required</p>}
+
+                    <DatePicker
+                        selected={dates[questionId]}
+                        className={contactStyles.formInput}
+                        {...register(questionId.toString(), { required: config.user_validation == 'required' })}
+                        onChange={(date) => {
+                            let datesCopy = { ...dates };
+                            datesCopy[questionId] = date;
+                            setDates(datesCopy)
+                            setValue(questionId.toString(), formatDate(date), { shouldValidate: true })
+                        }} />
                 </div>
-                break;
+
         }
+    }
+
+    const formatDate = (d) => {
+        let month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2)
+            month = '0' + month;
+        if (day.length < 2)
+            day = '0' + day;
+
+        return [year, month, day].join('-');
+    }
+
+    const camelize = (str) => {
+        if (typeof str !== 'string') return str;
+        return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
+            return index === 0 ? word.toLowerCase() : word.toUpperCase();
+        }).replace(/\s+/g, '');
+    }
+
+    const onSubmit = (data) => {
+        console.log(prepareData(data));
+    }
+
+    const prepareData = (data) => {
+        const keys = Object.keys(data);
+        let answers = [];
+
+        keys.forEach((key) => {
+            answers.push({
+                question_id: key,
+                answer: data[key]
+            })
+        })
+
+        return answers
     }
 
     return (
@@ -80,7 +141,7 @@ export default function Survey() {
             <div className={styles.pageContainer}>
                 <h1 className={styles.pageTitle}>CITY OF TENANTS - RENTAL MAP SURVEY</h1>
 
-                <form >
+                <form onSubmit={handleSubmit(onSubmit)}>
                     <div className={surveyStyles.thirdGrid}>
                         {/* FIELDS START */}
                         {questions && renderQuestions(questions)}
