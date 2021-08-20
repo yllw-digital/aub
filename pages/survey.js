@@ -10,6 +10,7 @@ import "../node_modules/react-datepicker/dist/react-datepicker.css";
 export default function Survey() {
     const [questions, setQuestions] = useState(null);
     const [startDate, setStartDate] = useState(new Date);
+
     useEffect(() => {
         const fetchQuestions = async () => {
             const res = await getQuestions();
@@ -22,7 +23,6 @@ export default function Survey() {
         let display = [];
         questions.map((question, index) => {
             display.push(prepareField(question.config, index));
-            console.log(prepareField(question.config, index))
         })
         return display;
     }
@@ -33,21 +33,20 @@ export default function Survey() {
 
         switch (config.type) {
             case "textfield":
-
-                return <div className={surveyStyles.formItem}>
+                return <div className={surveyStyles.formItem} key={index.toString()}>
                     <label className={contactStyles.label}>{question}</label>
                     <input className={contactStyles.formInput} type="text" />
                 </div>
             case "textarea":
 
-                return <div className={surveyStyles.formItem}>
+                return <div className={surveyStyles.formItem} key={index.toString()}>
                     <label className={contactStyles.label}>{question}</label>
                     <textarea className={contactStyles.formTextarea} rows="10"></textarea>
                 </div>
 
             case "dropdown":
 
-                return <div className={surveyStyles.formItem}>
+                return <div className={surveyStyles.formItem} key={index.toString()}>
                     <label className={contactStyles.label}>{question}</label>
                     <select className={contactStyles.formInput} >
                         <option>Please specify</option>
@@ -58,7 +57,7 @@ export default function Survey() {
                 </div>
 
             case "checkbox":
-                return <div className={surveyStyles.formItem} >
+                return <div className={surveyStyles.formItem} key={index.toString()}>
                     <label className={contactStyles.label}>{question}</label>
                     {config.options.map((option) => {
                         return <div className={contactStyles.checkboxContainer}><input type="checkbox" />{option}</div>
@@ -68,7 +67,7 @@ export default function Survey() {
 
             case "date":
 
-                return <div className={surveyStyles.formItem}>
+                return <div className={surveyStyles.formItem} key={index.toString()}>
                     <label className={contactStyles.label}>{question}</label>
                     <DatePicker selected={startDate} className={contactStyles.formInput} onChange={(date) => setStartDate(date)} />
                 </div>
