@@ -1,0 +1,244 @@
+{
+	"info": {
+		"_postman_id": "8669f0ae-3c98-4837-ac44-422fd649eff2",
+		"name": "AUB",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Joe Abdel Sater",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "joe@yllwdigital.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "password_confirmation",
+									"value": "password",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/register",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "joe@yllwdigital.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "helloyellow",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/login",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify email",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reset password",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "change password",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Questions",
+			"item": [
+				{
+					"name": "import questions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/questions/import",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"questions",
+								"import"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get questions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/questions",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"questions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get question answers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/questions/1/answers",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"questions",
+								"1",
+								"answers"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Answers",
+			"item": [
+				{
+					"name": "answer questions",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNjgwZDYyNmUwMWIyYjE0MmFkYjYzOWQ3YWFjNTIwNjQzZjViZDhlOWMzYzk4ZTA5ZGZiMmU2MWM4ZjUwYzk1NDE3ZWJjNjdiNGFhMDEzZDciLCJpYXQiOjE2Mjk0NTE4NzkuODEyNjA5LCJuYmYiOjE2Mjk0NTE4NzkuODEyNjE5LCJleHAiOjE2NjA5ODc4NzkuODA2MTMsInN1YiI6IjkiLCJzY29wZXMiOltdfQ.l1EQQv5fmXCCCRcap4rxm9XgG2RGO8KQC9Tjs4ARhNf8SoZ7hu-JfVorpymihwz7tW0JAxgHqzA8iA72CuK9dZhUXwZWBBCJbnKhS_ZRC6aRQolqizFA3_HZAWpFhvkzx9KDVEMBGqngBDP4vVfwQQ43o3MY2SBl_4u3As52oYRt4vHPztKLhZQECItUusKkRzXpwvlYuL3Eqk2dbqXd3YPYIrqH4_Q3m8zuWqpDn3k49Jf75u6FpwIoGEdwlxWWouo82X2kzs-rqNO4kEsS3WAmzSYEQziN-Wu9l9OY6yS9uPvjS0sL_1cCIlakY2qcQj9VdpO4HmUQs0RWcCfSgPeUfMdRsAvFXRqcUF546Rs4HaYgWeW48nidvK-dqtJr1_d8uqlRoUSmpq8itaUMj32Ta3IAj-kS7XGYL8_1zB7M7H9VkcXEp8ZQkAM5UWww2-JJTbPsAfMvdGgmj5ZbFQbYkNW2J0HFC1LbvPJekVAAzym0Bqr9A7R5S8tqM0n_g06_kdpWLiw3oLA2we5ooYCJFw4vAoBKiM8R8ceXmWruZGniCKkcsBHn34QpMp-4fzHRWOO5u8oBY04-uywRAsZPwOKbaEicz_vErsv9uwqo3gFHRSTiBeNtMhlPPYfD2840bN-PJbIyaZ3WRMsqhpMTrdFKO-mC5WqqRh2srMw",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"answers\" : [\n        {\n            \"question_id\": 1,\n            \"answer\": \"someshit\"\n        },\n        {\n            \"question_id\": 2,\n            \"answer\": \"catshit\"\n        },\n        {\n            \"question_id\": 3,\n            \"answer\": \"bullshit\"\n        },\n        {\n            \"question_id\": 4,\n            \"answer\": \"dogshit\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/answer",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"answer"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

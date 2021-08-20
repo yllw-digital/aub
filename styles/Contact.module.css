@@ -21,6 +21,18 @@
     padding-top: 1rem;
 }
 
+.checkboxContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    margin: 1rem 0;
+    font-size: 1.2rem;
+}
+
+.checkboxContainer input {
+    margin-right: 1rem;
+}
+
 .formItem {
     margin-bottom: 2rem;
 }
