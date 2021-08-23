@@ -14,6 +14,7 @@ export default function Survey() {
     const [dates, setDates] = useState({ 46: new Date, 47: new Date })
     const { register, handleSubmit, setValue, formState: { errors } } = useForm();
     const {isAuthenticated} = useAuth()
+    
 
     useEffect(() => {
         const fetchQuestions = async () => {

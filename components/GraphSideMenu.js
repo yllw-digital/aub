@@ -11,9 +11,14 @@ import { PopupsContext } from '../context/PopupContext'
 import OwlCarousel from 'react-owl-carousel2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'
+import { useAuth } from '../context/auth';
+import { useRouter } from 'next/router'
 
 export default function GraphSideMenu() {
     const { showPopup } = useContext(PopupsContext)
+    const { isAuthenticated } = useAuth();
+    const router = useRouter();
+
     const first = useRef(null);
     const carouselOptions = {
         items: 1,
@@ -24,16 +29,27 @@ export default function GraphSideMenu() {
     }
     return (
         <div className={styles.sideMenuContainer}>
-            <div className={styles.sideHeader}>
-                <h1>WANT TO LEAVE</h1>
-                <h1>A SURVEY</h1>
+                {!isAuthenticated && <div className={styles.sideHeader}> 
+                    <h1>WANT TO LEAVE</h1>
+                    <h1>A SURVEY</h1>
 
-                <button href={'/'} onClick={(e) => {
-                    showPopup('login')
-                }} >
-                    LOGIN
-                </button>
-            </div>
+                    <button href={'/'} onClick={(e) => {
+                        showPopup('login')
+                    }} >
+                        LOGIN
+                    </button>
+                </div>}
+
+
+                {isAuthenticated && <div className={styles.sideHeader}>
+                    <h1>WELCOME BACK,</h1>
+                    <h1>JOE</h1>
+                    <button href={'/'} onClick={(e) => {
+                        router.push('/account')
+                    }} >
+                        MY ACCOUNT
+                    </button>
+                </div>}
 
             <div className={styles.mainContent}>
                 <OwlCarousel options={carouselOptions}>
