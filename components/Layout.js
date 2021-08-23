@@ -12,8 +12,6 @@ import { faBars, faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import FloatingTab from '../components/FloatingTab';
 import { useForm } from "react-hook-form";
 import {useAuth} from '../context/auth';
-import api from '../services/config';
-import Cookies from 'js-cookie';
 
 export default function Layout({ children }) {
     const { register, handleSubmit, formState: { errors }, setError } = useForm();

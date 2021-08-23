@@ -1,8 +1,21 @@
 import Layout from '../components/Layout';
 import styles from '../styles/ZonesLayout.module.css';
+import * as layoutStyles from '../styles/Layout.module.css'
+import * as forms from '../styles/Contact.module.css'
 import Link from 'next/link'
+import { useAuth } from '../context/auth';
+import { useRouter } from 'next/router'
 
 export default function Account() {
+    const { logout } = useAuth()
+    const router = useRouter();
+
+    const onLogout = () => {
+        console.log('asdfasdf')
+        if(logout()) {
+            router.replace('/')
+        }
+    }
     const Survey = () => {
         return <div className={styles.surveyWrapper}>
             <h3>ZONE NAME HERE</h3>
@@ -56,9 +69,11 @@ export default function Account() {
                                 </div>
                             </div>
 
-                            <Link href={""}>
-                                EDIT PROFILE
-                            </Link>
+
+                            <div className={layoutStyles.inlineButtons} style={{ margin: 'initial' }}>
+                                <button className={forms.submitBtn} >EDIT PROFILE</button>
+                                <button className={`${forms.submitBtn} ${forms.buttonClear}`} onClick={onLogout}>LOGOUT</button>
+                            </div>
                         </div>
                     </div>
                 </div>

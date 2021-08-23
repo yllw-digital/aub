@@ -34,6 +34,7 @@ export const AuthProvider = ({ children }) => {
         if (res?.data?.token) {
             Cookies.set('token', res.data.token, { expires: 60 })
             api.defaults.headers.Authorization = `Bearer ${res.data.token}`
+            setIsAuthenticated(true)
             // setUser(res.data.user)
             return true;
 
@@ -44,9 +45,9 @@ export const AuthProvider = ({ children }) => {
 
     const logout = (email, password) => {
         Cookies.remove('token')
-        setUser(null)
+        setIsAuthenticated(false)
         delete api.defaults.headers.Authorization
-        // window.location.pathname = '/login'
+        return true
     }
 
     return (
