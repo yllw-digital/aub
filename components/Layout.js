@@ -12,6 +12,8 @@ import { faBars, faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import FloatingTab from '../components/FloatingTab';
 import { useForm } from "react-hook-form";
 import {useAuth} from '../context/auth';
+import Popup from '../components/Popup';
+import RegisterForm from '../components/forms/RegisterForm';
 
 export default function Layout({ children }) {
     const { register, handleSubmit, formState: { errors }, setError } = useForm();
@@ -21,23 +23,23 @@ export default function Layout({ children }) {
     const {loginUser } = useAuth()
     const router = useRouter();
 
-    const Popup = (props) => {
-        const { children } = props;
+    // const Popup = (props) => {
+    //     const { children } = props;
 
-        return (
-            <div className={styles.overlay}>
-                <div className={`${styles.popupContainer} ${props.popupStyle}`}>
-                    <img src="/close.png" className={styles.closeBtn} onClick={popupContext.closePopup} />
-                    {children}
+    //     return (
+    //         <div className={styles.overlay}>
+    //             <div className={`${styles.popupContainer} ${props.popupStyle}`}>
+    //                 <img src="/close.png" className={styles.closeBtn} onClick={popupContext.closePopup} />
+    //                 {children}
 
-             {(props.rightButtonText || props.leftButtonText) && <div className={styles.inlineButtons}>
-                        {props.leftButtonText && <button  className={`${forms.submitBtn} ${forms.buttonClear}`} onClick={props.handleLeftButtonPress}>{props.leftButtonText}</button>}
-                        {props.rightButtonText && <button  className={forms.submitBtn} onClick={props.handleRightButtonPress}>{props.rightButtonText}</button>}
-                    </div>}
-                </div>
-            </div>
-        )
-    }
+    //          {(props.rightButtonText || props.leftButtonText) && <div className={styles.inlineButtons}>
+    //                     {props.leftButtonText && <button  className={`${forms.submitBtn} ${forms.buttonClear}`} onClick={props.handleLeftButtonPress}>{props.leftButtonText}</button>}
+    //                     {props.rightButtonText && <button  className={forms.submitBtn} onClick={props.handleRightButtonPress}>{props.rightButtonText}</button>}
+    //                 </div>}
+    //             </div>
+    //         </div>
+    //     )
+    // }
 
     const onLogin = async (data) => {
         try {
@@ -202,52 +204,7 @@ export default function Layout({ children }) {
                 <p>If you have any questions about this project, you may contact the Beirut Urban Lab on cityoftenants@aub.edu.lb </p>
             </Popup>}
 
-            {popupContext.showPopups.register && <Popup
-                popupStyle={styles.registerContainer}
-                leftButtonText="LOGIN INSTEAD"
-                handleLeftButtonPress={() => popupContext.showPopup('login')}
-                rightButtonText="REGISTER"
-                handleRightButtonPress={popupContext.closePopup}
-            >
-                <h2 className={styles.popupTitle}>SIGN UP</h2>
-                <form className={forms.contactForm}>
-                    <div className={styles.registerGrid}>
-                        <div>
-                            <div className={forms.formItem}>
-                                <label className={forms.label}>FIRST NAME</label>
-                                <input className={forms.formInput} type="text" />
-                            </div>
-
-                            <div className={forms.formItem}>
-                                <label className={forms.label}>LAST NAME</label>
-                                <input className={forms.formInput} type="text" />
-                            </div>
-
-                            <div className={forms.formItem}>
-                                <label className={forms.label}>MOBILE NUMBER</label>
-                                <input className={forms.formInput} type="text" />
-                            </div>
-                        </div>
-
-                        <div>
-                            <div className={forms.formItem}>
-                                <label className={forms.label}>EMAIL ADDRESS</label>
-                                <input className={forms.formInput} type="text" />
-                            </div>
-
-                            <div className={forms.formItem}>
-                                <label className={forms.label}>CREATE PASSWORD</label>
-                                <input className={forms.formInput} type="text" />
-                            </div>
-
-                            <div className={forms.formItem}>
-                                <label className={forms.label}>CONFIRM PASSWORD</label>
-                                <input className={forms.formInput} type="text" />
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </Popup>}
+            {popupContext.showPopups.register && <RegisterForm />}
         </div>
     )
 }

@@ -8,7 +8,7 @@ import { login } from '../services/auth/auth';
 const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
-    const  [isAuthenticated, setIsAuthenticated ] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -25,22 +25,29 @@ export const AuthProvider = ({ children }) => {
             }
             setLoading(false)
         }
-         loadUserFromCookies()
+        loadUserFromCookies()
     })
 
     const loginUser = async (email, password) => {
         const res = await login(email, password)
 
         if (res?.data?.token) {
-            Cookies.set('token', res.data.token, { expires: 60 })
-            api.defaults.headers.Authorization = `Bearer ${res.data.token}`
-            setIsAuthenticated(true)
+            // Cookies.set('token', res.data.token, { expires: 60 })
+            // api.defaults.headers.Authorization = `Bearer ${res.data.token}`
+            // setIsAuthenticated(true)
             // setUser(res.data.user)
-            return true;
-
+            // return true;
+            return authenticate(res.data.token);
         } else {
             return false;
         }
+    }
+
+    const authenticate = (token) => {
+        Cookies.set('token', token, { expires: 60 })
+        api.defaults.headers.Authorization = `Bearer ${token}`
+        setIsAuthenticated(true);
+        return true;
     }
 
     const logout = (email, password) => {
@@ -51,7 +58,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, loginUser, loading, logout }}>
+        <AuthContext.Provider value={{ isAuthenticated, loginUser, loading, logout, authenticate }}>
             {children}
         </AuthContext.Provider>
     )
