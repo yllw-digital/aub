@@ -11,52 +11,41 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import FloatingTab from '../components/FloatingTab';
 import { useForm } from "react-hook-form";
-import {useAuth} from '../context/auth';
+import { useAuth } from '../context/auth';
 import Popup from '../components/Popup';
 import RegisterForm from '../components/forms/RegisterForm';
+import { route } from 'next/dist/next-server/server/router';
 
 export default function Layout({ children }) {
     const { register, handleSubmit, formState: { errors }, setError } = useForm();
     const loginForm = useRef(null);
 
     const popupContext = useContext(PopupsContext)
-    const {loginUser } = useAuth()
+    const { loginUser, isAuthenticated } = useAuth()
     const router = useRouter();
-
-    // const Popup = (props) => {
-    //     const { children } = props;
-
-    //     return (
-    //         <div className={styles.overlay}>
-    //             <div className={`${styles.popupContainer} ${props.popupStyle}`}>
-    //                 <img src="/close.png" className={styles.closeBtn} onClick={popupContext.closePopup} />
-    //                 {children}
-
-    //          {(props.rightButtonText || props.leftButtonText) && <div className={styles.inlineButtons}>
-    //                     {props.leftButtonText && <button  className={`${forms.submitBtn} ${forms.buttonClear}`} onClick={props.handleLeftButtonPress}>{props.leftButtonText}</button>}
-    //                     {props.rightButtonText && <button  className={forms.submitBtn} onClick={props.handleRightButtonPress}>{props.rightButtonText}</button>}
-    //                 </div>}
-    //             </div>
-    //         </div>
-    //     )
-    // }
 
     const onLogin = async (data) => {
         try {
             const res = await loginUser(data['email'], data['password']);
-            if(res){
+            console.log(res, 'asdf');
+            if (res.status) {
                 console.log('logged in user');
                 popupContext.closePopup();
                 // router:push('/account');
-            }else {
-                setError('email', {message:'Wrong Email/Password combination'})
-            
-                // Cookies.set('token', res.data.token);
-                // api.defaults.headers.Authorization = `Bearer ${res.data.token}`;
+            } else if (!res.status && res.type === 'verification') {
+                setError('email', { message: 'Please verify your email before signing in' })
+            } else {
+                setError('email', { message: 'Wrong Email/Password combination' })
             }
         } catch (err) {
             console.log(err)
         }
+    }
+
+    const existsInHidden = () => {
+        const hidden = ['/account', '/survey', '/about', '/contact', '/zones'];
+        const currentRoute = router.pathname;
+        return hidden.includes(currentRoute)
     }
 
     return (
@@ -113,18 +102,24 @@ export default function Layout({ children }) {
                             </a>
 
                             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}>
-                                <button className={`${styles.btnSmall}`} onClick={(e) => {
+                                {!isAuthenticated && <button className={`${styles.btnSmall}`} onClick={(e) => {
                                     popupContext.showPopup('login')
                                 }} >
                                     LOGIN
-                                </button>
+                                </button>}
+
+                                {isAuthenticated && <button className={`${styles.btnSmall}`} onClick={(e) => {
+                                    router.push('/account')
+                                }} >
+                                    ACCOUNT
+                                </button>}
                             </div>
 
                         </div>
                     </header>
 
                     <div>
-                        <div className={styles.floatingTabContainer}>
+                        {!existsInHidden() && <div className={styles.floatingTabContainer}>
 
                             <FloatingTab title="DASHBOARD">
                                 <GraphSideMenu />
@@ -134,7 +129,7 @@ export default function Layout({ children }) {
                                 <GraphSideMenu />
                             </FloatingTab>
 
-                        </div>
+                        </div>}
                         {children}
                     </div>
                 </div>
@@ -145,24 +140,24 @@ export default function Layout({ children }) {
             </div >
             <img src="/aub-logo.png" className={`${styles.aubLogo} ${styles.hiddenOnMobile}`} />
             <img src="/beirut-logo.png" className={`${styles.beirutLogo} ${styles.hiddenOnMobile}`} />
-            {/* </PopupsContext.Provider> */}
 
+            {/* </PopupsContext.Provider> */}
             {popupContext.showPopups.login && <Popup
                 popupStyle={styles.signinContainer}
-           >
+            >
                 <h2 className={styles.popupTitle}>LOGIN</h2>
                 <form className={forms.contactForm} onSubmit={handleSubmit(onLogin)} ref={loginForm}>
                     <div className={forms.formItem}>
-                    {errors?.email?.message && <p style={{color: 'red', marginLeft: 5, textAlign:'center'}}>{errors.email.message}</p>}
+                        {errors?.email?.message && <p style={{ color: 'red', marginLeft: 5, textAlign: 'center' }}>{errors.email.message}</p>}
                         <label className={forms.label}>EMAIL ADDRESS</label>
                         <input className={forms.formInput} value="joe@yllwdigital.com" type="email" {...register('email', { required: true })} />
                     </div>
                     <div className={forms.formItem}>
                         <label className={forms.label}>PASSWORD</label>
-                        <input className={forms.formInput} type="password" value="helloyellow" {...register('password', { required: true })} />
+                        <input className={forms.formInput} type="password" value="password" {...register('password', { required: true })} />
                     </div>
                     <div className={styles.inlineButtons}>
-                        <button className={`${forms.submitBtn} ${forms.buttonClear}`} onClick={() => { popupContext.showPopup('register')}}>SIGN UP INSTEAD</button>
+                        <button className={`${forms.submitBtn} ${forms.buttonClear}`} onClick={() => { popupContext.showPopup('register') }}>SIGN UP INSTEAD</button>
                         <button className={forms.submitBtn}>SIGN IN</button>
                     </div>
                 </form>
@@ -194,7 +189,6 @@ export default function Layout({ children }) {
                 }}
             >
                 <h2 className={styles.popupTitle}>SUBMIT A SURVEY</h2>
-
                 <p>Dear Participant, <br />We invite you to participate in the survey titled “City of Tenants”. This survey will feed into the “City of Tenants” online platform, a project that aims to improve visibility of rental housing for tenants by providing indications about the variations in available apartments and prices across spatial and physical conditions and geographic locations. This helps current and future tenants improve their knowledge of housing options and find homes that respond best to their needs.</p>
                 <br />
                 <p>You will be asked to complete a brief survey/questionnaire with information about your rental unit condition, available services, and rental value. Your contribution in this survey will remain anonymous. Signing in is only required to verify user and allow user to fill multiple surveys. The email address will not be used at any point or linked to the survey. We will not relay any indicator of the tenant’s identity, personal information, or the apartment’s exact location to the public. Overall results will be published in aggregate and available to the public. Personal or sensitive information will not be aggregated in the public database of our website and will not be made publicly available.</p>

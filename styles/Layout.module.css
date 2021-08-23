@@ -238,7 +238,7 @@
      .floatingTabContainer {
          display: block;
          position: absolute;
-         z-index: 999;
+         z-index: 5;
          top: 120px;
          overflow-x: scroll;
          width: 95%;

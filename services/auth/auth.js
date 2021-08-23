@@ -10,6 +10,10 @@ export const login = (email, password) => {
     return axios.post(URL + '/api/login' ,{ email, password });
 }             
 
+export const getUser = () => {
+    return axios.get(URL + '/api/user');
+}             
+
 export const verifyEmail = () => {
     return axios.get(URL + '/undefined');
 }             

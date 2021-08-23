@@ -3,25 +3,27 @@ import Cookies from 'js-cookie'
 import Router, { useRouter } from 'next/router'
 
 import api from '../services/config';
-import { login } from '../services/auth/auth';
+import { login, getUser } from '../services/auth/auth';
+import { faSlidersH } from '@fortawesome/free-solid-svg-icons';
 
 const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [user, setUser] = useState(null);
 
     useEffect(() => {
         const loadUserFromCookies = async () => {
             const token = await Cookies.get('token')
             if (token) {
-                // console.log("Got a token in the cookies, let's see if it is valid")
                 api.defaults.headers.Authorization = `Bearer ${token}`
                 setIsAuthenticated(true)
-                // const { data: user } = await api.get('users/me')
-                // if (user) setUser(user);
+                try {
+                    const res = await getUser();
+                    if (res?.data?.user) setUser(res.data.user);
+                } catch (e) { }
 
-                // setUser(true)
             }
             setLoading(false)
         }
@@ -30,23 +32,25 @@ export const AuthProvider = ({ children }) => {
 
     const loginUser = async (email, password) => {
         const res = await login(email, password)
-
+        console.log(res)
         if (res?.data?.token) {
-            // Cookies.set('token', res.data.token, { expires: 60 })
-            // api.defaults.headers.Authorization = `Bearer ${res.data.token}`
-            // setIsAuthenticated(true)
-            // setUser(res.data.user)
-            // return true;
-            return authenticate(res.data.token);
+            return {status: authenticate(res)};
+        } else if (res?.data?.status === 'pending_verification') {
+            return {status: false, type: 'verification'}
         } else {
-            return false;
+            return {status: false, type: 'incorrect'};
         }
     }
 
-    const authenticate = (token) => {
+    const authenticate = (res) => {
+        const token = res.data.token;
+        const user = res.data.user
         Cookies.set('token', token, { expires: 60 })
         api.defaults.headers.Authorization = `Bearer ${token}`
         setIsAuthenticated(true);
+        if (user) {
+            setUser(user);
+        }
         return true;
     }
 
@@ -58,7 +62,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, loginUser, loading, logout, authenticate }}>
+        <AuthContext.Provider value={{ user, isAuthenticated, loginUser, loading, logout, authenticate }}>
             {children}
         </AuthContext.Provider>
     )

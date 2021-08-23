@@ -17,7 +17,7 @@ const RegisterForm = () => {
             let res = await registerUser(data.firstname, data.lastname, data.mobile, data.email, data.password, data.password_confirmation);
             console.log(res)
             if (res?.data?.token) {
-                if (authenticate(res.data.token)) {
+                if (authenticate(res)) {
                     popupContext.closePopup()
                 }
             }

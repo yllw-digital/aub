@@ -16,7 +16,7 @@ import { useRouter } from 'next/router'
 
 export default function GraphSideMenu() {
     const { showPopup } = useContext(PopupsContext)
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, user } = useAuth();
     const router = useRouter();
 
     const first = useRef(null);
@@ -42,8 +42,8 @@ export default function GraphSideMenu() {
 
 
                 {isAuthenticated && <div className={styles.sideHeader}>
-                    <h1>WELCOME BACK,</h1>
-                    <h1>JOE</h1>
+                    <h1>WELCOME BACK</h1>
+                    <h1 style={{textTransform:'uppercase'}}>{user?.firstname}</h1>
                     <button href={'/'} onClick={(e) => {
                         router.push('/account')
                     }} >
