@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { useContext } from 'react';
+import React, { useContext, useRef } from 'react';
 import Image from 'next/image'
 import styles from '../styles/Layout.module.css'
 import * as forms from '../styles/Contact.module.css'
@@ -10,8 +10,12 @@ import { PopupsContext } from '../context/PopupContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import FloatingTab from '../components/FloatingTab';
+import { useForm } from "react-hook-form";
+import { login } from '../services/auth/auth';
 
 export default function Layout({ children }) {
+    const { register, handleSubmit, formState: { errors }, setError } = useForm();
+    const loginForm = useRef(null);
 
     const popupContext = useContext(PopupsContext)
     const router = useRouter();
@@ -25,13 +29,27 @@ export default function Layout({ children }) {
                     <img src="/close.png" className={styles.closeBtn} onClick={popupContext.closePopup} />
                     {children}
 
-                    <div className={styles.inlineButtons}>
-                        {props.handleLeftButtonPress && <button type="submit" className={`${forms.submitBtn} ${forms.buttonClear}`} onClick={props.handleLeftButtonPress}>{props.leftButtonText}</button>}
-                        {props.handleRightButtonPress && <button type="submit" className={forms.submitBtn} onClick={props.handleRightButtonPress}>{props.rightButtonText}</button>}
-                    </div>
+                    {/* <div className={styles.inlineButtons}>
+                        {props.handleLeftButtonPress && <button  className={`${forms.submitBtn} ${forms.buttonClear}`} onClick={props.handleLeftButtonPress}>{props.leftButtonText}</button>}
+                        {props.handleRightButtonPress && <button  className={forms.submitBtn} onClick={props.handleRightButtonPress}>{props.rightButtonText}</button>}
+                    </div> */}
                 </div>
             </div>
         );
+    }
+
+    const onLogin = async (data) => {
+        try {
+            const res = await login(data['email'], data['password']);
+            if(!res?.data.token){
+                console.log('errorr')
+                setError('email', {message:'Wrong Email/Password combination'})
+            }else {
+                console.log('logged else')
+            }
+        } catch (err) {
+            console.log(err)
+        }
     }
 
     return (
@@ -127,22 +145,29 @@ export default function Layout({ children }) {
                 leftButtonText="SIGN UP INSTEAD"
                 handleLeftButtonPress={() => popupContext.showPopup('register')}
                 rightButtonText="SIGN IN"
-                handleRightButtonPress={() => {
-                    popupContext.closePopup()
-                    router.push('/account')
+                handleRightButtonPress={(e) => {
+                    // popupContext.closePopup()
+                    console.log(e)
+                    e.stopPropagation()
+                    e.preventDefault()
+                    loginForm.current.submit();
+                    // router.push('/account')
                 }}
             >
                 <h2 className={styles.popupTitle}>LOGIN</h2>
-                <form className={forms.contactForm}>
-
-
+                <form className={forms.contactForm} onSubmit={handleSubmit(onLogin)} ref={loginForm}>
                     <div className={forms.formItem}>
+                    {errors?.email?.message && <p style={{color: 'red', marginLeft: 5, textAlign:'center'}}>{errors.email.message}</p>}
                         <label className={forms.label}>EMAIL ADDRESS</label>
-                        <input className={forms.formInput} type="text" />
+                        <input className={forms.formInput} value="joe@yllwdigital.com" type="email" {...register('email', { required: true })} />
                     </div>
                     <div className={forms.formItem}>
                         <label className={forms.label}>PASSWORD</label>
-                        <input className={forms.formInput} type="text" />
+                        <input className={forms.formInput} type="password" value="helloyellow" {...register('password', { required: true })} />
+                    </div>
+                    <div className={styles.inlineButtons}>
+                        <button className={`${forms.submitBtn} ${forms.buttonClear}`} onClick={() => { }}>SIGN UP INSTEAD</button>
+                        <button className={forms.submitBtn}>SIGN IN</button>
                     </div>
                 </form>
             </Popup>}
