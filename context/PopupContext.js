@@ -4,9 +4,9 @@ export const PopupsContext = createContext();
 
 export const PopupsContextProvider = ({ children }) => {
     const [showPopups, setShowPopups] = useState({
-        login: true,
+        login: false,
         register: false,
-        welcome: false,
+        welcome: true,
         submitSurvey: false
     });
 

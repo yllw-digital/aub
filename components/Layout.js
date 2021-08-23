@@ -11,13 +11,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import FloatingTab from '../components/FloatingTab';
 import { useForm } from "react-hook-form";
-import { login } from '../services/auth/auth';
+import {useAuth} from '../context/auth';
+import api from '../services/config';
+import Cookies from 'js-cookie';
 
 export default function Layout({ children }) {
     const { register, handleSubmit, formState: { errors }, setError } = useForm();
     const loginForm = useRef(null);
 
     const popupContext = useContext(PopupsContext)
+    const {loginUser } = useAuth()
     const router = useRouter();
 
     const Popup = (props) => {
@@ -29,23 +32,27 @@ export default function Layout({ children }) {
                     <img src="/close.png" className={styles.closeBtn} onClick={popupContext.closePopup} />
                     {children}
 
-                    {/* <div className={styles.inlineButtons}>
-                        {props.handleLeftButtonPress && <button  className={`${forms.submitBtn} ${forms.buttonClear}`} onClick={props.handleLeftButtonPress}>{props.leftButtonText}</button>}
-                        {props.handleRightButtonPress && <button  className={forms.submitBtn} onClick={props.handleRightButtonPress}>{props.rightButtonText}</button>}
-                    </div> */}
+             {(props.rightButtonText || props.leftButtonText) && <div className={styles.inlineButtons}>
+                        {props.leftButtonText && <button  className={`${forms.submitBtn} ${forms.buttonClear}`} onClick={props.handleLeftButtonPress}>{props.leftButtonText}</button>}
+                        {props.rightButtonText && <button  className={forms.submitBtn} onClick={props.handleRightButtonPress}>{props.rightButtonText}</button>}
+                    </div>}
                 </div>
             </div>
-        );
+        )
     }
 
     const onLogin = async (data) => {
         try {
-            const res = await login(data['email'], data['password']);
-            if(!res?.data.token){
-                console.log('errorr')
-                setError('email', {message:'Wrong Email/Password combination'})
+            const res = await loginUser(data['email'], data['password']);
+            if(res){
+                console.log('logged in user');
+                popupContext.closePopup();
+                // router:push('/account');
             }else {
-                console.log('logged else')
+                setError('email', {message:'Wrong Email/Password combination'})
+            
+                // Cookies.set('token', res.data.token);
+                // api.defaults.headers.Authorization = `Bearer ${res.data.token}`;
             }
         } catch (err) {
             console.log(err)
@@ -142,18 +149,7 @@ export default function Layout({ children }) {
 
             {popupContext.showPopups.login && <Popup
                 popupStyle={styles.signinContainer}
-                leftButtonText="SIGN UP INSTEAD"
-                handleLeftButtonPress={() => popupContext.showPopup('register')}
-                rightButtonText="SIGN IN"
-                handleRightButtonPress={(e) => {
-                    // popupContext.closePopup()
-                    console.log(e)
-                    e.stopPropagation()
-                    e.preventDefault()
-                    loginForm.current.submit();
-                    // router.push('/account')
-                }}
-            >
+           >
                 <h2 className={styles.popupTitle}>LOGIN</h2>
                 <form className={forms.contactForm} onSubmit={handleSubmit(onLogin)} ref={loginForm}>
                     <div className={forms.formItem}>
@@ -166,7 +162,7 @@ export default function Layout({ children }) {
                         <input className={forms.formInput} type="password" value="helloyellow" {...register('password', { required: true })} />
                     </div>
                     <div className={styles.inlineButtons}>
-                        <button className={`${forms.submitBtn} ${forms.buttonClear}`} onClick={() => { }}>SIGN UP INSTEAD</button>
+                        <button className={`${forms.submitBtn} ${forms.buttonClear}`} onClick={() => { popupContext.showPopup('register')}}>SIGN UP INSTEAD</button>
                         <button className={forms.submitBtn}>SIGN IN</button>
                     </div>
                 </form>

@@ -7,20 +7,25 @@ import { getQuestions } from '../services/questions/questions';
 import DatePicker from "react-datepicker";
 import "../node_modules/react-datepicker/dist/react-datepicker.css";
 import { useForm } from "react-hook-form";
+import {useAuth} from '../context/auth';
 
 export default function Survey() {
     const [questions, setQuestions] = useState(null);
     const [dates, setDates] = useState({ 46: new Date, 47: new Date })
     const { register, handleSubmit, setValue, formState: { errors } } = useForm();
-
+    const {isAuthenticated} = useAuth()
 
     useEffect(() => {
         const fetchQuestions = async () => {
+            try {
             const res = await getQuestions();
             setQuestions(res.data)
+            } catch(e) {
+                console.log(e)
+            }
         }
         fetchQuestions();
-    }, []);
+    }, [isAuthenticated]);
 
 
     const renderQuestions = (questions) => {
