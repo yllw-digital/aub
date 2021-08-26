@@ -1,7 +1,7 @@
 
-import axios from 'axios';
 import { URL } from '../url'
+import api from '../config';
 
 export const answerQuestions = (answers) => {
-    return axios.post(URL + '/api/answer' ,{ answers });
+    return api.post(URL + '/api/answer' ,{ answers });
 }             

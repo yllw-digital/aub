@@ -102,3 +102,9 @@
     height: 1.6rem;
     width: 1.6rem;
 }
+
+.requiredField::after {
+    content:" *";
+    color: red;
+    font-size: 1.4rem;
+}

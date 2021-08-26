@@ -8,6 +8,7 @@ import DatePicker from "react-datepicker";
 import "../node_modules/react-datepicker/dist/react-datepicker.css";
 import { useForm } from "react-hook-form";
 import { useAuth } from '../context/auth';
+import { answerQuestions } from '../services/answers/answers';
 
 export default function Survey() {
     const [sections, setSections] = useState([]);
@@ -56,55 +57,55 @@ export default function Survey() {
         switch (config.type) {
             case "textfield":
                 return <div className={surveyStyles.formItem} key={index.toString()}>
-                    <label className={contactStyles.label}>{question}</label>
+                    <label className={`${contactStyles.label} ${config.researcher_validation == 'required' ? surveyStyles.requiredField : ''}`}>{question}</label>
                     {errors[questionId.toString()]?.type === 'required' && <p style={{ color: 'red', display: 'inline', marginLeft: 5 }}>Field is required</p>}
-                    <input className={contactStyles.formInput} type="text"  {...register(questionId.toString(), { required: config.user_validation == 'required' })} />
+                    <input className={contactStyles.formInput} type="text" value="whatever answer" {...register(questionId.toString(), { required: config.researcher_validation == 'required' })} />
                 </div>
 
             case "textarea":
                 return <div className={surveyStyles.formItem} key={index.toString()}>
-                    <label className={contactStyles.label}>{question}</label>
+                    <label className={`${contactStyles.label} ${config.researcher_validation == 'required' ? surveyStyles.requiredField : ''}`}>{question}</label>
                     {errors[questionId.toString()]?.type === 'required' && <p style={{ color: 'red', display: 'inline', marginLeft: 5 }}>Field is required</p>}
 
-                    <textarea className={contactStyles.formTextarea} rows="10"  {...register(questionId.toString(), { required: config.user_validation == 'required' })}></textarea>
+                    <textarea className={contactStyles.formTextarea} rows="10"  {...register(questionId.toString(), { required: config.researcher_validation == 'required' })}  value="whatever answer"></textarea>
                 </div>
 
             case "dropdown":
                 return <div className={surveyStyles.formItem} key={index.toString()}>
-                    <label className={contactStyles.label}>{question}</label>
+                    <label className={`${contactStyles.label} ${config.researcher_validation == 'required' ? surveyStyles.requiredField : ''}`}>{question}</label>
                     {errors[questionId.toString()]?.type === 'required' && <p style={{ color: 'red', display: 'inline', marginLeft: 5 }}>Field is required</p>}
 
                     <select
                         className={contactStyles.formInput}
-                        {...register(questionId.toString(), { required: config.user_validation == 'required' })}
+                        {...register(questionId.toString(), { required: config.researcher_validation == 'required' })}
                     >
-                        <option value="">Specify Option</option>
+                        <option  value="">Specify Option</option>
                         {config.options.map((option, index) => {
-                            return <option value={camelize(option)}>{option}</option>
+                            return <option selected={index == 1} value={option}>{option}</option>
                         })}
                     </select>
                 </div>
 
             case "checkbox":
                 return <div className={surveyStyles.formItem} key={index.toString()}>
-                    <label className={contactStyles.label}>{question}</label>
+                    <label className={`${contactStyles.label} ${config.researcher_validation == 'required' ? surveyStyles.requiredField : ''}`}>{question}</label>
                     {errors[questionId.toString()]?.type === 'required' && <p style={{ color: 'red', display: 'inline', marginLeft: 5 }}>Field is required</p>}
 
                     {config.options.map((option, optionIndex) => {
-                        return <div className={contactStyles.checkboxContainer}><input type="checkbox" value={camelize(option)} {...register(`${questionId}[]`, { required: config.user_validation == 'required' })} />{option}</div>
+                        return <div className={contactStyles.checkboxContainer}><input type="checkbox" value={option} checked {...register(`${questionId}[]`, { required: config.researcher_validation == 'required' })} />{option}</div>
                     })}
                 </div>
 
 
             case "date":
                 return <div className={surveyStyles.formItem} key={index.toString()}>
-                    <label className={contactStyles.label}>{question}</label>
+                    <label className={`${contactStyles.label} ${config.researcher_validation == 'required' ? surveyStyles.requiredField : ''}`}>{question}</label>
                     {errors[questionId.toString()]?.type === 'required' && <p style={{ color: 'red', display: 'inline', marginLeft: 5 }}>Field is required</p>}
 
                     <DatePicker
                         selected={dates[questionId]}
                         className={contactStyles.formInput}
-                        {...register(questionId.toString(), { required: config.user_validation == 'required' })}
+                        {...register(questionId.toString(), { required: config.researcher_validation == 'required' })}
                         onChange={(date) => {
                             let datesCopy = { ...dates };
                             datesCopy[questionId] = date;
@@ -136,8 +137,10 @@ export default function Survey() {
         }).replace(/\s+/g, '');
     }
 
-    const onSubmit = (data) => {
-        console.log(prepareData(data));
+    const onSubmit = async (data) => {
+        console.log(prepareData(data))
+      let res = await answerQuestions(prepareData(data));
+        console.log(res);
     }
 
     const prepareData = (data) => {
