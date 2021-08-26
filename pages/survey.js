@@ -7,21 +7,25 @@ import { getQuestions } from '../services/questions/questions';
 import DatePicker from "react-datepicker";
 import "../node_modules/react-datepicker/dist/react-datepicker.css";
 import { useForm } from "react-hook-form";
-import {useAuth} from '../context/auth';
+import { useAuth } from '../context/auth';
 
 export default function Survey() {
     const [questions, setQuestions] = useState(null);
+    const [sections, setSections] = useState([]);
+
     const [dates, setDates] = useState({ 46: new Date, 47: new Date })
     const { register, handleSubmit, setValue, formState: { errors } } = useForm();
-    const {isAuthenticated} = useAuth()
-    
+    const { isAuthenticated } = useAuth()
+
 
     useEffect(() => {
         const fetchQuestions = async () => {
             try {
-            const res = await getQuestions();
-            setQuestions(res.data)
-            } catch(e) {
+                const res = await getQuestions();
+                setQuestions(res.data)
+                setSections(res.data)
+
+            } catch (e) {
                 console.log(e)
             }
         }
@@ -31,28 +35,38 @@ export default function Survey() {
 
     const renderQuestions = (questions) => {
         let display = [];
-        questions.map((question, index) => {
-            display.push(prepareField(question.config, question.question_id, index));
+
+        sections.map((section, sectionIdx) => {
+            let sectionQuestions = [];
+            section?.questions.map((question, questionIdx) => {
+                sectionQuestions.push(prepareField(question.config, question.question_id, questionIdx));
+            })
+            display.push(
+                <div key={sectionIdx.toString()} className={surveyStyles.sectionContainer}>
+                    <h1>{section.name}</h1>
+                    <div className={surveyStyles.thirdGrid}>{sectionQuestions}</div>
+                </div>);
         })
+
         return display;
     }
 
-    const prepareField = (configJson, questionId, index) => {
-        const config = JSON.parse(configJson);
+    const prepareField = (config, questionId, index) => {
+
         const { question } = config
 
         switch (config.type) {
             case "textfield":
                 return <div className={surveyStyles.formItem} key={index.toString()}>
                     <label className={contactStyles.label}>{question}</label>
-                    {errors[questionId.toString()]?.type === 'required' && <p style={{color: 'red', display: 'inline', marginLeft: 5}}>Field is required</p>}
+                    {errors[questionId.toString()]?.type === 'required' && <p style={{ color: 'red', display: 'inline', marginLeft: 5 }}>Field is required</p>}
                     <input className={contactStyles.formInput} type="text"  {...register(questionId.toString(), { required: config.user_validation == 'required' })} />
                 </div>
 
             case "textarea":
                 return <div className={surveyStyles.formItem} key={index.toString()}>
                     <label className={contactStyles.label}>{question}</label>
-                    {errors[questionId.toString()]?.type === 'required' && <p style={{color: 'red', display: 'inline', marginLeft: 5}}>Field is required</p>}
+                    {errors[questionId.toString()]?.type === 'required' && <p style={{ color: 'red', display: 'inline', marginLeft: 5 }}>Field is required</p>}
 
                     <textarea className={contactStyles.formTextarea} rows="10"  {...register(questionId.toString(), { required: config.user_validation == 'required' })}></textarea>
                 </div>
@@ -60,7 +74,7 @@ export default function Survey() {
             case "dropdown":
                 return <div className={surveyStyles.formItem} key={index.toString()}>
                     <label className={contactStyles.label}>{question}</label>
-                    {errors[questionId.toString()]?.type === 'required' && <p style={{color: 'red', display: 'inline', marginLeft: 5}}>Field is required</p>}
+                    {errors[questionId.toString()]?.type === 'required' && <p style={{ color: 'red', display: 'inline', marginLeft: 5 }}>Field is required</p>}
 
                     <select
                         className={contactStyles.formInput}
@@ -76,7 +90,7 @@ export default function Survey() {
             case "checkbox":
                 return <div className={surveyStyles.formItem} key={index.toString()}>
                     <label className={contactStyles.label}>{question}</label>
-                    {errors[questionId.toString()]?.type === 'required' && <p style={{color: 'red', display: 'inline', marginLeft: 5}}>Field is required</p>}
+                    {errors[questionId.toString()]?.type === 'required' && <p style={{ color: 'red', display: 'inline', marginLeft: 5 }}>Field is required</p>}
 
                     {config.options.map((option, optionIndex) => {
                         return <div className={contactStyles.checkboxContainer}><input type="checkbox" value={camelize(option)} {...register(`${questionId}[]`, { required: config.user_validation == 'required' })} />{option}</div>
@@ -87,7 +101,7 @@ export default function Survey() {
             case "date":
                 return <div className={surveyStyles.formItem} key={index.toString()}>
                     <label className={contactStyles.label}>{question}</label>
-                    {errors[questionId.toString()]?.type === 'required' && <p style={{color: 'red', display: 'inline', marginLeft: 5}}>Field is required</p>}
+                    {errors[questionId.toString()]?.type === 'required' && <p style={{ color: 'red', display: 'inline', marginLeft: 5 }}>Field is required</p>}
 
                     <DatePicker
                         selected={dates[questionId]}
@@ -148,11 +162,11 @@ export default function Survey() {
                 <h1 className={styles.pageTitle}>CITY OF TENANTS - RENTAL MAP SURVEY</h1>
 
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className={surveyStyles.thirdGrid}>
-                        {/* FIELDS START */}
-                        {questions && renderQuestions(questions)}
+                    {/* <div className={surveyStyles.thirdGrid}> */}
+                    {/* FIELDS START */}
+                    {sections && renderQuestions(sections)}
 
-                        {/* <div className={surveyStyles.formItem}>
+                    {/* <div className={surveyStyles.formItem}>
                             <label className={contactStyles.label}>EMAIL ADDRESS</label>
                             <input className={contactStyles.formInput} type="text" />
                         </div>
@@ -299,8 +313,8 @@ export default function Survey() {
                                 </div>
                             </div>
                         </div> */}
-                        {/* FIELDS END  */}
-
+                    {/* FIELDS END  */}
+                    <div className={surveyStyles.thirdGrid}>
                         <button type="submit" className={contactStyles.submitBtn}>SUBMIT</button>
                     </div>
                 </form>

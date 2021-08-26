@@ -150,11 +150,11 @@ export default function Layout({ children }) {
                     <div className={forms.formItem}>
                         {errors?.email?.message && <p style={{ color: 'red', marginLeft: 5, textAlign: 'center' }}>{errors.email.message}</p>}
                         <label className={forms.label}>EMAIL ADDRESS</label>
-                        <input className={forms.formInput} value="joe@yllwdigital.com" type="email" {...register('email', { required: true })} />
+                        <input className={forms.formInput}  type="email" {...register('email', { required: true })} />
                     </div>
                     <div className={forms.formItem}>
                         <label className={forms.label}>PASSWORD</label>
-                        <input className={forms.formInput} type="password" value="password" {...register('password', { required: true })} />
+                        <input className={forms.formInput} type="password" {...register('password', { required: true })} />
                     </div>
                     <div className={styles.inlineButtons}>
                         <button className={`${forms.submitBtn} ${forms.buttonClear}`} onClick={() => { popupContext.showPopup('register') }}>SIGN UP INSTEAD</button>
