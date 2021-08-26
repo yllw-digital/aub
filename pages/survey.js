@@ -10,21 +10,17 @@ import { useForm } from "react-hook-form";
 import { useAuth } from '../context/auth';
 
 export default function Survey() {
-    const [questions, setQuestions] = useState(null);
     const [sections, setSections] = useState([]);
-
     const [dates, setDates] = useState({ 46: new Date, 47: new Date })
     const { register, handleSubmit, setValue, formState: { errors } } = useForm();
     const { isAuthenticated } = useAuth()
-
+    const [researcher, setResearcher] = useState(false);
 
     useEffect(() => {
         const fetchQuestions = async () => {
             try {
                 const res = await getQuestions();
-                setQuestions(res.data)
                 setSections(res.data)
-
             } catch (e) {
                 console.log(e)
             }
@@ -54,6 +50,8 @@ export default function Survey() {
     const prepareField = (config, questionId, index) => {
 
         const { question } = config
+
+        if( config?.researcher_only && !researcher ) {return null}
 
         switch (config.type) {
             case "textfield":
@@ -160,7 +158,10 @@ export default function Survey() {
         <Layout>
             <div className={styles.pageContainer}>
                 <h1 className={styles.pageTitle}>CITY OF TENANTS - RENTAL MAP SURVEY</h1>
-
+                <div className={surveyStyles.researcherCheckbox}>
+                    <input type="checkbox" onChange={(e) => setResearcher(e.target.checked)} />
+                    <label className={contactStyles.label}>Take survey as a researcher (You will have to answer a few additional questions)</label>
+                </div>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     {/* <div className={surveyStyles.thirdGrid}> */}
                     {/* FIELDS START */}
