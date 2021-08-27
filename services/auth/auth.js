@@ -1,6 +1,7 @@
 
 import axios from 'axios';
 import { URL } from '../url'
+import api from '../config';
 
 export const register = (firstname, lastname, mobile = null , email, password, password_confirmation) => {
     return axios.post(URL + '/api/register' ,{ firstname, lastname, email, mobile, password, password_confirmation });
@@ -11,7 +12,7 @@ export const login = (email, password) => {
 }             
 
 export const getUser = () => {
-    return axios.get(URL + '/api/user');
+    return api.get(URL + '/api/user');
 }             
 
 export const verifyEmail = () => {
