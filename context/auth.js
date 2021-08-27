@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }) => {
             setLoading(false)
         }
         loadUserFromCookies()
-    })
+    }, [])
 
     const loginUser = async (email, password) => {
         const res = await login(email, password)

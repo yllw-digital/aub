@@ -59,7 +59,7 @@ export default function Survey() {
                 return <div className={surveyStyles.formItem} key={index.toString()}>
                     <label className={`${contactStyles.label} ${config.researcher_validation == 'required' ? surveyStyles.requiredField : ''}`}>{question}</label>
                     {errors[questionId.toString()]?.type === 'required' && <p style={{ color: 'red', display: 'inline', marginLeft: 5 }}>Field is required</p>}
-                    <input className={contactStyles.formInput} type="text" value="whatever answer" {...register(questionId.toString(), { required: config.researcher_validation == 'required' })} />
+                    <input className={contactStyles.formInput} type="text" value={ Math.floor(Math.random() * 1000) + 1} {...register(questionId.toString(), { required: config.researcher_validation == 'required' })} />
                 </div>
 
             case "textarea":

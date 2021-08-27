@@ -29,30 +29,31 @@ export default function GraphSideMenu() {
     }
     return (
         <div className={styles.sideMenuContainer}>
-                {!isAuthenticated && <div className={styles.sideHeader}> 
-                    <h1>WANT TO LEAVE</h1>
-                    <h1>A SURVEY</h1>
+            {!isAuthenticated && <div className={styles.sideHeader}>
+                <h1>WANT TO LEAVE</h1>
+                <h1>A SURVEY</h1>
 
-                    <button href={'/'} onClick={(e) => {
-                        showPopup('login')
-                    }} >
-                        LOGIN
-                    </button>
-                </div>}
+                <button href={'/'} onClick={(e) => {
+                    showPopup('login')
+                }} >
+                    LOGIN
+                </button>
+            </div>}
 
 
-                {isAuthenticated && <div className={styles.sideHeader}>
-                    <h1>WELCOME BACK</h1>
-                    <h1 style={{textTransform:'uppercase'}}>{user?.firstname}</h1>
-                    <button href={'/'} onClick={(e) => {
-                        router.push('/account')
-                    }} >
-                        MY ACCOUNT
-                    </button>
-                </div>}
+            {isAuthenticated && <div className={styles.sideHeader}>
+                <h1>WELCOME BACK</h1>
+                <h1 style={{ textTransform: 'uppercase' }}>{user?.firstname}</h1>
+                <button href={'/'} onClick={(e) => {
+                    router.push('/account')
+                }} >
+                    MY ACCOUNT
+                </button>
+            </div>}
 
             <div className={styles.mainContent}>
                 <OwlCarousel options={carouselOptions}>
+                   
                     <div>
                         <BarChart title="APARTMENT AREA (SQM) IN RELATION TO PRICE" />
                     </div>
