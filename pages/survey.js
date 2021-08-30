@@ -3,7 +3,7 @@ import Layout from '../components/Layout';
 import styles from '../styles/ZonesLayout.module.css';
 import * as contactStyles from '../styles/Contact.module.css';
 import * as surveyStyles from '../styles/Survey.module.css';
-import { getQuestions } from '../services/questions/questions';
+import { getQuestions, getZones } from '../services/questions/questions';
 import DatePicker from "react-datepicker";
 import "../node_modules/react-datepicker/dist/react-datepicker.css";
 import { useForm } from "react-hook-form";
@@ -16,6 +16,7 @@ export default function Survey() {
     const { register, handleSubmit, setValue, formState: { errors } } = useForm();
     const { isAuthenticated } = useAuth()
     const [researcher, setResearcher] = useState(false);
+    const [zones, setZones] = useState([]);
 
     useEffect(() => {
         const fetchQuestions = async () => {
@@ -26,7 +27,18 @@ export default function Survey() {
                 console.log(e)
             }
         }
+
+        const fetchZones = async () => {
+            try {
+                const res = await getZones();
+                setZones(res.data)
+            } catch (e) {
+                console.log(e)
+            }
+        }
+
         fetchQuestions();
+        fetchZones();
     }, [isAuthenticated]);
 
 
@@ -52,14 +64,14 @@ export default function Survey() {
 
         const { question } = config
 
-        if( config?.researcher_only && !researcher ) {return null}
+        if (config?.researcher_only && !researcher) { return null }
 
         switch (config.type) {
             case "textfield":
                 return <div className={surveyStyles.formItem} key={index.toString()}>
                     <label className={`${contactStyles.label} ${config.researcher_validation == 'required' ? surveyStyles.requiredField : ''}`}>{question}</label>
                     {errors[questionId.toString()]?.type === 'required' && <p style={{ color: 'red', display: 'inline', marginLeft: 5 }}>Field is required</p>}
-                    <input className={contactStyles.formInput} type="text" value={ Math.floor(Math.random() * 1000) + 1} {...register(questionId.toString(), { required: config.researcher_validation == 'required' })} />
+                    <input className={contactStyles.formInput} type="text" value={Math.floor(Math.random() * 11) + 1} {...register(questionId.toString(), { required: config.researcher_validation == 'required' })} />
                 </div>
 
             case "textarea":
@@ -67,10 +79,13 @@ export default function Survey() {
                     <label className={`${contactStyles.label} ${config.researcher_validation == 'required' ? surveyStyles.requiredField : ''}`}>{question}</label>
                     {errors[questionId.toString()]?.type === 'required' && <p style={{ color: 'red', display: 'inline', marginLeft: 5 }}>Field is required</p>}
 
-                    <textarea className={contactStyles.formTextarea} rows="10"  {...register(questionId.toString(), { required: config.researcher_validation == 'required' })}  value="whatever answer"></textarea>
+                    <textarea className={contactStyles.formTextarea} rows="10"  {...register(questionId.toString(), { required: config.researcher_validation == 'required' })} value="whatever answer"></textarea>
                 </div>
 
             case "dropdown":
+                let size = config?.options.length - 1;
+                let rndInt = Math.floor(Math.random() * (size + 1))
+
                 return <div className={surveyStyles.formItem} key={index.toString()}>
                     <label className={`${contactStyles.label} ${config.researcher_validation == 'required' ? surveyStyles.requiredField : ''}`}>{question}</label>
                     {errors[questionId.toString()]?.type === 'required' && <p style={{ color: 'red', display: 'inline', marginLeft: 5 }}>Field is required</p>}
@@ -79,9 +94,9 @@ export default function Survey() {
                         className={contactStyles.formInput}
                         {...register(questionId.toString(), { required: config.researcher_validation == 'required' })}
                     >
-                        <option  value="">Specify Option</option>
+                        <option value="">Specify Option</option>
                         {config.options.map((option, index) => {
-                            return <option selected={index == 1} value={option}>{option}</option>
+                            return <option selected={index == rndInt} value={option}>{option}</option>
                         })}
                     </select>
                 </div>
@@ -138,12 +153,15 @@ export default function Survey() {
     }
 
     const onSubmit = async (data) => {
-        console.log(prepareData(data))
-      let res = await answerQuestions(prepareData(data));
+        const arcgis_id = data['arcgis_id'];
+        delete data['arcgis_id'];
+        let res = await answerQuestions(prepareData(data), arcgis_id);
         console.log(res);
     }
 
     const prepareData = (data) => {
+
+        console.log(data);
         const keys = Object.keys(data);
         let answers = [];
 
@@ -168,6 +186,19 @@ export default function Survey() {
                 <form onSubmit={handleSubmit(onSubmit)}>
                     {/* <div className={surveyStyles.thirdGrid}> */}
                     {/* FIELDS START */}
+                    <div className={surveyStyles.formItem}>
+                        <label className={`${contactStyles.label} ${surveyStyles.requiredField}`}>Select your zone</label>
+                        {errors['arcgis_id']?.type === 'required' && <p style={{ color: 'red', display: 'inline', marginLeft: 5 }}>Field is required</p>}
+
+                        <select
+                            className={contactStyles.formInput}
+                            {...register('arcgis_id', { required: true })}
+                        >
+                            <option value="">Specify Option</option>
+                            {zones.map((zone, idx) => <option value={zone.arcgis_id}>{zone.name}</option>)}
+                        </select>
+                    </div>
+
                     {sections && renderQuestions(sections)}
 
                     {/* <div className={surveyStyles.formItem}>

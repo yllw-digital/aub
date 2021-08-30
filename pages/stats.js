@@ -12,7 +12,8 @@ import {
     getNumberOfBedroomsDistribution,
     getRentalValueDistribution,
     getContractArrangements,
-    getFurnishedCount
+    getFurnishedCount,
+    getHouseholdPerZone
 } from '../services/statistics/statistics';
 
 export default function Stats() {
@@ -27,6 +28,7 @@ export default function Stats() {
     const [rentalValueDistribution, setRentalValueDistribution] = useState([])
     const [contractArrangements, setContractArrangements] = useState(null)
     const [furnishedCount, setFurnishedCount] = useState(null);
+    const [householdPerZone, setHouseholdPerZone] = useState([]);
 
     useEffect(() => {
         /** BAR CHARTS PART 1 */
@@ -76,6 +78,11 @@ export default function Stats() {
             setRentalValueDistribution(res.data);
         }
 
+        const householdPerZone = async () => {
+            const res = await getHouseholdPerZone();
+            setHouseholdPerZone(res.data);
+        }
+
         /** COUNTERS */
         const contractArrangements = async () => {
             const res = await getContractArrangements();
@@ -98,6 +105,7 @@ export default function Stats() {
         /** PIE CHARTS */
         rentalArrangementsContractType()
         numberOfBedroomsDistribution()
+        householdPerZone()
 
         /** SCATTER GRAPH */
         rentalValueDistribution()
@@ -239,6 +247,20 @@ export default function Stats() {
                 data={rentalArrangementsContractType}
                 options={{
                     title: 'Rental Arrangements / Contract Type',
+                }}
+                rootProps={{ 'data-testid': '1' }}
+            />
+        </div>
+
+        <div style={{ margin: 80 }}>
+            <Chart
+                width={'100%'}
+                height={'100%'}
+                chartType="PieChart"
+                loader={<div>Loading Chart</div>}
+                data={householdPerZone}
+                options={{
+                    title: 'Zone / Number of household members',
                 }}
                 rootProps={{ 'data-testid': '1' }}
             />

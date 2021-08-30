@@ -36,6 +36,10 @@ export const getNumberOfBedroomsDistribution = () => {
     return api.get(URL + '/api/numberOfBedroomsDistribution');
 }
 
+export const getHouseholdPerZone = () => {
+    return api.get(URL + '/api/householdPerZone');
+}
+
 /** SCATTER CHART */
 export const getRentalValueDistribution = () => {
     return api.get(URL + '/api/rentalValueDistribution');

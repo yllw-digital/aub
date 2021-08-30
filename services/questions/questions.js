@@ -13,4 +13,8 @@ export const getQuestions = () => {
 
 export const getQuestionAnswers = (questionId) => {
     return api.get(URL + `/api/questions/${questionId}/answers`);
-}             
+}       
+
+export const getZones = () => {
+    return api.get(URL + '/api/zones');
+}
