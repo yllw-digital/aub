@@ -16,3 +16,11 @@ export const getNumberOfBedroomsRentalValue = () => {
 export const getNumberOfBathroomsRentalValue = () => {
     return api.get(URL + '/api/numberOfBathroomsRentalValue');
 }
+
+export const getBuildingStatusRentalValue = () => {
+    return api.get(URL + '/api/buildingStatusRentalValue');
+}
+
+export const getBuildingConditionRentalValue = () => {
+    return api.get(URL + '/api/buildingConditionRentalValue');
+}
