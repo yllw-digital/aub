@@ -1,10 +1,10 @@
 import styles from '../../../styles/PieChart.module.css'
 
-export default function CircledNumber() {
+export default function CircledNumber({value, text}) {
 
     const Circle = () => {
         return <div className={`${styles.circledNumber}`}>
-            <p className={styles.emphasis}>2,342</p>
+            <p className={styles.emphasis}>{value}</p>
             <p>PEOPLE</p>
         </div>
     }
@@ -15,7 +15,7 @@ export default function CircledNumber() {
                 <Circle />
             </div>
             <div className={styles.info}>
-                <p className={styles.info} >Are responsible to pay their own bill and utilities</p>
+                <p className={styles.info} >{text}</p>
             </div>
         </div>
     )

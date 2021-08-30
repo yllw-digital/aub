@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Chart } from "react-google-charts";
+import CircledNumber from '../components/charts/CircledNumber/CircledNumber';
 import {
     getBuildingAgeRentalValue,
     getBuildingAgeContractType,
@@ -8,7 +9,10 @@ import {
     getBuildingStatusRentalValue,
     getBuildingConditionRentalValue,
     getRentalArrangementsContractType,
-    getNumberOfBedroomsDistribution
+    getNumberOfBedroomsDistribution,
+    getRentalValueDistribution,
+    getContractArrangements,
+    getFurnishedCount
 } from '../services/statistics/statistics';
 
 export default function Stats() {
@@ -20,7 +24,9 @@ export default function Stats() {
     const [buildingConditionRentalValue, setBuildingConditionRentalValue] = useState([])
     const [rentalArrangementsContractType, setRentalArrangementsContractType] = useState([])
     const [numberOfBedroomsDistribution, setNumberOfBedroomsDistribution] = useState([])
-
+    const [rentalValueDistribution, setRentalValueDistribution] = useState([])
+    const [contractArrangements, setContractArrangements] = useState(null)
+    const [furnishedCount, setFurnishedCount] = useState(null);
 
     useEffect(() => {
         /** BAR CHARTS PART 1 */
@@ -65,6 +71,22 @@ export default function Stats() {
             setNumberOfBedroomsDistribution(res.data);
         }
 
+        const rentalValueDistribution = async () => {
+            const res = await getRentalValueDistribution();
+            setRentalValueDistribution(res.data);
+        }
+
+        /** COUNTERS */
+        const contractArrangements = async () => {
+            const res = await getContractArrangements();
+            setContractArrangements(res.data);
+        }
+
+        const furnishedCount = async () => {
+            const res = await getFurnishedCount();
+            setFurnishedCount(res.data);
+        }
+
         /** BAR CHARTS PART 1 */
         buildingAgeAndRentalValue()
         buildingAgeContractType()
@@ -76,6 +98,14 @@ export default function Stats() {
         /** PIE CHARTS */
         rentalArrangementsContractType()
         numberOfBedroomsDistribution()
+
+        /** SCATTER GRAPH */
+        rentalValueDistribution()
+
+        /** COUNTERS */
+        contractArrangements()
+        furnishedCount()
+
     }, [])
 
     return <div>
@@ -225,6 +255,37 @@ export default function Stats() {
                     title: 'Number Of Bedrooms / Rent counts',
                 }}
                 rootProps={{ 'data-testid': '1' }}
+            />
+        </div>
+
+        <div style={{ margin: 80 }}>
+            <Chart
+                width={'100%'}
+                height={'100%'}
+                chartType="ScatterChart"
+                loader={<div>Loading Chart</div>}
+                data={rentalValueDistribution}
+                options={{
+                    title: 'Rental Value Distribution',
+                    hAxis: { title: 'Rental Value' },
+                    vAxis: { title: 'Person Count' },
+                    legend: 'none',
+                }}
+                rootProps={{ 'data-testid': '1' }}
+            />
+        </div>
+
+        <div style={{ margin: 80 }}>
+            <CircledNumber
+                text={'Live under old rent contracts'}
+                value={contractArrangements?.toString() + '+'}
+            />
+        </div>
+
+        <div style={{ margin: 80 }}>
+            <CircledNumber
+                text={'Live in furnished apartments'}
+                value={furnishedCount?.toString() + '+'}
             />
         </div>
     </div>

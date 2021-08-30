@@ -77,7 +77,7 @@ export default function GraphSideMenu() {
                         <PieChart />
                     </div>
                 </OwlCarousel>
-                <CircledNumber />
+                <CircledNumber value={'2342'} text={'Are responsible to pay their own bill and utilities'}/>
                 <BarChart title="LAST RENT RENEWED" />
                 <HorizontalChart title="TOTAL MONTHLY PAYABLE UTILITY FEES (USD)" />
             </div >
@@ -89,7 +89,7 @@ export default function GraphSideMenu() {
                     </div>
 
                     <div className={styles.buttonContainer}>
-                        <Link href={'/zones'} >
+                        <Link href={'/stats'} >
                             MORE STATS
                         </Link>
                         <Link href={'/zones'} >

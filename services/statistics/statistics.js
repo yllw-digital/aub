@@ -35,3 +35,18 @@ export const getRentalArrangementsContractType = () => {
 export const getNumberOfBedroomsDistribution = () => {
     return api.get(URL + '/api/numberOfBedroomsDistribution');
 }
+
+/** SCATTER CHART */
+export const getRentalValueDistribution = () => {
+    return api.get(URL + '/api/rentalValueDistribution');
+}
+
+
+/** Counters */
+export const getContractArrangements = () => {
+    return api.get(URL + '/api/contractArrangements');
+}
+
+export const getFurnishedCount = () => {
+    return api.get(URL + '/api/furnishedCount');
+}
