@@ -6,7 +6,9 @@ import {
     getNumberOfBedroomsRentalValue,
     getNumberOfBathroomsRentalValue,
     getBuildingStatusRentalValue,
-    getBuildingConditionRentalValue
+    getBuildingConditionRentalValue,
+    getRentalArrangementsContractType,
+    getNumberOfBedroomsDistribution
 } from '../services/statistics/statistics';
 
 export default function Stats() {
@@ -16,8 +18,12 @@ export default function Stats() {
     const [numberOfBathroomsRentalValue, setNumberOfBathroomsRentalValue] = useState([])
     const [buildingStatusRentalValue, setBuildingStatusRentalValue] = useState([])
     const [buildingConditionRentalValue, setBuildingConditionRentalValue] = useState([])
+    const [rentalArrangementsContractType, setRentalArrangementsContractType] = useState([])
+    const [numberOfBedroomsDistribution, setNumberOfBedroomsDistribution] = useState([])
+
 
     useEffect(() => {
+        /** BAR CHARTS PART 1 */
         const buildingAgeAndRentalValue = async () => {
             const res = await getBuildingAgeRentalValue();
             setBuildingAgeRentalValue(res.data);
@@ -48,7 +54,18 @@ export default function Stats() {
             setBuildingConditionRentalValue(res.data);
         }
 
+        /**  PIE CHARTS */
+        const rentalArrangementsContractType = async () => {
+            const res = await getRentalArrangementsContractType();
+            setRentalArrangementsContractType(res.data);
+        }
 
+        const numberOfBedroomsDistribution = async () => {
+            const res = await getNumberOfBedroomsDistribution();
+            setNumberOfBedroomsDistribution(res.data);
+        }
+
+        /** BAR CHARTS PART 1 */
         buildingAgeAndRentalValue()
         buildingAgeContractType()
         numberOfBedroomsRentalValue()
@@ -56,6 +73,9 @@ export default function Stats() {
         buildingStatusRentalValue();
         buildingConditionRentalValue();
 
+        /** PIE CHARTS */
+        rentalArrangementsContractType()
+        numberOfBedroomsDistribution()
     }, [])
 
     return <div>
@@ -177,6 +197,34 @@ export default function Stats() {
                         minValue: 0,
                     },
                 }}
+            />
+        </div>
+
+        <div style={{ margin: 80 }}>
+            <Chart
+                width={'100%'}
+                height={'100%'}
+                chartType="PieChart"
+                loader={<div>Loading Chart</div>}
+                data={rentalArrangementsContractType}
+                options={{
+                    title: 'Rental Arrangements / Contract Type',
+                }}
+                rootProps={{ 'data-testid': '1' }}
+            />
+        </div>
+
+        <div style={{ margin: 80 }}>
+            <Chart
+                width={'100%'}
+                height={'100%'}
+                chartType="PieChart"
+                loader={<div>Loading Chart</div>}
+                data={numberOfBedroomsDistribution}
+                options={{
+                    title: 'Number Of Bedrooms / Rent counts',
+                }}
+                rootProps={{ 'data-testid': '1' }}
             />
         </div>
     </div>

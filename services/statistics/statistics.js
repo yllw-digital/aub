@@ -1,6 +1,7 @@
 import { URL } from '../url'
 import api from '../config';
 
+/** BART CHARTS PART ! */
 export const getBuildingAgeRentalValue = () => {
     return api.get(URL + '/api/buildingAgeRentalValue');
 }
@@ -23,4 +24,14 @@ export const getBuildingStatusRentalValue = () => {
 
 export const getBuildingConditionRentalValue = () => {
     return api.get(URL + '/api/buildingConditionRentalValue');
+}
+
+/** PIE CHARTS */
+
+export const getRentalArrangementsContractType = () => {
+    return api.get(URL + '/api/rentalArrangementsContractType');
+}
+
+export const getNumberOfBedroomsDistribution = () => {
+    return api.get(URL + '/api/numberOfBedroomsDistribution');
 }
