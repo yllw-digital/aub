@@ -4,21 +4,26 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { PopupsContext } from '../context/PopupContext';
 import { getZones } from '../services/questions/questions'
+import { getTable } from '../services/statistics/statistics'
 
 import { useContext, useEffect, useState } from 'react';
 
 export async function getStaticProps() {
     const res = await getZones();
-    const zones = res.data;
+    const zones = res?.data;
+
+    const res2 = await getTable();
+    const tableData = res2?.data;
 
     return {
         props: {
-            zones
+            zones,
+            tableData
         }
     }
 }
 
-export default function Zones({ zones }) {
+export default function Zones({ zones, tableData }) {
     const router = useRouter();
     const popupContext = useContext(PopupsContext)
 
@@ -155,308 +160,24 @@ export default function Zones({ zones }) {
                         <thead>
                             <tr>
                                 <td>SURVEY</td>
-                                <td>PRICE</td>
+                                {tableData?.questions?.map((question, idx) => <td key={idx.toString()}>{question.question}</td>)}
+                                {/* <td>PRICE</td>
                                 <td>NEIGHBORHOOD</td>
                                 <td>AMENITIES</td>
                                 <td>QUALITY</td>
                                 <td>CONTRACT TYPR</td>
-                                <td>UTILITIES</td>
+                                <td>UTILITIES</td> */}
                             </tr>
                         </thead>
 
                         <tbody>
-                            <tr>
-                                <td>
-                                    1
-                                </td>
-                                <td>
-                                    <span>950$</span>
-                                </td>
-                                <td>
-                                    info needed
-                                </td>
-                                <td>
-                                    <p><span>YES</span> Private Security</p>
-                                    <p><span>YES</span> Concierge</p>
-                                    <p><span>YES</span> Functional elevator</p>
-                                </td>
-
-                                <td>
-                                    <p><span>YES</span> New kitchen</p>
-                                    <p><span>YES</span> New bedroom</p>
-                                    <p><span>YES</span> Lorem ipsum</p>
-                                </td>
-
-                                <td>
-                                    info needed
-                                </td>
-
-                                <td>
-                                    info needed
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    1
-                                </td>
-                                <td>
-                                    <span>950$</span>
-                                </td>
-                                <td>
-                                    info needed
-                                </td>
-                                <td>
-                                    <p><span>YES</span> Private Security</p>
-                                    <p><span>YES</span> Concierge</p>
-                                    <p><span>YES</span> Functional elevator</p>
-                                </td>
-
-                                <td>
-                                    <p><span>YES</span> New kitchen</p>
-                                    <p><span>YES</span> New bedroom</p>
-                                    <p><span>YES</span> Lorem ipsum</p>
-                                </td>
-
-                                <td>
-                                    info needed
-                                </td>
-
-                                <td>
-                                    info needed
-                                </td>
-                            </tr> <tr>
-                                <td>
-                                    1
-                                </td>
-                                <td>
-                                    <span>950$</span>
-                                </td>
-                                <td>
-                                    info needed
-                                </td>
-                                <td>
-                                    <p><span>YES</span> Private Security</p>
-                                    <p><span>YES</span> Concierge</p>
-                                    <p><span>YES</span> Functional elevator</p>
-                                </td>
-
-                                <td>
-                                    <p><span>YES</span> New kitchen</p>
-                                    <p><span>YES</span> New bedroom</p>
-                                    <p><span>YES</span> Lorem ipsum</p>
-                                </td>
-
-                                <td>
-                                    info needed
-                                </td>
-
-                                <td>
-                                    info needed
-                                </td>
-                            </tr> <tr>
-                                <td>
-                                    1
-                                </td>
-                                <td>
-                                    <span>950$</span>
-                                </td>
-                                <td>
-                                    info needed
-                                </td>
-                                <td>
-                                    <p><span>YES</span> Private Security</p>
-                                    <p><span>YES</span> Concierge</p>
-                                    <p><span>YES</span> Functional elevator</p>
-                                </td>
-
-                                <td>
-                                    <p><span>YES</span> New kitchen</p>
-                                    <p><span>YES</span> New bedroom</p>
-                                    <p><span>YES</span> Lorem ipsum</p>
-                                </td>
-
-                                <td>
-                                    info needed
-                                </td>
-
-                                <td>
-                                    info needed
-                                </td>
-                            </tr> <tr>
-                                <td>
-                                    1
-                                </td>
-                                <td>
-                                    <span>950$</span>
-                                </td>
-                                <td>
-                                    info needed
-                                </td>
-                                <td>
-                                    <p><span>YES</span> Private Security</p>
-                                    <p><span>YES</span> Concierge</p>
-                                    <p><span>YES</span> Functional elevator</p>
-                                </td>
-
-                                <td>
-                                    <p><span>YES</span> New kitchen</p>
-                                    <p><span>YES</span> New bedroom</p>
-                                    <p><span>YES</span> Lorem ipsum</p>
-                                </td>
-
-                                <td>
-                                    info needed
-                                </td>
-
-                                <td>
-                                    info needed
-                                </td>
-                            </tr> <tr>
-                                <td>
-                                    1
-                                </td>
-                                <td>
-                                    <span>950$</span>
-                                </td>
-                                <td>
-                                    info needed
-                                </td>
-                                <td>
-                                    <p><span>YES</span> Private Security</p>
-                                    <p><span>YES</span> Concierge</p>
-                                    <p><span>YES</span> Functional elevator</p>
-                                </td>
-
-                                <td>
-                                    <p><span>YES</span> New kitchen</p>
-                                    <p><span>YES</span> New bedroom</p>
-                                    <p><span>YES</span> Lorem ipsum</p>
-                                </td>
-
-                                <td>
-                                    info needed
-                                </td>
-
-                                <td>
-                                    info needed
-                                </td>
-                            </tr> <tr>
-                                <td>
-                                    1
-                                </td>
-                                <td>
-                                    <span>950$</span>
-                                </td>
-                                <td>
-                                    info needed
-                                </td>
-                                <td>
-                                    <p><span>YES</span> Private Security</p>
-                                    <p><span>YES</span> Concierge</p>
-                                    <p><span>YES</span> Functional elevator</p>
-                                </td>
-
-                                <td>
-                                    <p><span>YES</span> New kitchen</p>
-                                    <p><span>YES</span> New bedroom</p>
-                                    <p><span>YES</span> Lorem ipsum</p>
-                                </td>
-
-                                <td>
-                                    info needed
-                                </td>
-
-                                <td>
-                                    info needed
-                                </td>
-                            </tr> <tr>
-                                <td>
-                                    1
-                                </td>
-                                <td>
-                                    <span>950$</span>
-                                </td>
-                                <td>
-                                    info needed
-                                </td>
-                                <td>
-                                    <p><span>YES</span> Private Security</p>
-                                    <p><span>YES</span> Concierge</p>
-                                    <p><span>YES</span> Functional elevator</p>
-                                </td>
-
-                                <td>
-                                    <p><span>YES</span> New kitchen</p>
-                                    <p><span>YES</span> New bedroom</p>
-                                    <p><span>YES</span> Lorem ipsum</p>
-                                </td>
-
-                                <td>
-                                    info needed
-                                </td>
-
-                                <td>
-                                    info needed
-                                </td>
-                            </tr> <tr>
-                                <td>
-                                    1
-                                </td>
-                                <td>
-                                    <span>950$</span>
-                                </td>
-                                <td>
-                                    info needed
-                                </td>
-                                <td>
-                                    <p><span>YES</span> Private Security</p>
-                                    <p><span>YES</span> Concierge</p>
-                                    <p><span>YES</span> Functional elevator</p>
-                                </td>
-
-                                <td>
-                                    <p><span>YES</span> New kitchen</p>
-                                    <p><span>YES</span> New bedroom</p>
-                                    <p><span>YES</span> Lorem ipsum</p>
-                                </td>
-
-                                <td>
-                                    info needed
-                                </td>
-
-                                <td>
-                                    info needed
-                                </td>
-                            </tr> <tr>
-                                <td>
-                                    1
-                                </td>
-                                <td>
-                                    <span>950$</span>
-                                </td>
-                                <td>
-                                    info needed
-                                </td>
-                                <td>
-                                    <p><span>YES</span> Private Security</p>
-                                    <p><span>YES</span> Concierge</p>
-                                    <p><span>YES</span> Functional elevator</p>
-                                </td>
-
-                                <td>
-                                    <p><span>YES</span> New kitchen</p>
-                                    <p><span>YES</span> New bedroom</p>
-                                    <p><span>YES</span> Lorem ipsum</p>
-                                </td>
-
-                                <td>
-                                    info needed
-                                </td>
-
-                                <td>
-                                    info needed
-                                </td>
-                            </tr>
+                            {tableData?.submissions?.map((submission, idx) => {
+                                console.log('submis', submission)
+                                return <tr key={idx.toString()}>
+                                    <td>{idx}</td>
+                                    {submission.map((answer,inx) => <td key={inx.toString()}>{answer}</td>)}
+                                </tr>
+                            })}
                         </tbody>
                     </table>
                 </div>

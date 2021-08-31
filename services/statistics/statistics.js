@@ -54,3 +54,9 @@ export const getContractArrangements = () => {
 export const getFurnishedCount = () => {
     return api.get(URL + '/api/furnishedCount');
 }
+
+/** STATISTICS TABLE */
+
+export const getTable = () => {
+    return api.get(URL + '/api/table')
+}
