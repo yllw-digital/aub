@@ -4,21 +4,26 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { PopupsContext } from '../context/PopupContext';
 import { getZones } from '../services/questions/questions'
-import { getTable } from '../services/statistics/statistics'
+import { getFilters, getTable } from '../services/statistics/statistics'
 
 import { useContext, useEffect, useState } from 'react';
+import Filters from '../components/Filters';
 
 export async function getStaticProps() {
-    const res = await getZones();
-    const zones = res?.data;
+    const zoneRes = await getZones();
+    const zones = zoneRes?.data;
 
-    const res2 = await getTable();
-    const tableData = res2?.data;
+    const tableRes = await getTable();
+    const tableData = tableRes?.data;
+
+    // const filtersRes = await getFilters();
+    // const filters = filtersRes?.data;
 
     return {
         props: {
             zones,
-            tableData
+            tableData,
+            // filters
         }
     }
 }
@@ -47,8 +52,8 @@ export default function Zones({ zones, tableData }) {
                     </div>
                 </div>
 
-           {expanded && <div className={styles.zoneExpandableContainer}>
-                    
+                {expanded && <div className={styles.zoneExpandableContainer}>
+
                     <div className={styles.expandableSection}>
                         <div className={styles.headerSection}>
                             <h2>AMENITIES</h2>
@@ -119,70 +124,55 @@ export default function Zones({ zones, tableData }) {
         )
     }
     return (
-        <Layout>
-            <div className={styles.zonesLayoutContainer}>
-                <div className={styles.leftSidebar}>
+        <>
+            <Filters />
+            <Layout>
+                <div className={styles.zonesLayoutContainer}>
+                    <div className={styles.leftSidebar}>
 
-                    {/* /** top container start */}
-                    <div className={styles.topContainer}>
-                        <div className={styles.titleBox}>
-                            <p><span>20</span> SURVEYS</p>
-                        </div>
-
-                        <Link href="">
-                            <div className={styles.submit} onClick={() => {
-                                popupContext.showPopup('submitSurvey')
-                            }}>
-                                <img src="/editpen.png" />
-                                SUBMIT A SURVEY
+                        {/* /** top container start */}
+                        <div className={styles.topContainer}>
+                            <div className={styles.titleBox}>
+                                <p><span>20</span> SURVEYS</p>
                             </div>
-                        </Link>
+
+                            <Link href="">
+                                <div className={styles.submit} onClick={() => {
+                                    popupContext.showPopup('submitSurvey')
+                                }}>
+                                    <img src="/editpen.png" />
+                                    SUBMIT A SURVEY
+                                </div>
+                            </Link>
+                        </div>
+                        {/* /** top container end */}
+
+                        {/* Zones list */}
+                        {zones?.map((zone, idx) => <Zone zone={zone} key={idx.toString()} />)}
                     </div>
-                    {/* /** top container end */}
-
-                    {/* Zones list */}
-                    {zones?.map((zone, idx) => <Zone zone={zone} key={idx.toString()} />)}
-
-                    {/* <Zone />
-                    <Zone />
-                    <Zone />
-                    <Zone />
-                    <Zone />
-                    <Zone />
-                    <Zone /> */}
 
 
-                </div>
-
-
-                <div className={styles.tableContainer}>
-                    <table className={styles.table}>
-                        <thead>
-                            <tr>
-                                <td>SURVEY</td>
-                                {tableData?.questions?.map((question, idx) => <td key={idx.toString()}>{question.question}</td>)}
-                                {/* <td>PRICE</td>
-                                <td>NEIGHBORHOOD</td>
-                                <td>AMENITIES</td>
-                                <td>QUALITY</td>
-                                <td>CONTRACT TYPR</td>
-                                <td>UTILITIES</td> */}
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            {tableData?.submissions?.map((submission, idx) => {
-                                console.log('submis', submission)
-                                return <tr key={idx.toString()}>
-                                    <td>{idx}</td>
-                                    {submission.map((answer,inx) => <td key={inx.toString()}>{answer}</td>)}
+                    <div className={styles.tableContainer}>
+                        <table className={styles.table}>
+                            <thead>
+                                <tr>
+                                    <td>SURVEY</td>
+                                    {tableData?.questions?.map((question, idx) => <td key={idx.toString()}>{question.question}</td>)}
                                 </tr>
-                            })}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </Layout>
+                            </thead>
 
+                            <tbody>
+                                {tableData?.submissions?.map((submission, idx) => {
+                                    return <tr key={idx.toString()}>
+                                        <td>{idx}</td>
+                                        {submission.map((answer, inx) => <td key={inx.toString()}>{answer}</td>)}
+                                    </tr>
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </Layout>
+        </>
     )
 }

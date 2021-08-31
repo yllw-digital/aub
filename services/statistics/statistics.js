@@ -60,3 +60,7 @@ export const getFurnishedCount = () => {
 export const getTable = () => {
     return api.get(URL + '/api/table')
 }
+
+export const getFilters = () => {
+    return api.get(URL + '/api/filters');
+}
