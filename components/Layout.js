@@ -16,7 +16,7 @@ import Popup from '../components/Popup';
 import RegisterForm from '../components/forms/RegisterForm';
 import { route } from 'next/dist/next-server/server/router';
 
-export default function Layout({ children }) {
+export default function Layout({ children, rightSideBar = null }) {
     const { register, handleSubmit, formState: { errors }, setError } = useForm();
     const loginForm = useRef(null);
 
@@ -43,7 +43,7 @@ export default function Layout({ children }) {
     }
 
     const existsInHidden = () => {
-        const hidden = ['/account', '/survey', '/about', '/contact', '/zones'];
+        const hidden = ['/account', '/survey', '/about', '/contact', '/zones', '/stats'];
         const currentRoute = router.pathname;
         return hidden.includes(currentRoute)
     }
@@ -135,7 +135,8 @@ export default function Layout({ children }) {
                 </div>
 
                 <div className={styles.rightSide}>
-                    <GraphSideMenu />
+                    {rightSideBar && rightSideBar}
+                    {!rightSideBar && <GraphSideMenu />}
                 </div>
             </div >
             <img src="/aub-logo.png" className={`${styles.aubLogo} ${styles.hiddenOnMobile}`} />
