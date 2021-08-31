@@ -253,5 +253,104 @@
     color: #038487;
 }
 
+/** Extra expandable data */
+/* animated */
+.zoneExpandableContainer {
+    animation-duration: 0.8s;
+    animation-name: slide;
+    /* animation-timing-function: ; */
+     transition: all 1s ease-in-out;
+     overflow-y:scroll;
+}
+
+@keyframes slide {
+    from { height: 0px;  }
+    to { height: 500px}
+}
+
+.headerSection {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 4rem;
+    margin-bottom: 2.5rem;
+
+}
+
+.squareBox{
+    height: 0.7rem;
+    width: 0.7rem;
+    margin-right: 0.8rem;
+}
+
+.blueBg{ background-color: #344093;}
+.greenBg{ background-color: #038487;}
+.blueText{ color: #344093;}
+.greenText{ color: #038487;}
+
+.headerSection h2 {
+    font-family: 'DIN-Bold';
+    font-size: 1.6rem;
+}
+
+.optionsContainer {
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.optionsContainer p {
+    font-family: 'DIN-Bold';
+    font-size: 1.4rem;
+}
+
+
+.option {
+    margin-left: 2rem;
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.expandableData {
+
+}
+
+.dataItem {
+    margin-bottom: 2rem;
+}
+
+.dataItem p {
+    font-family: 'DIN-Regular';
+    font-size: 1.4rem;
+}
+
+.dataBarContainer {
+    display:flex;
+    flex-direction: row;
+    align-items:center;
+}
+
+.dataNumbers {
+    font-family: 'DIN-Bold' !important;
+    font-size: 1.4rem;
+}
+
+.barContainer {
+    width: 100%;
+    display:flex;
+    flex-direction: row;
+    padding:0px 5px;
+
+}
+
+.bar {
+    height: 5px;
+}
+
+.marginRight{ margin-right: 4px;}
+
 
 
