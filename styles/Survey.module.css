@@ -127,12 +127,14 @@
 }
 
 .filtersContainer{
-    min-width: 500px;
+    /* min-width: 500px; */
     background-color: white;
-    padding: 2rem 4rem;
+    padding: 8rem 8rem;
+    max-height: 500px;
+    overflow-y: scroll;
 }
 
-.filtersContainer form {
+.fieldsContainer {
     display:grid;
     grid-template-columns: 1fr 1fr;
     column-gap: 2rem;
