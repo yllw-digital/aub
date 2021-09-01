@@ -1,5 +1,7 @@
 import Layout from '../components/Layout';
 import styles from '../styles/ZonesLayout.module.css';
+import * as contactStyles from '../styles/Contact.module.css';
+
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { PopupsContext } from '../context/PopupContext';
@@ -10,30 +12,65 @@ import { useContext, useEffect, useState } from 'react';
 import Filters from '../components/Filters';
 
 export async function getStaticProps() {
+
     const zoneRes = await getZones();
     const zones = zoneRes?.data;
 
-    const tableRes = await getTable();
-    const tableData = tableRes?.data;
-
-    // const filtersRes = await getFilters();
-    // const filters = filtersRes?.data;
+    const filtersRes = await getFilters();
+    const allFilters = filtersRes?.data;
 
     return {
         props: {
             zones,
-            tableData,
-            // filters
+
+            allFilters
         }
     }
 }
 
-export default function Zones({ zones, tableData }) {
+export default function Zones({ zones, allFilters }) {
     const router = useRouter();
     const popupContext = useContext(PopupsContext)
+    const [showFilters, setShowFilters] = useState(false);
+    const [tableData, setTableData] = useState([]);
+    const [selectedFilters, setSelectedFilters] = useState([])
+
+    const [filters, setFilters] = useState(allFilters)
+
+    useEffect(() => {
+        const fetchTableData = async (selectedFilters) => {
+            const res = await getTable(selectedFilters);
+            setTableData(res?.data);
+        }
+
+        const updateFilters = () => {
+            const keys = Object.keys(filters);
+            const filtersCopy = { ...filters }
+            const filterIds = [];
+
+            //get all the ids of the question so we can check if the filter is amongst the selected filters
+            if (selectedFilters.length) {
+                selectedFilters.map(filter => filterIds.push(parseInt(filter.question_id)))
+            }
+
+            keys.map((key) => {
+                if (filterIds.includes(filtersCopy[key].question_id)) {
+                    let currentSelectedFilter = selectedFilters.filter(filter => {
+                        return filter.question_id == filtersCopy[key].question_id
+                    })
+                    console.log(currentSelectedFilter)
+                    filtersCopy[key]['selected_option'] = currentSelectedFilter[0].answer
+                }
+            })
+            setFilters(filtersCopy)
+        }
+        fetchTableData(selectedFilters)
+        updateFilters();
+    }, [selectedFilters])
 
     const Zone = ({ zone }) => {
         const [expanded, setExpanded] = useState(false);
+
 
         return (
             <div className={`${styles.zoneContainer} separated`} onClick={() => setExpanded(!expanded)}>
@@ -99,7 +136,6 @@ export default function Zones({ zones, tableData }) {
                             <DataItem />
                         </div>
                     </div>
-
                 </div>}
             </div>
         )
@@ -123,9 +159,17 @@ export default function Zones({ zones, tableData }) {
             </div>
         )
     }
+
+    const onSubmit = (data) => {
+        setShowFilters(false);
+        setSelectedFilters(data);
+    }
     return (
         <>
-            <Filters />
+            {showFilters && <Filters
+                closeFilters={() => setShowFilters(false)}
+                filters={filters}
+                handleFormSubmit={onSubmit} />}
             <Layout>
                 <div className={styles.zonesLayoutContainer}>
                     <div className={styles.leftSidebar}>
@@ -153,6 +197,14 @@ export default function Zones({ zones, tableData }) {
 
 
                     <div className={styles.tableContainer}>
+                        <div className={styles.filterButtonContainer}>
+                            <button
+                                type="button"
+                                className={`${contactStyles.submitBtn} ${contactStyles.buttonClear}`}
+                                style={{ marginLeft: '2rem' }}
+                                onClick={() => setShowFilters(true)}
+                            >FILTERS</button>
+                        </div>
                         <table className={styles.table}>
                             <thead>
                                 <tr>

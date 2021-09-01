@@ -57,8 +57,8 @@ export const getFurnishedCount = () => {
 
 /** STATISTICS TABLE */
 
-export const getTable = () => {
-    return api.get(URL + '/api/table')
+export const getTable = (filters) => {
+    return api.post(URL + '/api/table', {filters})
 }
 
 export const getFilters = () => {

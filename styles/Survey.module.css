@@ -129,7 +129,8 @@
 .filtersContainer{
     /* min-width: 500px; */
     background-color: white;
-    padding: 8rem 8rem;
+    position: relative;
+    padding: 6rem 8rem;
     max-height: 500px;
     overflow-y: scroll;
 }
@@ -138,4 +139,22 @@
     display:grid;
     grid-template-columns: 1fr 1fr;
     column-gap: 2rem;
+}
+
+.filtersContainer h1{
+    font-family: 'DIN-Bold';
+    font-size: 2rem;
+    position:relative;
+
+    margin-bottom: 4rem;;
+}
+
+.filtersContainer h1:before {
+    content:"";
+    height: 2rem;
+    width: 5px;
+    background-color: #038487;
+    position: absolute;
+    left: -10px;
+    bottom: 7px;
 }

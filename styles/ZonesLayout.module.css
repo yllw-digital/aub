@@ -217,6 +217,7 @@
     overflow: scroll;;
     height: 100%;
     width: 100%;
+    position: relative;
 }
 
 .table {
@@ -354,3 +355,7 @@
 
 
 
+.filterButtonContainer{
+    position:fixed;
+    margin-top: -7rem;
+}
