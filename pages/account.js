@@ -55,7 +55,7 @@ export default function Account() {
                     </div>
                 </div>
 
-                <Link href={""}>
+                <Link href={`/submission/${submission.id}`}>
                     VIEW SURVEY
                 </Link>
 

@@ -1,14 +1,17 @@
-import Layout from '../components/Layout';
-import styles from '../styles/ZonesLayout.module.css';
-import * as contactStyles from '../styles/Contact.module.css';
-import * as surveyStyles from '../styles/Survey.module.css';
-import { getSubmission } from '../services/answers/answers';
+import Layout from '../../components/Layout';
+import styles from '../../styles/ZonesLayout.module.css';
+import * as contactStyles from '../../styles/Contact.module.css';
+import * as surveyStyles from '../../styles/Survey.module.css';
+import { getSubmission } from '../../services/answers/answers';
 import Cookies from 'js-cookie'
-import api from '../services/config';
+import api from '../../services/config';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router'
 
 export default function Submission() {
     const [sections, setSections] = useState(null);
+    const router = useRouter()
+    const { id } = router.query
 
     useEffect(() => {
         const loadSubmission = async () => {
@@ -16,26 +19,25 @@ export default function Submission() {
             if (token) {
                 api.defaults.headers.Authorization = `Bearer ${token}`
             }
-            const submission = await getSubmission(4);
+
+            const submission = await getSubmission(id);
             setSections(submission.data);
         }
+        if(typeof id !== 'undefined') loadSubmission();
+    }, [id]);
 
-        loadSubmission();
-    }, []);
-    
-const renderAnswer = (answers = []) => {
-    if (answers.length > 1) {
+    const renderAnswer = (answers = []) => {
+        if (answers.length > 1) {
+            let answersConcat = [];
+            answers?.map(answer => answersConcat.push(answer.answer))
 
-        let answersConcat = [];
-        answers?.map(answer => answersConcat.push(answer.answer))
-
-        return answersConcat.join(", ");
-    } else if (answers.length == 1) {
-        return answers[0].answer
-    } else {
-        return  "Not Specified";
+            return answersConcat.join(", ");
+        } else if (answers.length == 1) {
+            return answers[0].answer
+        } else {
+            return "Not Specified";
+        }
     }
-}
 
     const renderAnswers = () => {
         if (!sections) return sections;
@@ -46,14 +48,14 @@ const renderAnswer = (answers = []) => {
             let sectionQuestions = [];
 
             section.questions.map((question, questionIdx) => {
-                sectionQuestions.push(<div className={surveyStyles.formItem}>
+                sectionQuestions.push(<div className={surveyStyles.formItem} key={questionIdx.toString()}>
                     <label className={`${contactStyles.label}`}>{question.question}</label>
                     <p>{renderAnswer(question.answers)}</p>
                 </div>);
             })
 
             submissionLayout.push(
-                <div className={surveyStyles.sectionContainer}>
+                <div className={surveyStyles.sectionContainer} key={sectionIdx.toString()}>
                     <h1>{section.name}</h1>
                     <div className={surveyStyles.thirdGrid}>
                         {sectionQuestions}
@@ -73,7 +75,7 @@ const renderAnswer = (answers = []) => {
 
                 <div className={surveyStyles.researcherCheckbox}>
 
-                    <p className={contactStyles.label}>Submitted on {sections?.submission_date}</p>
+                    <p className={contactStyles.label}>Submitted {sections?.submission_date}</p>
                 </div>
 
                 {renderAnswers()}
