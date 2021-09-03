@@ -10,3 +10,7 @@ export const answerQuestions = (answers, arcgis_id) => {
 export const getUserSubmissions = () => {
     return api.get(URL + '/api/user/submissions');
 }
+
+export const getSubmission = (submissionId) => {
+    return api.get(URL + `/api/user/submissions/${submissionId}`);
+}

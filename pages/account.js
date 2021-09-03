@@ -26,37 +26,32 @@ export default function Account() {
         }
 
         fetchUserSubmissions()
-    },[]);
+    }, []);
 
-    
+
     const onLogout = () => {
         console.log('asdfasdf')
         if (logout()) {
             router.replace('/')
         }
     }
-    const Survey = ({submission}) => {
+    const Survey = ({ submission }) => {
         return <div className={styles.surveyWrapper}>
-            <h3>{submission.zone.name}</h3>
             <div className={styles.surveyContainer}>
                 <div className={styles.detailContainer}>
                     <div >
-
-                        <div className={styles.detail}>
-                            <span>RENT AMOUNT:</span>
-                            <p>1,500 - 2,000$</p>
-                        </div>
-                        <div className={styles.detail}>
-                            <span>APARTMENT SIZE:</span>
-                            <p>250 - 350 SQM</p>
-                        </div>
+                        <h3 className={styles.zoneName}>{submission.zone.name}</h3>
                     </div>
                 </div>
 
                 <div >
                     <div className={styles.detail}>
                         <span>RENT AMOUNT:</span>
-                        <p>1,500 - 2,000$</p>
+                        <p>{submission.rent_value}$</p>
+                    </div>
+                    <div className={styles.detail}>
+                        <span>APARTMENT SIZE:</span>
+                        <p>{submission.space}</p>
                     </div>
                 </div>
 
@@ -82,16 +77,16 @@ export default function Account() {
                                     <img src="/email-icon.png" />
                                     <p>E. {user?.email}</p>
                                 </div>
-                              { user?.mobile && <div className={styles.info}>
+                                {user?.mobile && <div className={styles.info}>
                                     <img src="/phone-icon.png" />
                                     <p>T. {user.mobile}</p>
                                 </div>}
                             </div>
 
 
-                            <div className={layoutStyles.inlineButtons} style={{ margin: 'initial', justifyContent :'flex-end' }}>
+                            <div className={layoutStyles.inlineButtons} style={{ margin: 'initial', justifyContent: 'flex-end' }}>
                                 {/* <button className={forms.submitBtn} >EDIT PROFILE</button> */}
-                                <button className={`${forms.submitBtn} ${forms.buttonClear}`}  onClick={onLogout}>LOGOUT</button>
+                                <button className={`${forms.submitBtn} ${forms.buttonClear}`} onClick={onLogout}>LOGOUT</button>
                             </div>
                         </div>
                     </div>
@@ -106,7 +101,7 @@ export default function Account() {
                     </div>
 
                     <div className={styles.surveysContainer}>
-                        {submissions && submissions.map((submission,index) => <Survey submission={submission} key={index.toString()} />)}
+                        {submissions && submissions.map((submission, index) => <Survey submission={submission} key={index.toString()} />)}
                     </div>
 
                 </div>

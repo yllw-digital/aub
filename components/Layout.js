@@ -43,7 +43,7 @@ export default function Layout({ children, rightSideBar = null }) {
     }
 
     const existsInHidden = () => {
-        const hidden = ['/account', '/survey', '/about', '/contact', '/zones', '/stats'];
+        const hidden = ['/account', '/survey', '/about', '/contact', '/zones', '/stats', '/submission'];
         const currentRoute = router.pathname;
         return hidden.includes(currentRoute)
     }
