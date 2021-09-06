@@ -199,6 +199,7 @@
  .registerGrid {
      display: grid;
      grid-template-columns: 1fr 1fr;
+     column-gap:1rem;
  }
  /* MOBILE VIEW */
  
@@ -286,4 +287,50 @@
      .hiddenOnMobile{
          display: none;
      }
+ }
+
+ @media (max-width: 420px){
+    .floatingTabContainer{
+        top: 100px;
+    }
+ }
+
+ @media (max-width: 510px) {
+     .popupContainer{
+        width: 90%;
+        max-height: 90vh;
+        overflow: scroll;
+        padding: 10%;
+     }
+
+     .popupTitle {
+         font-size: 1.8rem;
+         margin-bottom: 1.8rem;
+     }
+
+     .inlineButtons{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width:initial;
+     }
+
+     .inlineButtons button{
+         margin-bottom: 1rem;
+     }
+
+     .tabTitle{
+         padding:1rem;
+         font-size: 1.6rem;
+     }
+
+   
+
+ }
+
+ @media (max-width: 600px) {
+    .registerGrid {
+        grid-template-columns: 1fr;
+
+    }
  }

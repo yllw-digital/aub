@@ -67,7 +67,7 @@ export default function Account() {
         <Layout>
             <div className={styles.accountSectionContainer}>
                 {user && <div style={{ borderBottom: '1px solid' }}>
-                    <div style={{ padding: '5.8rem 5.8rem 3rem' }}>
+                    <div  className={styles.accountPadding}>
                         <h1 className={styles.pageTitle} style={{ paddingLeft: 0 }}>MY ACCOUNT</h1>
                         <p className={styles.profileName}>HELLO {user.firstname + ' ' + user.lastname}</p>
 

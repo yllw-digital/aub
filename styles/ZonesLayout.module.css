@@ -12,7 +12,9 @@
     border-right: 1px solid;
 }
 
-
+.accountPadding {
+    padding: 5.8rem 5.8rem 3rem;
+}
 
 
 /** left side bar */
@@ -134,7 +136,8 @@
     align-items: center;
 }
 
-.profileInfoContainer a, .surveyContainer a {
+.profileInfoContainer a,
+.surveyContainer a {
     font-size: 1.5rem;
     font-family: 'DIN-bold';
     border: 1px solid #1A8487;
@@ -214,14 +217,15 @@
 
 .tableContainer {
     padding-top: 10rem;
-    overflow: scroll;;
+    overflow: scroll;
+    ;
     height: 100%;
     width: 100%;
     position: relative;
 }
 
 .table {
-    width:100%;
+    width: 100%;
 }
 
 .table thead {
@@ -232,7 +236,6 @@
 .table thead td {
     border-right: 1px solid;
     border-bottom: 1px solid;
-
     padding: 2rem;
 }
 
@@ -245,7 +248,8 @@
 }
 
 .table tbody td p {
-    margin-bottom: 1rem;;
+    margin-bottom: 1rem;
+    ;
 }
 
 .table tbody td span {
@@ -254,19 +258,27 @@
     color: #038487;
 }
 
+
 /** Extra expandable data */
+
+
 /* animated */
+
 .zoneExpandableContainer {
     animation-duration: 0.8s;
     animation-name: slide;
     /* animation-timing-function: ; */
-     transition: all 1s ease-in-out;
-     overflow-y:scroll;
+    transition: all 1s ease-in-out;
+    overflow-y: scroll;
 }
 
 @keyframes slide {
-    from { height: 0px;  }
-    to { height: 500px}
+    from {
+        height: 0px;
+    }
+    to {
+        height: 500px
+    }
 }
 
 .headerSection {
@@ -276,19 +288,29 @@
     align-items: center;
     padding-top: 4rem;
     margin-bottom: 2.5rem;
-
 }
 
-.squareBox{
+.squareBox {
     height: 0.7rem;
     width: 0.7rem;
     margin-right: 0.8rem;
 }
 
-.blueBg{ background-color: #344093;}
-.greenBg{ background-color: #038487;}
-.blueText{ color: #344093;}
-.greenText{ color: #038487;}
+.blueBg {
+    background-color: #344093;
+}
+
+.greenBg {
+    background-color: #038487;
+}
+
+.blueText {
+    color: #344093;
+}
+
+.greenText {
+    color: #038487;
+}
 
 .headerSection h2 {
     font-family: 'DIN-Bold';
@@ -296,7 +318,7 @@
 }
 
 .optionsContainer {
-    display:flex;
+    display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: flex-end;
@@ -307,17 +329,14 @@
     font-size: 1.4rem;
 }
 
-
 .option {
     margin-left: 2rem;
-    display:flex;
+    display: flex;
     flex-direction: row;
     align-items: center;
 }
 
-.expandableData {
-
-}
+.expandableData {}
 
 .dataItem {
     margin-bottom: 2rem;
@@ -329,9 +348,9 @@
 }
 
 .dataBarContainer {
-    display:flex;
+    display: flex;
     flex-direction: row;
-    align-items:center;
+    align-items: center;
 }
 
 .dataNumbers {
@@ -341,21 +360,84 @@
 
 .barContainer {
     width: 100%;
-    display:flex;
+    display: flex;
     flex-direction: row;
-    padding:0px 5px;
-
+    padding: 0px 5px;
 }
 
 .bar {
     height: 5px;
 }
 
-.marginRight{ margin-right: 4px;}
+.marginRight {
+    margin-right: 4px;
+}
 
-
-
-.filterButtonContainer{
-    position:fixed;
+.filterButtonContainer {
+    position: fixed;
     margin-top: -7rem;
+}
+
+@media(max-width: 700px) {
+    .accountPadding {
+        padding: 5.8rem 2.8rem 3rem;
+    }
+
+    .profileInfoContainer{
+        flex-direction: column;
+        align-items: flex-start;
+    }
+   
+}
+
+@media (max-width: 650px){
+    .pageContainer{
+        height: initial;
+        overflow: initial;
+    }
+}
+
+@media (max-width: 800px){
+    .surveyContainer {
+        grid-template-columns: 3fr 2fr;
+    }
+
+    .accountSectionContainer{
+        height: initial;
+    }
+}
+
+
+@media (max-width: 540px){
+    .surveyContainer {
+        grid-template-columns: 1fr;
+        row-gap: 2rem;
+    }
+}
+
+@media(max-width: 420px){
+    .surveysTop .profileName{
+        font-size: 1.4rem;
+        margin: 1.6rem 0;
+    }
+
+    .detail {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 1rem;
+    }
+
+    .surveysTop {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .pageContainer{
+        padding: 1.8rem;
+    }
+
+    .pageTitle {
+        font-size: 1.4rem;
+    }
 }

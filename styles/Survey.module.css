@@ -10,7 +10,7 @@
 
 .thirdGrid {
     display: grid;
-    grid-template-columns: 2fr 3fr;
+    grid-template-columns: 1fr 1fr;
     column-gap: 5rem;
 }
 
@@ -157,4 +157,10 @@
     position: absolute;
     left: -10px;
     bottom: 7px;
+}
+
+@media (max-width: 600px) {
+    .thirdGrid {
+        grid-template-columns: 1fr;
+    }
 }
