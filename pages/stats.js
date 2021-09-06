@@ -19,6 +19,7 @@ import {
     getHouseholdPerZone
 } from '../services/statistics/statistics';
 
+const colorsArray = ['rgb(52, 64, 147)', 'rgb(26, 133, 136)', 'rgb(254, 213, 49)']
 export default function Stats() {
     const [buildingAgeRentalValue, setBuildingAgeRentalValue] = useState([])
     const [buildingAgeContractType, setBuildingAgeContractType] = useState([])
@@ -164,6 +165,7 @@ export default function Stats() {
                 loader={<div>Loading Chart</div>}
                 data={buildingAgeRentalValue}
                 options={{
+                    colors: colorsArray,
                     title: 'Building Age vs Rental Value',
                     hAxis: { title: 'Building Age', minValue: 0 },
                     vAxis: { title: 'Rental Value', minValue: 0 },
@@ -179,6 +181,7 @@ export default function Stats() {
                 loader={<div>Loading Chart</div>}
                 data={buildingAgeContractType}
                 options={{
+                    colors: colorsArray,
                     title: 'Building Age vs Contract Type',
                     vAxis: { title: 'Number of Contracts' },
                     hAxis: { title: 'Age of Building' },
@@ -197,6 +200,7 @@ export default function Stats() {
                 loader={<div>Loading Chart</div>}
                 data={numberBedroomsRentalValue}
                 options={{
+                    colors: colorsArray,
                     bar: { groupWidth: '15%' },
                     title: 'Number of Bedrooms vs Rental Value',
                     hAxis: {
@@ -219,6 +223,7 @@ export default function Stats() {
                 loader={<div>Loading Chart</div>}
                 data={numberOfBathroomsRentalValue}
                 options={{
+                    colors: colorsArray,
                     bar: { groupWidth: '15%' },
                     title: 'Number of Bathrooms vs Rental Value',
                     hAxis: {
@@ -241,6 +246,7 @@ export default function Stats() {
                 loader={<div>Loading Chart</div>}
                 data={buildingStatusRentalValue}
                 options={{
+                    colors: colorsArray,
                     bar: { groupWidth: '15%' },
                     title: 'Building Status vs Rental Value',
                     hAxis: {
@@ -263,6 +269,7 @@ export default function Stats() {
                 loader={<div>Loading Chart</div>}
                 data={buildingConditionRentalValue}
                 options={{
+                    colors: colorsArray,
                     bar: { groupWidth: '15%' },
                     title: 'Building Condition vs Rental Value',
                     hAxis: {
@@ -285,6 +292,7 @@ export default function Stats() {
                 loader={<div>Loading Chart</div>}
                 data={rentalArrangementsContractType}
                 options={{
+                    colors: colorsArray,
                     title: 'Rental Arrangements / Contract Type',
                 }}
                 rootProps={{ 'data-testid': '1' }}
@@ -299,6 +307,7 @@ export default function Stats() {
                 loader={<div>Loading Chart</div>}
                 data={householdPerZone}
                 options={{
+                    colors: colorsArray,
                     title: 'Zone / Number of household members',
                 }}
                 rootProps={{ 'data-testid': '1' }}
@@ -313,6 +322,7 @@ export default function Stats() {
                 loader={<div>Loading Chart</div>}
                 data={numberOfBedroomsDistribution}
                 options={{
+                    colors: colorsArray,
                     title: 'Number Of Bedrooms / Rent counts',
                 }}
                 rootProps={{ 'data-testid': '1' }}
@@ -327,6 +337,7 @@ export default function Stats() {
                 loader={<div>Loading Chart</div>}
                 data={rentalValueDistribution}
                 options={{
+                    colors: colorsArray,
                     title: 'Rental Value Distribution',
                     hAxis: { title: 'Rental Value' },
                     vAxis: { title: 'Person Count' },

@@ -1,6 +1,6 @@
 
 import styles from '../styles/RightSideBar.module.css'
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import Link from 'next/link'
 import BarChart from './charts/BarChart/BarChart'
 import PieChart from './charts/PieChart/PieChart'
@@ -9,15 +9,41 @@ import HorizontalChart from './charts/HorizontalChart/HorizontalChart'
 import { useContext } from 'react'
 import { PopupsContext } from '../context/PopupContext'
 import OwlCarousel from 'react-owl-carousel2';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 import { useAuth } from '../context/auth';
 import { useRouter } from 'next/router'
+import { Chart } from "react-google-charts";
 
+const colorsArray = ['rgb(52, 64, 147)', 'rgb(26, 133, 136)', 'rgb(254, 213, 49)']
+import {
+    getBuildingAgeRentalValue,
+    getBuildingAgeContractType,
+    getNumberOfBedroomsRentalValue,
+    getNumberOfBathroomsRentalValue,
+    getBuildingStatusRentalValue,
+    getBuildingConditionRentalValue,
+    getRentalArrangementsContractType,
+    getNumberOfBedroomsDistribution,
+    getRentalValueDistribution,
+    getContractArrangements,
+    getFurnishedCount,
+    getHouseholdPerZone
+} from '../services/statistics/statistics';
 export default function GraphSideMenu() {
+
     const { showPopup } = useContext(PopupsContext)
     const { isAuthenticated, user } = useAuth();
     const router = useRouter();
+
+    const [buildingStatusRentalValue, setBuildingStatusRentalValue] = useState([])
+
+    useEffect(() => {
+        const buildingStatusRentalValue = async () => {
+            const res = await getBuildingStatusRentalValue();
+            setBuildingStatusRentalValue(res.data);
+        }
+
+        buildingStatusRentalValue();
+    }, [])
 
     const first = useRef(null);
     const carouselOptions = {
@@ -53,9 +79,31 @@ export default function GraphSideMenu() {
 
             <div className={styles.mainContent}>
                 <OwlCarousel options={carouselOptions}>
-                   
-                    <div>
-                        <BarChart title="APARTMENT AREA (SQM) IN RELATION TO PRICE" />
+
+                    <div style={{width: '300px'}}>
+                        {/* <BarChart title="APARTMENT AREA (SQM) IN RELATION TO PRICE" /> */}
+                            <Chart
+                            width={'300px'}
+                                chartType="ColumnChart"
+                                loader={<div>Loading Chart</div>}
+                                data={buildingStatusRentalValue}
+                                options={{
+                                    colors: colorsArray,
+                                    chartArea: { width: '70%' },
+                                    bar: { groupWidth: '15%' },
+                                    title: 'Building Status vs Rental Value',
+                                    hAxis: {
+                                        title: 'Building status',
+                                        minValue: 0,
+                                    },
+                                    vAxis: {
+                                        title: 'Rental Value',
+                                        minValue: 0,
+                                    },
+                                    legend: "none",
+                                }}
+
+                            />
                     </div>
                     <div>
                         <BarChart title="APARTMENT AREA (SQM) IN RELATION TO PRICE" />
@@ -77,7 +125,7 @@ export default function GraphSideMenu() {
                         <PieChart />
                     </div>
                 </OwlCarousel>
-                <CircledNumber value={'2342'} text={'Are responsible to pay their own bill and utilities'}/>
+                <CircledNumber value={'2342'} text={'Are responsible to pay their own bill and utilities'} />
                 <BarChart title="LAST RENT RENEWED" />
                 <HorizontalChart title="TOTAL MONTHLY PAYABLE UTILITY FEES (USD)" />
             </div >
