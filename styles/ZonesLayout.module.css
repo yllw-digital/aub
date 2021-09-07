@@ -237,6 +237,7 @@
     border-right: 1px solid;
     border-bottom: 1px solid;
     padding: 2rem;
+    min-width: 200px;
 }
 
 .table tbody td {
