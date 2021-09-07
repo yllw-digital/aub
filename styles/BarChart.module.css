@@ -1,5 +1,5 @@
 .barChart {
-    padding: 2rem 7rem 4rem;
+    padding: 2rem 0 4rem;
     width: 100%;
     position: relative;
     /* height: 220px; */
@@ -61,7 +61,8 @@
     font-size: 1.8rem;
     color: #344093;
     letter-spacing: 0.5rem;
-    margin-bottom: 3rem;
+    margin-bottom: 1rem;
+    padding: 0 2rem;
 }
 
 .horizontalBarsContainer {

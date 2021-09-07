@@ -35,6 +35,12 @@ export default function GraphSideMenu() {
     const router = useRouter();
 
     const [buildingStatusRentalValue, setBuildingStatusRentalValue] = useState([])
+    const [buildingConditionRentalValue, setBuildingConditionRentalValue] = useState([])
+    const [numberOfBedroomsDistribution, setNumberOfBedroomsDistribution] = useState([])
+    const [householdPerZone, setHouseholdPerZone] = useState([]);
+    const [contractArrangements, setContractArrangements] = useState(null)
+    const [furnishedCount, setFurnishedCount] = useState(null);
+
 
     useEffect(() => {
         const buildingStatusRentalValue = async () => {
@@ -42,7 +48,37 @@ export default function GraphSideMenu() {
             setBuildingStatusRentalValue(res.data);
         }
 
+        const buildingConditionRentalValue = async () => {
+            const res = await getBuildingConditionRentalValue();
+            setBuildingConditionRentalValue(res.data);
+        }
+
+        const householdPerZone = async () => {
+            const res = await getHouseholdPerZone();
+            setHouseholdPerZone(res.data);
+        }
+
+        const numberOfBedroomsDistribution = async () => {
+            const res = await getNumberOfBedroomsDistribution();
+            setNumberOfBedroomsDistribution(res.data);
+        }
+
+        const contractArrangements = async () => {
+            const res = await getContractArrangements();
+            setContractArrangements(res.data);
+        }
+
+        const furnishedCount = async () => {
+            const res = await getFurnishedCount();
+            setFurnishedCount(res.data);
+        }
+
+        buildingConditionRentalValue();
         buildingStatusRentalValue();
+        householdPerZone();
+        numberOfBedroomsDistribution();
+        furnishedCount();
+        contractArrangements()
     }, [])
 
     const first = useRef(null);
@@ -80,10 +116,10 @@ export default function GraphSideMenu() {
             <div className={styles.mainContent}>
                 <OwlCarousel options={carouselOptions}>
 
-                    <div style={{width: '300px'}}>
-                        {/* <BarChart title="APARTMENT AREA (SQM) IN RELATION TO PRICE" /> */}
+                    <div>
+                        <BarChart title="BUILDING STATUS IN RELATION TO PRICE" >
                             <Chart
-                            width={'300px'}
+                                width={'300px'}
                                 chartType="ColumnChart"
                                 loader={<div>Loading Chart</div>}
                                 data={buildingStatusRentalValue}
@@ -91,7 +127,7 @@ export default function GraphSideMenu() {
                                     colors: colorsArray,
                                     chartArea: { width: '70%' },
                                     bar: { groupWidth: '15%' },
-                                    title: 'Building Status vs Rental Value',
+                                    // title: 'Building Status vs Rental Value',
                                     hAxis: {
                                         title: 'Building status',
                                         minValue: 0,
@@ -104,30 +140,102 @@ export default function GraphSideMenu() {
                                 }}
 
                             />
+                        </BarChart>
                     </div>
                     <div>
-                        <BarChart title="APARTMENT AREA (SQM) IN RELATION TO PRICE" />
+                        <BarChart title="BUILDING CONDITION IN RELATION TO PRICE" >
+                            <Chart
+                                width={'300px'}
+                                chartType="ColumnChart"
+                                loader={<div>Loading Chart</div>}
+                                data={buildingConditionRentalValue}
+                                options={{
+                                    colors: colorsArray,
+                                    bar: { groupWidth: '15%' },
+                                    // title: 'Building Condition vs Rental Value',
+                                    hAxis: {
+                                        title: 'Building Condition',
+                                        minValue: 0,
+                                    },
+                                    vAxis: {
+                                        title: 'Rental Value',
+                                        minValue: 0,
+                                    },
+                                    legend: "none",
+
+                                }}
+                            />
+                        </BarChart>
                     </div>
-                    <div>
-                        <BarChart title="APARTMENT AREA (SQM) IN RELATION TO PRICE" />
-                    </div>
+
                 </OwlCarousel>
 
+
+                {/* <OwlCarousel options={carouselOptions}>
+                    <div>
+                        <PieChart />
+                    </div>
+                    <div>
+                        <PieChart />
+                    </div>
+                    <div>
+                        <PieChart />
+                    </div>
+                </OwlCarousel> */}
 
                 <OwlCarousel options={carouselOptions}>
                     <div>
-                        <PieChart />
+                        <BarChart title="ZONE / NUMBER OF HOUSEHOLD MEMBERS" >
+                            <Chart
+                                width={'100%'}
+                                chartType="PieChart"
+                                loader={<div>Loading Chart</div>}
+                                data={householdPerZone}
+                                options={{
+                                    colors: colorsArray,
+                                }}
+                                rootProps={{ 'data-testid': '1' }}
+                            />
+                        </BarChart>
                     </div>
+
                     <div>
-                        <PieChart />
-                    </div>
-                    <div>
-                        <PieChart />
+                        <BarChart title="NUMBER OF BEDROOMS / RENT COUNTS" >
+                            <Chart
+                                width={'100%'}
+                                chartType="PieChart"
+                                loader={<div>Loading Chart</div>}
+                                data={numberOfBedroomsDistribution}
+                                options={{
+                                    colors: colorsArray,
+                                }}
+                                rootProps={{ 'data-testid': '1' }}
+                            />
+                        </BarChart>
                     </div>
                 </OwlCarousel>
-                <CircledNumber value={'2342'} text={'Are responsible to pay their own bill and utilities'} />
-                <BarChart title="LAST RENT RENEWED" />
-                <HorizontalChart title="TOTAL MONTHLY PAYABLE UTILITY FEES (USD)" />
+
+                <OwlCarousel options={carouselOptions}>
+                    <div>
+                        <CircledNumber
+                            text={'Live under old rent contracts'}
+                            value={contractArrangements?.toString() + '+'}
+                        />
+                    </div>
+
+                    <div>
+                        <CircledNumber
+                            text={'Live in furnished apartments'}
+                            value={furnishedCount?.toString() + '+'}
+                        />
+                    </div>
+                </OwlCarousel>
+
+
+
+                {/* <CircledNumber value={'2342'} text={'Are responsible to pay their own bill and utilities'} /> */}
+                {/* <BarChart title="LAST RENT RENEWED" />
+                <HorizontalChart title="TOTAL MONTHLY PAYABLE UTILITY FEES (USD)" /> */}
             </div >
             <footer >
                 <div className={styles.footerContainer}>

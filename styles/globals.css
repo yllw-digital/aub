@@ -48,6 +48,8 @@
     border-top: 1px solid #F0F0F0;
     bottom: 0rem;
     position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   .owl-nav{
