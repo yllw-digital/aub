@@ -22,7 +22,6 @@ export async function getStaticProps() {
     return {
         props: {
             zones,
-
             allFilters
         }
     }
@@ -80,41 +79,19 @@ export default function Zones({ zones, allFilters }) {
                 <div className={styles.zoneMetaContainer}>
                     <div className={styles.zoneMeta}>
                         <p>RENT AMOUNT</p>
-                        <p>1,500 - 2,000$</p>
+                        <p>{zone?.price}$</p>
                     </div>
 
                     <div className={styles.zoneMeta}>
                         <p>APARTMENT SIZE</p>
-                        <p>250 - 350 SQM</p>
+                        <p>{zone?.area}</p>
                     </div>
                 </div>
 
                 {expanded && <div className={styles.zoneExpandableContainer}>
+                    {zone?.questions?.map((section, index) => (<DataSection section={section} key={index.toString()}/>) )}
 
-                    <div className={styles.expandableSection}>
-                        <div className={styles.headerSection}>
-                            <h2>AMENITIES</h2>
-                            <div className={styles.optionsContainer}>
-                                <div className={styles.option}>
-                                    <div className={`${styles.squareBox} ${styles.blueBg}`}></div>
-                                    <p className={styles.blueText}>N</p>
-                                </div>
-                                <div className={styles.option}>
-                                    <div className={`${styles.squareBox} ${styles.greenBg}`}></div>
-                                    <p className={styles.greenText}>Y</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className={styles.expandableData}>
-                            <DataItem />
-                            <DataItem />
-                            <DataItem />
-                            <DataItem />
-                        </div>
-                    </div>
-
-                    <div className={styles.expandableSection}>
+                    {/* <div className={styles.expandableSection}>
                         <div className={styles.headerSection}>
                             <h2>QUALITY</h2>
                             <div className={styles.optionsContainer}>
@@ -135,26 +112,47 @@ export default function Zones({ zones, allFilters }) {
                             <DataItem />
                             <DataItem />
                         </div>
-                    </div>
+                    </div> */}
                 </div>}
             </div>
         )
     }
 
-    const DataItem = () => {
+    const DataSection = ({section}) => {
+
+        return <div className={styles.expandableSection}>
+            <div className={styles.headerSection}>
+                <h2>{section?.section}</h2>
+                <div className={styles.optionsContainer}>
+                    <div className={styles.option}>
+                        <div className={`${styles.squareBox} ${styles.blueBg}`}></div>
+                        <p className={styles.blueText}>N</p>
+                    </div>
+                    <div className={styles.option}>
+                        <div className={`${styles.squareBox} ${styles.greenBg}`}></div>
+                        <p className={styles.greenText}>Y</p>
+                    </div>
+                </div>
+            </div>
+            <div className={styles.expandableData}>
+                {section?.questions?.map((question, index) => <DataItem question={question} key={index.toString()}/> )}
+            </div>
+        </div>
+    }
+    const DataItem = ({question}) => {
         return (
             <div className={styles.dataItem}>
-                <p >Private Security</p>
+                <p>{question?.question}</p>
 
                 <div className={styles.dataBarContainer}>
-                    <p className={`${styles.dataNumbers} ${styles.blueText}`}>73%</p>
+                    <p className={`${styles.dataNumbers} ${styles.blueText}`}>{question?.answers?.No}%</p>
 
                     <div className={styles.barContainer}>
-                        <div className={`${styles.bar} ${styles.blueBg} ${styles.marginRight}`} style={{ width: '50%' }}></div>
-                        <div className={`${styles.bar} ${styles.greenBg}`} style={{ width: '50%' }}></div>
+                        <div className={`${styles.bar} ${styles.blueBg} ${styles.marginRight}`} style={{ width: `${question?.answers?.No}%` }}></div>
+                        <div className={`${styles.bar} ${styles.greenBg}`} style={{ width:  `${question?.answers?.Yes}%` }}></div>
                     </div>
 
-                    <p className={`${styles.dataNumbers} ${styles.greenText}`}>27%</p>
+                    <p className={`${styles.dataNumbers} ${styles.greenText}`}>{question?.answers?.Yes}%</p>
                 </div>
             </div>
         )
