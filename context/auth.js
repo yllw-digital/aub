@@ -34,6 +34,7 @@ export const AuthProvider = ({ children }) => {
         const res = await login(email, password)
         console.log(res)
         if (res?.data?.token) {
+            
             return {status: authenticate(res)};
         } else if (res?.data?.status === 'pending_verification') {
             return {status: false, type: 'verification'}
@@ -46,6 +47,8 @@ export const AuthProvider = ({ children }) => {
         const token = res.data.token;
         const user = res.data.user
         Cookies.set('token', token, { expires: 60 })
+        Cookies.set('hide-popups', true);
+
         api.defaults.headers.Authorization = `Bearer ${token}`
         setIsAuthenticated(true);
         if (user) {

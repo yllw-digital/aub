@@ -15,6 +15,8 @@ import { useAuth } from '../context/auth';
 import Popup from '../components/Popup';
 import RegisterForm from '../components/forms/RegisterForm';
 import { route } from 'next/dist/next-server/server/router';
+import { useEffect } from 'react';
+import Cookies from 'js-cookie'
 
 export default function Layout({ children, rightSideBar = null }) {
     const { register, handleSubmit, formState: { errors }, setError } = useForm();
@@ -23,6 +25,17 @@ export default function Layout({ children, rightSideBar = null }) {
     const popupContext = useContext(PopupsContext)
     const { loginUser, isAuthenticated } = useAuth()
     const router = useRouter();
+
+    useEffect(() => {   
+        const checkPopupStatus = async () => {
+            const hidePopups = await Cookies.get('hide-popups');
+            if(!hidePopups){
+                popupContext.showPopup('welcome')
+            }
+        }
+
+        checkPopupStatus()
+    }, [])
 
     const onLogin = async (data) => {
         try {
@@ -151,7 +164,7 @@ export default function Layout({ children, rightSideBar = null }) {
                     <div className={forms.formItem}>
                         {errors?.email?.message && <p style={{ color: 'red', marginLeft: 5, textAlign: 'center' }}>{errors.email.message}</p>}
                         <label className={forms.label}>EMAIL ADDRESS</label>
-                        <input className={forms.formInput}  type="email" {...register('email', { required: true })} />
+                        <input className={forms.formInput} type="email" {...register('email', { required: true })} />
                     </div>
                     <div className={forms.formItem}>
                         <label className={forms.label}>PASSWORD</label>
@@ -169,7 +182,10 @@ export default function Layout({ children, rightSideBar = null }) {
                 leftButtonText="LOG IN"
                 handleLeftButtonPress={() => popupContext.showPopup('login')}
                 rightButtonText="CONTINUE TO SITE"
-                handleRightButtonPress={popupContext.closePopup}
+                handleRightButtonPress={() => {
+                    Cookies.set('hide-popups', true);
+                    popupContext.closePopup()
+                }}
             >
                 <img src="/logo-line.png" />
                 <h2 className={styles.popupTitle}>WELCOME TO CITY OF TENANTS</h2>
