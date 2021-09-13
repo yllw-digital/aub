@@ -5,8 +5,8 @@
   "scripts": {
     "dev": "next dev -p 3001",
     "build": "next build",
-    "start": "next start -p 3001",
-    "yllw-build": "node ./node_modules/yllw-postman-to-functions/index.js"
+    "start": "next start -p 3001"
+
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
