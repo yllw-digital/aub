@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
-import styles from '../styles/ZonesLayout.module.css';
-import * as contactStyles from '../styles/Contact.module.css';
-import * as surveyStyles from '../styles/Survey.module.css';
+// import styles from '../components/ZonesLayout.module.css';
+// import * as contactStyles from '../styles/Contact.module.css';
+// import * as surveyStyles from '../styles/Survey.module.css';
 import { getQuestions, getZones } from '../services/questions/questions';
 import DatePicker from "react-datepicker";
 import "../node_modules/react-datepicker/dist/react-datepicker.css";
@@ -51,9 +51,9 @@ export default function Survey() {
                 sectionQuestions.push(prepareField(question.config, question.question_id, questionIdx));
             })
             display.push(
-                <div key={sectionIdx.toString()} className={surveyStyles.sectionContainer}>
+                <div key={sectionIdx.toString()} className={'sectionContainer'}>
                     <h1>{section.name}</h1>
-                    <div className={surveyStyles.thirdGrid}>{sectionQuestions}</div>
+                    <div className={'thirdGrid'}>{sectionQuestions}</div>
                 </div>);
         })
 
@@ -68,30 +68,30 @@ export default function Survey() {
 
         switch (config.type) {
             case "textfield":
-                return <div className={surveyStyles.formItem} key={index.toString()}>
-                    <label className={`${contactStyles.label} ${config.researcher_validation == 'required' ? surveyStyles.requiredField : ''}`}>{question}</label>
+                return <div className='formItem' key={index.toString()}>
+                    <label className={`label ${config.researcher_validation == 'required' ? 'requiredField' : ''}`}>{question}</label>
                     {errors[questionId.toString()]?.type === 'required' && <p style={{ color: 'red', display: 'inline', marginLeft: 5 }}>Field is required</p>}
-                    <input className={contactStyles.formInput} type="text" value={Math.floor(Math.random() * 11) + 1} {...register(questionId.toString(), { required: config.researcher_validation == 'required' })} />
+                    <input className='formInput' type="text" value={Math.floor(Math.random() * 11) + 1} {...register(questionId.toString(), { required: config.researcher_validation == 'required' })} />
                 </div>
 
             case "textarea":
-                return <div className={surveyStyles.formItem} key={index.toString()}>
-                    <label className={`${contactStyles.label} ${config.researcher_validation == 'required' ? surveyStyles.requiredField : ''}`}>{question}</label>
+                return <div className='formItem' key={index.toString()}>
+                    <label className={`label ${config.researcher_validation == 'required' ? 'requiredField' : ''}`}>{question}</label>
                     {errors[questionId.toString()]?.type === 'required' && <p style={{ color: 'red', display: 'inline', marginLeft: 5 }}>Field is required</p>}
 
-                    <textarea className={contactStyles.formTextarea} rows="10"  {...register(questionId.toString(), { required: config.researcher_validation == 'required' })} value="whatever answer"></textarea>
+                    <textarea className='formTextarea' rows="10"  {...register(questionId.toString(), { required: config.researcher_validation == 'required' })} value="whatever answer"></textarea>
                 </div>
 
             case "dropdown":
                 let size = config?.options.length - 1;
                 let rndInt = Math.floor(Math.random() * (size + 1))
 
-                return <div className={surveyStyles.formItem} key={index.toString()}>
-                    <label className={`${contactStyles.label} ${config.researcher_validation == 'required' ? surveyStyles.requiredField : ''}`}>{question}</label>
+                return <div className='formItem' key={index.toString()}>
+                    <label className={`label ${config.researcher_validation == 'required' ? 'requiredField' : ''}`}>{question}</label>
                     {errors[questionId.toString()]?.type === 'required' && <p style={{ color: 'red', display: 'inline', marginLeft: 5 }}>Field is required</p>}
 
                     <select
-                        className={contactStyles.formInput}
+                        className='formInput'
                         {...register(questionId.toString(), { required: config.researcher_validation == 'required' })}
                     >
                         <option value="">Specify Option</option>
@@ -102,24 +102,24 @@ export default function Survey() {
                 </div>
 
             case "checkbox":
-                return <div className={surveyStyles.formItem} key={index.toString()}>
-                    <label className={`${contactStyles.label} ${config.researcher_validation == 'required' ? surveyStyles.requiredField : ''}`}>{question}</label>
+                return <div className='formItem' key={index.toString()}>
+                    <label className={`label ${config.researcher_validation == 'required' ? 'requiredField' : ''}`}>{question}</label>
                     {errors[questionId.toString()]?.type === 'required' && <p style={{ color: 'red', display: 'inline', marginLeft: 5 }}>Field is required</p>}
 
                     {config.options.map((option, optionIndex) => {
-                        return <div className={contactStyles.checkboxContainer}><input type="checkbox" value={option} checked {...register(`${questionId}[]`, { required: config.researcher_validation == 'required' })} />{option}</div>
+                        return <div className='checkboxContainer'><input type="checkbox" value={option} checked {...register(`${questionId}[]`, { required: config.researcher_validation == 'required' })} />{option}</div>
                     })}
                 </div>
 
 
             case "date":
-                return <div className={surveyStyles.formItem} key={index.toString()}>
-                    <label className={`${contactStyles.label} ${config.researcher_validation == 'required' ? surveyStyles.requiredField : ''}`}>{question}</label>
+                return <div className='formItem' key={index.toString()}>
+                    <label className={`label ${config.researcher_validation == 'required' ? 'requiredField' : ''}`}>{question}</label>
                     {errors[questionId.toString()]?.type === 'required' && <p style={{ color: 'red', display: 'inline', marginLeft: 5 }}>Field is required</p>}
 
                     <DatePicker
                         selected={dates[questionId]}
-                        className={contactStyles.formInput}
+                        className='formInput'
                         {...register(questionId.toString(), { required: config.researcher_validation == 'required' })}
                         onChange={(date) => {
                             let datesCopy = { ...dates };
@@ -177,21 +177,21 @@ export default function Survey() {
 
     return (
         <Layout>
-            <div className={styles.pageContainer}>
-                <h1 className={styles.pageTitle}>CITY OF TENANTS - RENTAL MAP SURVEY</h1>
-                <div className={surveyStyles.researcherCheckbox}>
+            <div className='pageContainer'>
+                <h1 className='pageTitle'>CITY OF TENANTS - RENTAL MAP SURVEY</h1>
+                <div className='researcherCheckbox'>
                     <input type="checkbox" onChange={(e) => setResearcher(e.target.checked)} />
-                    <label className={contactStyles.label}>Take survey as a researcher (You will have to answer a few additional questions)</label>
+                    <label className='label'>Take survey as a researcher (You will have to answer a few additional questions)</label>
                 </div>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     {/* <div className={surveyStyles.thirdGrid}> */}
                     {/* FIELDS START */}
-                    <div className={surveyStyles.formItem}>
-                        <label className={`${contactStyles.label} ${surveyStyles.requiredField}`}>Select your zone</label>
+                    <div className='formItem'>
+                        <label className='label requiredField'>Select your zone</label>
                         {errors['arcgis_id']?.type === 'required' && <p style={{ color: 'red', display: 'inline', marginLeft: 5 }}>Field is required</p>}
 
                         <select
-                            className={contactStyles.formInput}
+                            className='formInput'
                             {...register('arcgis_id', { required: true })}
                         >
                             <option value="">Specify Option</option>
@@ -201,42 +201,42 @@ export default function Survey() {
 
                     {sections && renderQuestions(sections)}
 
-                    {/* <div className={surveyStyles.formItem}>
+                    {/* <div className='formItem'>
                             <label className={contactStyles.label}>EMAIL ADDRESS</label>
-                            <input className={contactStyles.formInput} type="text" />
+                            <input className='formInput' type="text" />
                         </div>
 
-                        <div className={surveyStyles.formItem}>
+                        <div className='formItem'>
                             <label className={contactStyles.label}>AGE</label>
-                            <select className={contactStyles.formInput} >
+                            <select className='formInput' >
                                 <option>Please specify</option>
                             </select>
                         </div>
 
-                        <div className={surveyStyles.formItem}>
+                        <div className='formItem'>
                             <label className={contactStyles.label}>GENDER</label>
-                            <select className={contactStyles.formInput} >
+                            <select className='formInput' >
                                 <option>Please specify</option>
                             </select>
                         </div>
 
-                        <div className={surveyStyles.formItem}>
+                        <div className='formItem'>
                             <label className={contactStyles.label}>NATIONALITY</label>
                             <p>Kindly specify nationality under “Other” if not Lebanese</p>
-                            <select className={contactStyles.formInput} >
+                            <select className='formInput' >
                                 <option>Please specify</option>
                             </select>
                         </div>
 
-                        <div className={surveyStyles.formItem}>
+                        <div className='formItem'>
                             <label className={contactStyles.label}>NUMBER OF HOUSEHOLD MEMBERS</label>
                             <p>including live-in domestic workers</p>
-                            <select className={contactStyles.formInput} >
+                            <select className='formInput' >
                                 <option>Please specify</option>
                             </select>
                         </div>
 
-                        <div className={surveyStyles.formItem}>
+                        <div className='formItem'>
                             <label className={contactStyles.label}>OTHER HOUSEHOLD MEMBERS</label>
                             <table className={surveyStyles.table}>
                                 <thead>
@@ -335,7 +335,7 @@ export default function Survey() {
                             </table>
                         </div>
 
-                        <div className={surveyStyles.formItem} style={{ marginBottom: '2.5rem' }}>
+                        <div className='formItem' style={{ marginBottom: '2.5rem' }}>
                             <label className={contactStyles.label}>WOMAN-HEADED HOUSEHOLD</label>
                             <div className={surveyStyles.inlineRadioContainer}>
                                 <div className={surveyStyles.inlineRadio}>
@@ -349,8 +349,8 @@ export default function Survey() {
                             </div>
                         </div> */}
                     {/* FIELDS END  */}
-                    <div className={surveyStyles.thirdGrid}>
-                        <button type="submit" className={contactStyles.submitBtn}>SUBMIT</button>
+                    <div className={'thirdGrid'}>
+                        <button type="submit" className={'submitBtn'}>SUBMIT</button>
                     </div>
                 </form>
             </div>

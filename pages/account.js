@@ -1,7 +1,7 @@
 import Layout from '../components/Layout';
-import styles from '../styles/ZonesLayout.module.css';
-import * as layoutStyles from '../styles/Layout.module.css'
-import * as forms from '../styles/Contact.module.css'
+// import styles from '../components/ZonesLayout.module.css';
+// import * as layoutStyles from '../components/Layout.module.css'
+// import * as forms from '../components/Contact.module.css'
 import Link from 'next/link'
 import { useAuth } from '../context/auth';
 import { useRouter } from 'next/router'
@@ -36,20 +36,20 @@ export default function Account() {
         }
     }
     const Survey = ({ submission }) => {
-        return <div className={styles.surveyWrapper}>
-            <div className={styles.surveyContainer}>
-                <div className={styles.detailContainer}>
+        return <div className='surveyWrapper'>
+            <div className='surveyContainer'>
+                <div className='detailContainer'>
                     <div >
-                        <h3 className={styles.zoneName}>{submission.zone.name}</h3>
+                        <h3 className='zoneName'>{submission.zone.name}</h3>
                     </div>
                 </div>
 
                 <div >
-                    <div className={styles.detail}>
+                    <div className='detail'>
                         <span>RENT AMOUNT:</span>
                         <p>{submission.rent_value}$</p>
                     </div>
-                    <div className={styles.detail}>
+                    <div className='detail'>
                         <span>APARTMENT SIZE:</span>
                         <p>{submission.space}</p>
                     </div>
@@ -65,42 +65,42 @@ export default function Account() {
     }
     return (
         <Layout>
-            <div className={styles.accountSectionContainer}>
+            <div className='accountSectionContainer'>
                 {user && <div style={{ borderBottom: '1px solid' }}>
-                    <div  className={styles.accountPadding}>
-                        <h1 className={styles.pageTitle} style={{ paddingLeft: 0 }}>MY ACCOUNT</h1>
-                        <p className={styles.profileName}>HELLO {user.firstname + ' ' + user.lastname}</p>
+                    <div  className='accountPadding'>
+                        <h1 className='pageTitle' style={{ paddingLeft: 0 }}>MY ACCOUNT</h1>
+                        <p className='profileName' >HELLO {user.firstname + ' ' + user.lastname}</p>
 
-                        <div className={styles.profileInfoContainer}>
+                        <div className='profileInfoContainer'>
                             <div>
-                                <div className={styles.info}>
+                                <div className='info'>
                                     <img src="/email-icon.png" />
                                     <p>E. {user?.email}</p>
                                 </div>
-                                {user?.mobile && <div className={styles.info}>
+                                {user?.mobile && <div className='info'>
                                     <img src="/phone-icon.png" />
                                     <p>T. {user.mobile}</p>
                                 </div>}
                             </div>
 
 
-                            <div className={layoutStyles.inlineButtons} style={{ margin: 'initial', justifyContent: 'flex-end' }}>
+                            <div className='inlineButtons' style={{ margin: 'initial', justifyContent: 'flex-end' }}>
                                 {/* <button className={forms.submitBtn} >EDIT PROFILE</button> */}
-                                <button className={`${forms.submitBtn} ${forms.buttonClear}`} onClick={onLogout}>LOGOUT</button>
+                                <button className='submitBtn forms.buttonClear' onClick={onLogout}>LOGOUT</button>
                             </div>
                         </div>
                     </div>
                 </div>}
 
-                <div className={styles.profileSurveysSection}>
-                    <div className={styles.surveysTop}>
-                        <p className={styles.profileName}>YOU HAVE {submissions ? submissions.length : 0} SURVEYS</p>
+                <div className='profileSurveysSection'>
+                    <div className='surveysTop'>
+                        <p className='profileName' >YOU HAVE {submissions ? submissions.length : 0} SURVEYS</p>
                         <Link href={'/survey'} >
                             NEW SURVEY
                         </Link>
                     </div>
 
-                    <div className={styles.surveysContainer}>
+                    <div className='surveysContainer'>
                         {submissions && submissions.map((submission, index) => <Survey submission={submission} key={index.toString()} />)}
                     </div>
 

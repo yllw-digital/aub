@@ -1,0 +1,166 @@
+.formItem {
+    margin-bottom: 4rem;
+}
+
+.formItem p {
+    font-size: 1.4rem;
+    font-size: 'DIN-Regular';
+    margin-bottom: 1rem;
+}
+
+.thirdGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 5rem;
+}
+
+.table {
+    width: 100%;
+}
+
+.tableBody tr {
+    background-color: #F9F9F9;
+    font-family: 'DIN-Regular';
+    font-size: 1.4rem;
+    border-bottom: 4px solid white;
+}
+
+.table thead tr th {
+    font-size: 1.7rem;
+    font-family: 'DIN-Bold';
+    color: #038487;
+}
+
+.tableBody tr td {
+    padding: 1rem 1.4rem;
+}
+
+.inlineRadioContainer {
+    display: flex;
+    flex-direction: row;
+    padding: 1rem 0;
+}
+
+.inlineRadio {
+    font-size: 1.4rem;
+    margin-right: 7rem;
+}
+
+.inlineRadio input {
+    margin-right: 10px;
+}
+
+.formItem input[type='radio']:after {
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    top: -2px;
+    left: -1px;
+    position: relative;
+    background-color: white;
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    border: 1px solid #038487;
+}
+
+.formItem input[type='radio']:checked:after {
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    top: -2px;
+    left: -1px;
+    position: relative;
+    background-color: #038487;
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    border: 1px solid #038487;
+}
+
+.sectionContainer {
+    margin-bottom: 4rem;
+}
+
+.sectionContainer h1 {
+    font-family: 'DIN-Bold';
+    font-size: 2rem;
+    letter-spacing: 1px;
+    margin-bottom: 2rem;
+}
+
+.researcherCheckbox {
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    color: #038487;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.researcherCheckbox input {
+    margin-right: 1rem;
+    height: 1.6rem;
+    width: 1.6rem;
+}
+
+.requiredField::after {
+    content: " *";
+    color: red;
+    font-size: 1.4rem;
+}
+
+
+/** Filters */
+
+.filtersOverlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0,0,0,0.6);
+    z-index: 2;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.filtersContainer{
+    /* min-width: 500px; */
+    background-color: white;
+    position: relative;
+    padding: 6rem 8rem;
+    max-height: 500px;
+    overflow-y: scroll;
+}
+
+.fieldsContainer {
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 2rem;
+}
+
+.filtersContainer h1{
+    font-family: 'DIN-Bold';
+    font-size: 2rem;
+    position:relative;
+
+    margin-bottom: 4rem;;
+}
+
+.filtersContainer h1:before {
+    content:"";
+    height: 2rem;
+    width: 5px;
+    background-color: #038487;
+    position: absolute;
+    left: -10px;
+    bottom: 7px;
+}
+
+@media (max-width: 600px) {
+    .thirdGrid {
+        grid-template-columns: 1fr;
+    }
+}

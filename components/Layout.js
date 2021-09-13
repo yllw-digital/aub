@@ -1,8 +1,8 @@
 import Link from 'next/link'
 import React, { useContext, useRef } from 'react';
 import Image from 'next/image'
-import styles from '../styles/Layout.module.css'
-import * as forms from '../styles/Contact.module.css'
+// import styles from '../styles/Layout.module.css'
+// import * as forms from '../styles/Contact.module.css'
 import { useRouter } from 'next/router'
 import Header from './head/Header'
 import GraphSideMenu from './GraphSideMenu.js'
@@ -63,12 +63,12 @@ export default function Layout({ children, rightSideBar = null }) {
 
     return (
         <div>
-            <div className={styles.main}>
+            <div className='main'>
                 <Header />
-                <div className={styles.leftSide}>
+                <div className='leftSide'>
                     <header>
-                        <div className={`${styles.container} ${styles.menuBar} ${styles.desktopMenu}`}>
-                            <div className={styles.logo}>
+                        <div className='container menuBar desktopMenu'>
+                            <div className='logo'>
                                 <Link href="/">
                                     <a>
                                         <Image
@@ -80,7 +80,7 @@ export default function Layout({ children, rightSideBar = null }) {
                                 </Link>
                             </div>
 
-                            <div className={styles.menuItems}>
+                            <div className='menuItems'>
                                 <ul>
                                     <li>
                                         <Link href={"/"}>
@@ -101,12 +101,12 @@ export default function Layout({ children, rightSideBar = null }) {
                             </div>
                         </div>
 
-                        <div className={`${styles.mobileMenu}`}>
+                        <div className='mobileMenu'>
                             <FontAwesomeIcon icon={faBars} style={{ width: 20 }} />
                             <a href="/" style={{ textAlign: 'center' }}>
-                                <div className={`${styles.mobileLogo}`}>
-                                    <Image
 
+                                <div className='mobileLogo'>
+                                    <Image
                                         src="/logo.png"
                                         height={60}
                                         width={130}
@@ -115,13 +115,13 @@ export default function Layout({ children, rightSideBar = null }) {
                             </a>
 
                             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}>
-                                {!isAuthenticated && <button className={`${styles.btnSmall}`} onClick={(e) => {
+                                {!isAuthenticated && <button className='btnSmall' onClick={(e) => {
                                     popupContext.showPopup('login')
                                 }} >
                                     LOGIN
                                 </button>}
 
-                                {isAuthenticated && <button className={`${styles.btnSmall}`} onClick={(e) => {
+                                {isAuthenticated && <button className='btnSmall' onClick={(e) => {
                                     router.push('/account')
                                 }} >
                                     ACCOUNT
@@ -132,7 +132,7 @@ export default function Layout({ children, rightSideBar = null }) {
                     </header>
 
                     <div>
-                        {!existsInHidden() && <div className={styles.floatingTabContainer}>
+                        {!existsInHidden() && <div className='floatingTabContainer'>
 
                             <FloatingTab title="DASHBOARD">
                                 <GraphSideMenu />
@@ -147,38 +147,38 @@ export default function Layout({ children, rightSideBar = null }) {
                     </div>
                 </div>
 
-                <div className={styles.rightSide}>
+                <div className='rightSide'>
                     {rightSideBar && rightSideBar}
                     {!rightSideBar && <GraphSideMenu />}
                 </div>
             </div >
-            <img src="/aub-logo.png" className={`${styles.aubLogo} ${styles.hiddenOnMobile}`} />
-            <img src="/beirut-logo.png" className={`${styles.beirutLogo} ${styles.hiddenOnMobile}`} />
+            <img src="/aub-logo.png" className='aubLogo hiddenOnMobile' />
+            <img src="/beirut-logo.png" className='beirutLogo hiddenOnMobile' />
 
             {/* </PopupsContext.Provider> */}
             {popupContext.showPopups.login && <Popup
-                popupStyle={styles.signinContainer}
+                popupStyle='signinContainer'
             >
-                <h2 className={styles.popupTitle}>LOGIN</h2>
-                <form className={forms.contactForm} onSubmit={handleSubmit(onLogin)} ref={loginForm}>
-                    <div className={forms.formItem}>
+                <h2 className='popupTitle'>LOGIN</h2>
+                <form className='contactForm' onSubmit={handleSubmit(onLogin)} ref={loginForm}>
+                    <div className='formItem'>
                         {errors?.email?.message && <p style={{ color: 'red', marginLeft: 5, textAlign: 'center' }}>{errors.email.message}</p>}
-                        <label className={forms.label}>EMAIL ADDRESS</label>
-                        <input className={forms.formInput} type="email" {...register('email', { required: true })} />
+                        <label className='label'>EMAIL ADDRESS</label>
+                        <input className='formInput' type="email" {...register('email', { required: true })} />
                     </div>
-                    <div className={forms.formItem}>
-                        <label className={forms.label}>PASSWORD</label>
-                        <input className={forms.formInput} type="password" {...register('password', { required: true })} />
+                    <div className='formItem'>
+                        <label className='label'>PASSWORD</label>
+                        <input className='formInput' type="password" {...register('password', { required: true })} />
                     </div>
-                    <div className={styles.inlineButtons}>
-                        <button className={`${forms.submitBtn} ${forms.buttonClear}`} onClick={() => { popupContext.showPopup('register') }}>SIGN UP INSTEAD</button>
-                        <button className={forms.submitBtn}>SIGN IN</button>
+                    <div className='inlineButton'>
+                        <button className='submitBtn buttonClear' onClick={() => { popupContext.showPopup('register') }}>SIGN UP INSTEAD</button>
+                        <button className='submitBtn'>SIGN IN</button>
                     </div>
                 </form>
             </Popup>}
 
             {popupContext.showPopups.welcome && <Popup
-                popupStyle={styles.welcomePopup}
+                popupStyle='welcomePopup'
                 leftButtonText="LOG IN"
                 handleLeftButtonPress={() => popupContext.showPopup('login')}
                 rightButtonText="CONTINUE TO SITE"
@@ -188,7 +188,7 @@ export default function Layout({ children, rightSideBar = null }) {
                 }}
             >
                 <img src="/logo-line.png" />
-                <h2 className={styles.popupTitle}>WELCOME TO CITY OF TENANTS</h2>
+                <h2 className='popupTitle'>WELCOME TO CITY OF TENANTS</h2>
 
                 <p>“City of Tenants” is an online GIS platform developed by the Beirut Urban Lab at the American University of Beirut. The project is by “tenants for tenants” initiative. It aims to improve visibility of rental housing by providing indications about the variations in available apartments and prices across spatial and physical conditions and geographic locations. “City of Tenants” helps current and future tenants improve their knowledge of the rental housing market and housing options when seeking fairly-priced homes. We believe that by placing information in the hands of home seekers about existing rather than asking prices, we empower those looking for shelter to make choices that serve their needs best. </p>
                 <br />
@@ -198,14 +198,14 @@ export default function Layout({ children, rightSideBar = null }) {
             </Popup>}
 
             {popupContext.showPopups.submitSurvey && <Popup
-                popupStyle={styles.submitSurvey}
+                popupStyle='submitSurvey'
                 rightButtonText="I CONFIRM"
                 handleRightButtonPress={() => {
                     popupContext.closePopup()
                     router.push('/survey')
                 }}
             >
-                <h2 className={styles.popupTitle}>SUBMIT A SURVEY</h2>
+                <h2 className='popupTitle'>SUBMIT A SURVEY</h2>
                 <p>Dear Participant, <br />We invite you to participate in the survey titled “City of Tenants”. This survey will feed into the “City of Tenants” online platform, a project that aims to improve visibility of rental housing for tenants by providing indications about the variations in available apartments and prices across spatial and physical conditions and geographic locations. This helps current and future tenants improve their knowledge of housing options and find homes that respond best to their needs.</p>
                 <br />
                 <p>You will be asked to complete a brief survey/questionnaire with information about your rental unit condition, available services, and rental value. Your contribution in this survey will remain anonymous. Signing in is only required to verify user and allow user to fill multiple surveys. The email address will not be used at any point or linked to the survey. We will not relay any indicator of the tenant’s identity, personal information, or the apartment’s exact location to the public. Overall results will be published in aggregate and available to the public. Personal or sensitive information will not be aggregated in the public database of our website and will not be made publicly available.</p>

@@ -1,6 +1,4 @@
 import Layout from '../components/Layout';
-import styles from '../styles/ZonesLayout.module.css';
-import * as contactStyles from '../styles/Contact.module.css';
 
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -11,21 +9,24 @@ import { getFilters, getTable } from '../services/statistics/statistics'
 import { useContext, useEffect, useState } from 'react';
 import Filters from '../components/Filters';
 
-// export async function getStaticProps() {
+// import styles from '../components/ZonesLayout.module.css';
 
-//     const zoneRes = await getZones();
-//     const zones = zoneRes?.data;
 
-//     const filtersRes = await getFilters();
-//     const allFilters = filtersRes?.data;
+export async function getServerSideProps() {
 
-//     return {
-//         props: {
-//             zones,
-//             allFilters
-//         }
-//     }
-// }
+    const zoneRes = await getZones();
+    const zones = zoneRes?.data;
+
+    const filtersRes = await getFilters();
+    const allFilters = filtersRes?.data;
+
+    return {
+        props: {
+            zones,
+            allFilters
+        }
+    }
+}
 
 export default function Zones({ zones, allFilters }) {
     const router = useRouter();
@@ -33,8 +34,8 @@ export default function Zones({ zones, allFilters }) {
     const [showFilters, setShowFilters] = useState(false);
     const [tableData, setTableData] = useState([]);
     const [selectedFilters, setSelectedFilters] = useState([])
-    const [zones,setZones] = useState([]);
-    const [filters, setFilters] = useState([])
+
+    const [filters, setFilters] = useState(allFilters)
 
     useEffect(() => {
         const fetchTableData = async (selectedFilters) => {
@@ -63,57 +64,47 @@ export default function Zones({ zones, allFilters }) {
             })
             setFilters(filtersCopy)
         }
-
-        const fetchZones = () => {
-            const zoneRes = await getZones();
-            setZones(zoneRes?.data);
-        }
-
-        const fetchFilters = () => {
-            const filtersRes = await getFilters();
-           setFilters(iltersRes?.data);
-        }
-        
         fetchTableData(selectedFilters)
         updateFilters();
-        fetchZones();
-        fetchFilters()
-
     }, [selectedFilters])
+
+
+
 
     const Zone = ({ zone }) => {
         const [expanded, setExpanded] = useState(false);
 
+
         return (
-            <div className={`${styles.zoneContainer} separated`} onClick={() => setExpanded(!expanded)}>
+            <div className={`zoneContainer separated`} onClick={() => setExpanded(!expanded)}>
                 <img src="/zone.png" />
                 <h3>{zone?.name}</h3>
 
-                <div className={styles.zoneMetaContainer}>
-                    <div className={styles.zoneMeta}>
+                <div className='zoneMetaContainer'>
+                    <div className='zoneMeta'>
                         <p>RENT AMOUNT</p>
                         <p>{zone?.price}$</p>
                     </div>
 
-                    <div className={styles.zoneMeta}>
+                    <div className='zoneMeta'>
                         <p>APARTMENT SIZE</p>
                         <p>{zone?.area}</p>
                     </div>
                 </div>
 
-                {expanded && <div className={styles.zoneExpandableContainer}>
+                {expanded && <div className='zoneExpandableContainer'>
                     {zone?.questions?.map((section, index) => (<DataSection section={section} key={index.toString()}/>) )}
 
-                    {/* <div className={styles.expandableSection}>
+                    {/* <div className={'expandableSection}>
                         <div className={styles.headerSection}>
                             <h2>QUALITY</h2>
                             <div className={styles.optionsContainer}>
-                                <div className={styles.option}>
-                                    <div className={`${styles.squareBox} ${styles.blueBg}`}></div>
+                                <div className='option'>
+                                    <div className={`${styles.squareBox ${styles.blueBg}`}></div>
                                     <p className={styles.blueText}>N</p>
                                 </div>
-                                <div className={styles.option}>
-                                    <div className={`${styles.squareBox} ${styles.greenBg}`}></div>
+                                <div className='option'>
+                                    <div className={`${styles.squareBox ${styles.greenBg}`}></div>
                                     <p className={styles.greenText}>Y</p>
                                 </div>
                             </div>
@@ -133,39 +124,39 @@ export default function Zones({ zones, allFilters }) {
 
     const DataSection = ({section}) => {
 
-        return <div className={styles.expandableSection}>
-            <div className={styles.headerSection}>
+        return <div className='expandableSection'>
+            <div className='headerSection'>
                 <h2>{section?.section}</h2>
-                <div className={styles.optionsContainer}>
-                    <div className={styles.option}>
-                        <div className={`${styles.squareBox} ${styles.blueBg}`}></div>
-                        <p className={styles.blueText}>N</p>
+                <div className='optionsContainer'>
+                    <div className='option'>
+                        <div className='squareBox blueBg'></div>
+                        <p className='blueText'>N</p>
                     </div>
-                    <div className={styles.option}>
-                        <div className={`${styles.squareBox} ${styles.greenBg}`}></div>
-                        <p className={styles.greenText}>Y</p>
+                    <div className='option'>
+                        <div className={`squareBox greenBg`}></div>
+                        <p className='greenText'>Y</p>
                     </div>
                 </div>
             </div>
-            <div className={styles.expandableData}>
+            <div className={'expandableData'}>
                 {section?.questions?.map((question, index) => <DataItem question={question} key={index.toString()}/> )}
             </div>
         </div>
     }
     const DataItem = ({question}) => {
         return (
-            <div className={styles.dataItem}>
+            <div className={'dataItem'}>
                 <p>{question?.question}</p>
 
-                <div className={styles.dataBarContainer}>
-                    <p className={`${styles.dataNumbers} ${styles.blueText}`}>{question?.answers?.No}%</p>
+                <div className={'dataBarContainer'}>
+                    <p className={`dataNumbers blueText`}>{question?.answers?.No}%</p>
 
                     <div className={styles.barContainer}>
-                        <div className={`${styles.bar} ${styles.blueBg} ${styles.marginRight}`} style={{ width: `${question?.answers?.No}%` }}></div>
-                        <div className={`${styles.bar} ${styles.greenBg}`} style={{ width:  `${question?.answers?.Yes}%` }}></div>
+                        <div className={`bar blueBg marginRight`} style={{ width: `${question?.answers?.No}%` }}></div>
+                        <div className={`bar greenBg`} style={{ width:  `${question?.answers?.Yes}%` }}></div>
                     </div>
 
-                    <p className={`${styles.dataNumbers} ${styles.greenText}`}>{question?.answers?.Yes}%</p>
+                    <p className={`dataNumbers greenText`}>{question?.answers?.Yes}%</p>
                 </div>
             </div>
         )
@@ -182,17 +173,17 @@ export default function Zones({ zones, allFilters }) {
                 filters={filters}
                 handleFormSubmit={onSubmit} />}
             <Layout>
-                <div className={styles.zonesLayoutContainer}>
-                    <div className={styles.leftSidebar}>
+                <div className={'zonesLayoutContainer'}>
+                    <div className={'leftSidebar'}>
 
                         {/* /** top container start */}
-                        <div className={styles.topContainer}>
-                            <div className={styles.titleBox}>
+                        <div className={'topContainer'}>
+                            <div className={'titleBox'}>
                                 <p><span>20</span> SURVEYS</p>
                             </div>
 
                             <Link href="">
-                                <div className={styles.submit} onClick={() => {
+                                <div className={'submit'} onClick={() => {
                                     popupContext.showPopup('submitSurvey')
                                 }}>
                                     <img src="/editpen.png" />
@@ -207,16 +198,16 @@ export default function Zones({ zones, allFilters }) {
                     </div>
 
 
-                    <div className={styles.tableContainer}>
-                        <div className={styles.filterButtonContainer}>
+                    <div className={'tableContainer'}>
+                        <div className={'filterButtonContainer'}>
                             <button
                                 type="button"
-                                className={`${contactStyles.submitBtn} ${contactStyles.buttonClear}`}
+                                className={'submitBtn buttonClear'}
                                 style={{ marginLeft: '2rem' }}
                                 onClick={() => setShowFilters(true)}
                             >FILTERS</button>
                         </div>
-                        <table className={styles.table}>
+                        <table className={'table'}>
                             <thead>
                                 <tr>
                                     <td>SURVEY</td>
