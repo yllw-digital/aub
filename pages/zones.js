@@ -11,21 +11,21 @@ import { getFilters, getTable } from '../services/statistics/statistics'
 import { useContext, useEffect, useState } from 'react';
 import Filters from '../components/Filters';
 
-export async function getStaticProps() {
+// export async function getStaticProps() {
 
-    const zoneRes = await getZones();
-    const zones = zoneRes?.data;
+//     const zoneRes = await getZones();
+//     const zones = zoneRes?.data;
 
-    const filtersRes = await getFilters();
-    const allFilters = filtersRes?.data;
+//     const filtersRes = await getFilters();
+//     const allFilters = filtersRes?.data;
 
-    return {
-        props: {
-            zones,
-            allFilters
-        }
-    }
-}
+//     return {
+//         props: {
+//             zones,
+//             allFilters
+//         }
+//     }
+// }
 
 export default function Zones({ zones, allFilters }) {
     const router = useRouter();
@@ -33,8 +33,8 @@ export default function Zones({ zones, allFilters }) {
     const [showFilters, setShowFilters] = useState(false);
     const [tableData, setTableData] = useState([]);
     const [selectedFilters, setSelectedFilters] = useState([])
-
-    const [filters, setFilters] = useState(allFilters)
+    const [zones,setZones] = useState([]);
+    const [filters, setFilters] = useState([])
 
     useEffect(() => {
         const fetchTableData = async (selectedFilters) => {
@@ -63,13 +63,26 @@ export default function Zones({ zones, allFilters }) {
             })
             setFilters(filtersCopy)
         }
+
+        const fetchZones = () => {
+            const zoneRes = await getZones();
+            setZones(zoneRes?.data);
+        }
+
+        const fetchFilters = () => {
+            const filtersRes = await getFilters();
+           setFilters(iltersRes?.data);
+        }
+        
         fetchTableData(selectedFilters)
         updateFilters();
+        fetchZones();
+        fetchFilters()
+
     }, [selectedFilters])
 
     const Zone = ({ zone }) => {
         const [expanded, setExpanded] = useState(false);
-
 
         return (
             <div className={`${styles.zoneContainer} separated`} onClick={() => setExpanded(!expanded)}>
