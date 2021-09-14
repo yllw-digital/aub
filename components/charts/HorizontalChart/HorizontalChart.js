@@ -7,20 +7,20 @@ export default function HorizontalChart(props) {
         const { width } = props;
 
         return (
-            <div className={styles.horizontalBarContainer}>
-                <div className={styles.horizontalBar} style={{width: `${width}%`}}></div>
-                <p className={styles.horizontalBarLegend}>Zone</p>
+            <div className='horizontalBarContainer'>
+                <div className='horizontalBar' style={{width: `${width}%`}}></div>
+                <p className='horizontalBarLegend'>Zone</p>
             </div>
         );
     }
 
     return (
-        <div className={`${styles.barChart} separated`}>
-            <div className={styles.mainContentTitle}>
+        <div className='barChart separated'>
+            <div className='mainContentTitle'>
                 <h2>{title}</h2>
             </div>
-            <div className={styles.horizontalBarsContainer}>
-                <p className={styles.legendHorizontal}>Amount Payed</p>
+            <div className='horizontalBarsContainer'>
+                <p className='legendHorizontal'>Amount Payed</p>
                 <HorizontalBar width={100}/>
                 <HorizontalBar width={100}/>
                 <HorizontalBar width={80}/>

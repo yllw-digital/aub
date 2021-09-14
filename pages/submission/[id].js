@@ -48,16 +48,16 @@ export default function Submission() {
             let sectionQuestions = [];
 
             section.questions.map((question, questionIdx) => {
-                sectionQuestions.push(<div className={surveyStyles.formItem} key={questionIdx.toString()}>
-                    <label className={`${contactStyles.label}`}>{question.question}</label>
+                sectionQuestions.push(<div className='formItem' key={questionIdx.toString()}>
+                    <label className='label'>{question.question}</label>
                     <p>{renderAnswer(question.answers)}</p>
                 </div>);
             })
 
             submissionLayout.push(
-                <div className={surveyStyles.sectionContainer} key={sectionIdx.toString()}>
+                <div className='sectionContainer' key={sectionIdx.toString()}>
                     <h1>{section.name}</h1>
-                    <div className={surveyStyles.thirdGrid}>
+                    <div className='thirdGrid'>
                         {sectionQuestions}
                     </div>
                 </div>
@@ -70,17 +70,17 @@ export default function Submission() {
 
     return (
         <Layout>
-            <div className={styles.pageContainer}>
-                <h1 className={styles.pageTitle}>CITY OF TENANTS - RENTAL MAP SURVEY</h1>
+            <div className='pageContainer'>
+                <h1 className='pageTitle'>CITY OF TENANTS - RENTAL MAP SURVEY</h1>
 
-                <div className={surveyStyles.researcherCheckbox}>
+                <div className='researcherCheckbox'>
 
-                    <p className={contactStyles.label}>Submitted {sections?.submission_date}</p>
+                    <p className='label'>Submitted {sections?.submission_date}</p>
                 </div>
 
                 {renderAnswers()}
 
-                {/* <div className={surveyStyles.sectionContainer}>
+                {/* <div className='sectionContainer'>
                     <h1>SECTION NAME</h1>
                     <div className={surveyStyles.thirdGrid}>
                         <div className={surveyStyles.formItem}>

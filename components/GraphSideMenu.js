@@ -93,12 +93,12 @@ export default function GraphSideMenu() {
         items: 1,
         nav: true,
         navText: [
-            `<i class="fas fa-chevron-left ${styles.leftArrow}"></i>`, `<i class="fas fa-chevron-right ${styles.rightArrow}"></i>`
+            `<i class="fas fa-chevron-left leftArrow"></i>`, `<i class="fas fa-chevron-right rightArrow"></i>`
         ],
     }
     return (
-        <div className={styles.sideMenuContainer}>
-            {!isAuthenticated && <div className={styles.sideHeader}>
+        <div className='sideMenuContainer'>
+            {!isAuthenticated && <div className='sideHeader'>
                 <h1>WANT TO LEAVE</h1>
                 <h1>A SURVEY</h1>
 
@@ -110,7 +110,7 @@ export default function GraphSideMenu() {
             </div>}
 
 
-            {isAuthenticated && <div className={styles.sideHeader}>
+            {isAuthenticated && <div className='sideHeader'>
                 <h1>WELCOME BACK</h1>
                 <h1 style={{ textTransform: 'uppercase' }}>{user?.firstname}</h1>
                 <button href={'/'} onClick={(e) => {
@@ -120,7 +120,7 @@ export default function GraphSideMenu() {
                 </button>
             </div>}
 
-            <div className={styles.mainContent}>
+            <div className='mainContent'>
                 <OwlCarousel options={carouselOptions}>
 
                     <div>
@@ -245,13 +245,13 @@ export default function GraphSideMenu() {
                 <HorizontalChart title="TOTAL MONTHLY PAYABLE UTILITY FEES (USD)" /> */}
             </div >
             <footer >
-                <div className={styles.footerContainer}>
-                    <div className={styles.surveyCount}>
-                        <p className={styles.emphasised}>{submissionCount}</p>
+                <div className='footerContainer'>
+                    <div className='surveyCount'>
+                        <p className='emphasised'>{submissionCount}</p>
                         <p>Submitted Surveys</p>
                     </div>
 
-                    <div className={styles.buttonContainer}>
+                    <div className='buttonContainer'>
                         <Link href={'/stats'} >
                             MORE STATS
                         </Link>
