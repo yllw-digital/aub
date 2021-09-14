@@ -1,7 +1,7 @@
 import { useState, useEffect, createRef } from "react";
 import { Chart } from "react-google-charts";
 import CircledNumber from '../components/charts/CircledNumber/CircledNumber';
-// import Layout from '../components/Layout';
+import Layout from '../components/Layout';
 // import styles from '../styles/ScrollList.module.css';
 
 import {
@@ -132,24 +132,24 @@ export default function Stats() {
 
     const ScrollList = () => {
         return <>
-            <div className='container'>
-                <div className='header'>
+            <div className='stats-container'>
+                <div className='stats-header'>
                     <h1>Graphs List</h1>
                 </div>
 
                 <ul className='graphList'>
-                    <li className={selectedIndex == 0 ?'active' : ''} onClick={() => handleScroll(0)}>Building Age vs Rental Value</li>
-                    <li className={selectedIndex == 1 ?'active' : ''} onClick={() => handleScroll(1)}>Building Age vs Contract Type</li>
-                    <li className={selectedIndex == 2 ?'active' : ''} onClick={() => handleScroll(2)}>Number of Bedrooms vs Rental Value</li>
-                    <li className={selectedIndex == 3 ?'active' : ''} onClick={() => handleScroll(3)}>Number of Bathrooms vs Rental Value</li>
-                    <li className={selectedIndex == 4 ?'active' : ''} onClick={() => handleScroll(4)}>Building Status vs Rental Value</li>
-                    <li className={selectedIndex == 5 ?'active' : ''} onClick={() => handleScroll(5)}>Building Condition vs Rental Value</li>
-                    <li className={selectedIndex == 6 ?'active' : ''} onClick={() => handleScroll(6)}>Rental Arrangements / Contract Type</li>
-                    <li className={selectedIndex == 7 ?'active' : ''} onClick={() => handleScroll(7)}>Zone / Number of household members</li>
-                    <li className={selectedIndex == 8 ?'active' : ''} onClick={() => handleScroll(8)}>Number of bedrooms / Rent Count</li>
-                    <li className={selectedIndex == 9 ?'active' : ''} onClick={() => handleScroll(9)}>Rental Value Distribution</li>
-                    <li className={selectedIndex == 10 ?'active' : ''} onClick={() => handleScroll(10)}>Old contract count</li>
-                    <li className={selectedIndex == 11 ?'active' : ''} onClick={() => handleScroll(11)}>Furnished apartments count</li>
+                    <li className={selectedIndex == 0 ?'active-stat' : ''} onClick={() => handleScroll(0)}>Building Age vs Rental Value</li>
+                    <li className={selectedIndex == 1 ?'active-stat' : ''} onClick={() => handleScroll(1)}>Building Age vs Contract Type</li>
+                    <li className={selectedIndex == 2 ?'active-stat' : ''} onClick={() => handleScroll(2)}>Number of Bedrooms vs Rental Value</li>
+                    <li className={selectedIndex == 3 ?'active-stat' : ''} onClick={() => handleScroll(3)}>Number of Bathrooms vs Rental Value</li>
+                    <li className={selectedIndex == 4 ?'active-stat' : ''} onClick={() => handleScroll(4)}>Building Status vs Rental Value</li>
+                    <li className={selectedIndex == 5 ?'active-stat' : ''} onClick={() => handleScroll(5)}>Building Condition vs Rental Value</li>
+                    <li className={selectedIndex == 6 ?'active-stat' : ''} onClick={() => handleScroll(6)}>Rental Arrangements / Contract Type</li>
+                    <li className={selectedIndex == 7 ?'active-stat' : ''} onClick={() => handleScroll(7)}>Zone / Number of household members</li>
+                    <li className={selectedIndex == 8 ?'active-stat' : ''} onClick={() => handleScroll(8)}>Number of bedrooms / Rent Count</li>
+                    <li className={selectedIndex == 9 ?'active-stat' : ''} onClick={() => handleScroll(9)}>Rental Value Distribution</li>
+                    <li className={selectedIndex == 10 ?'active-stat' : ''} onClick={() => handleScroll(10)}>Old contract count</li>
+                    <li className={selectedIndex == 11 ?'active-stat' : ''} onClick={() => handleScroll(11)}>Furnished apartments count</li>
                 </ul>
             </div>
 

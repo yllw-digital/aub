@@ -1,4 +1,4 @@
-import styles from '../../../styles/PieChart.module.css'
+// import styles from '../../../styles/PieChart.module.css'
 
 export default function CircledNumber({value, text}) {
 
@@ -14,8 +14,8 @@ export default function CircledNumber({value, text}) {
             <div className='circledNumberContainer'>
                 <Circle />
             </div>
-            <div className='info'>
-                <p className='info'>{text}</p>
+            <div className='circle-info'>
+                <p >{text}</p>
             </div>
         </div>
     )
