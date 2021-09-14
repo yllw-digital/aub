@@ -14,3 +14,7 @@ export const getUserSubmissions = () => {
 export const getSubmission = (submissionId) => {
     return api.get(URL + `/api/user/submissions/${submissionId}`);
 }
+
+export const getSubmissionCount = () => {
+    return api.get(URL + `/api/submissions/count`);
+}

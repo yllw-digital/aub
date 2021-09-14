@@ -967,7 +967,7 @@
 
 .leftSide {
   width: 100%;
-  max-width: 1540px;
+  /* max-width: 1540px; */
   justify-content: flex-end;
   overflow-y: scroll;
  scroll-behavior: smooth;

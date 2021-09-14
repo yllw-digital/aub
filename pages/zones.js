@@ -94,29 +94,6 @@ export default function Zones({ zones, allFilters }) {
 
                 {expanded && <div className='zoneExpandableContainer'>
                     {zone?.questions?.map((section, index) => (<DataSection section={section} key={index.toString()}/>) )}
-
-                    {/* <div className={'expandableSection}>
-                        <div className={styles.headerSection}>
-                            <h2>QUALITY</h2>
-                            <div className={styles.optionsContainer}>
-                                <div className='option'>
-                                    <div className={`${styles.squareBox ${styles.blueBg}`}></div>
-                                    <p className={styles.blueText}>N</p>
-                                </div>
-                                <div className='option'>
-                                    <div className={`${styles.squareBox ${styles.greenBg}`}></div>
-                                    <p className={styles.greenText}>Y</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className={styles.expandableData}>
-                            <DataItem />
-                            <DataItem />
-                            <DataItem />
-                            <DataItem />
-                        </div>
-                    </div> */}
                 </div>}
             </div>
         )
@@ -133,12 +110,12 @@ export default function Zones({ zones, allFilters }) {
                         <p className='blueText'>N</p>
                     </div>
                     <div className='option'>
-                        <div className={`squareBox greenBg`}></div>
+                        <div className='squareBox greenBg'></div>
                         <p className='greenText'>Y</p>
                     </div>
                 </div>
             </div>
-            <div className={'expandableData'}>
+            <div className='expandableData'>
                 {section?.questions?.map((question, index) => <DataItem question={question} key={index.toString()}/> )}
             </div>
         </div>
@@ -151,7 +128,7 @@ export default function Zones({ zones, allFilters }) {
                 <div className={'dataBarContainer'}>
                     <p className={`dataNumbers blueText`}>{question?.answers?.No}%</p>
 
-                    <div className={styles.barContainer}>
+                    <div className={'barContainer'}>
                         <div className={`bar blueBg marginRight`} style={{ width: `${question?.answers?.No}%` }}></div>
                         <div className={`bar greenBg`} style={{ width:  `${question?.answers?.Yes}%` }}></div>
                     </div>
@@ -179,7 +156,7 @@ export default function Zones({ zones, allFilters }) {
                         {/* /** top container start */}
                         <div className={'topContainer'}>
                             <div className={'titleBox'}>
-                                <p><span>20</span> SURVEYS</p>
+                                <p><span>{tableData?.submissions?.length}</span> SURVEYS</p>
                             </div>
 
                             <Link href="">

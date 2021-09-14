@@ -5,13 +5,14 @@ import Link from 'next/link'
 import BarChart from './charts/BarChart/BarChart'
 import PieChart from './charts/PieChart/PieChart'
 import CircledNumber from './charts/CircledNumber/CircledNumber'
-import HorizontalChart from './charts/HorizontalChart/HorizontalChart'
+// import HorizontalChart from './charts/HorizontalChart/HorizontalChart'
 import { useContext } from 'react'
 import { PopupsContext } from '../context/PopupContext'
 import OwlCarousel from 'react-owl-carousel2';
 import { useAuth } from '../context/auth';
 import { useRouter } from 'next/router'
 import { Chart } from "react-google-charts";
+import { getSubmissionCount} from '../services/answers/answers';
 
 const colorsArray = ['rgb(52, 64, 147)', 'rgb(26, 133, 136)', 'rgb(254, 213, 49)']
 import {
@@ -40,9 +41,14 @@ export default function GraphSideMenu() {
     const [householdPerZone, setHouseholdPerZone] = useState([]);
     const [contractArrangements, setContractArrangements] = useState(null)
     const [furnishedCount, setFurnishedCount] = useState(null);
-
+    const [submissionCount, setSubmissionCount] = useState(0);
 
     useEffect(() => {
+        const fetchSubmissionCount = async () => {
+            const res = await getSubmissionCount();
+            setSubmissionCount(res?.data?.count)
+        }
+
         const buildingStatusRentalValue = async () => {
             const res = await getBuildingStatusRentalValue();
             setBuildingStatusRentalValue(res.data);
@@ -79,6 +85,7 @@ export default function GraphSideMenu() {
         numberOfBedroomsDistribution();
         furnishedCount();
         contractArrangements()
+        fetchSubmissionCount()
     }, [])
 
     const first = useRef(null);
@@ -119,7 +126,7 @@ export default function GraphSideMenu() {
                     <div>
                         <BarChart title="BUILDING STATUS IN RELATION TO PRICE" >
                             <Chart
-                                width={'300px'}
+                                width={'100%'}
                                 chartType="ColumnChart"
                                 loader={<div>Loading Chart</div>}
                                 data={buildingStatusRentalValue}
@@ -145,7 +152,7 @@ export default function GraphSideMenu() {
                     <div>
                         <BarChart title="BUILDING CONDITION IN RELATION TO PRICE" >
                             <Chart
-                                width={'300px'}
+                                width={'100%'}
                                 chartType="ColumnChart"
                                 loader={<div>Loading Chart</div>}
                                 data={buildingConditionRentalValue}
@@ -240,7 +247,7 @@ export default function GraphSideMenu() {
             <footer >
                 <div className={styles.footerContainer}>
                     <div className={styles.surveyCount}>
-                        <p className={styles.emphasised}> 2,342</p>
+                        <p className={styles.emphasised}>{submissionCount}</p>
                         <p>Submitted Surveys</p>
                     </div>
 

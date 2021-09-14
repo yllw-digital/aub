@@ -1,7 +1,7 @@
 
-import * as contactStyles from '../styles/Contact.module.css';
-import * as surveyStyles from '../styles/Survey.module.css';
-import styles from '../styles/Layout.module.css'
+// import * as contactStyles from '../styles/Contact.module.css';
+// import * as surveyStyles from '../styles/Survey.module.css';
+// import styles from '../styles/Layout.module.css'
 import { useForm } from "react-hook-form";
 
 
@@ -28,10 +28,10 @@ export default function Filters({filters, handleFormSubmit, closeFilters}) {
         let fields = []
         keys.map((key) => {
             fields.push(
-                <div className={surveyStyles.formItem} key={key.toString()}>
-                    <label className={`${contactStyles.label}`}>{filters[key].question}</label>
+                <div className='formItem' key={key.toString()}>
+                    <label className='label'>{filters[key].question}</label>
 
-                    <select className={contactStyles.formInput} {...register(filters[key].question_id.toString())}>
+                    <select className='formInput' {...register(filters[key].question_id.toString())}>
                         <option value="">Set filter</option>
                         {filters[key].config.options.map((option, index) => {
                             return <option value={option} selected={option == filters[key].selected_option} key={index.toString()}>{option}</option>
