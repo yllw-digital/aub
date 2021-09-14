@@ -43,7 +43,6 @@ const RegisterForm = () => {
                         {errors?.firstname?.type === 'required' && <p style={{ color: 'red', display:'inline', marginLeft: 5 }}>Firstname is required</p>}
                         {errors?.firstname?.message && <p style={{ color: 'red', display:'inline', marginLeft: 5 }}>{errors.firstname.message}</p>}
                         <input className='formInput' type="text"
-                            value="Joe"
                             {...register('firstname', { required: true })} />
                     </div>
 
@@ -52,14 +51,13 @@ const RegisterForm = () => {
                         {errors?.lastname?.type === 'required' && <p style={{ color: 'red', display:'inline', marginLeft: 5 }}>Lastname is required</p>}
                         {errors?.firstname?.message && <p style={{ color: 'red', display:'inline', marginLeft: 5 }}>{errors.firstname.message}</p>}
                         <input className='formInput' type="text"
-                            value="Abdel Sater"
+                           
                             {...register('lastname', { required: true })} />
                     </div>
 
                     <div className='formItem'>
                         <label className='label'>MOBILE NUMBER</label>
                         <input className='formInput' type="text"
-                            value="70123123"
                             {...register('mobile')} />
                     </div>
                 </div>
@@ -70,7 +68,6 @@ const RegisterForm = () => {
                         {errors?.email?.type === 'required' && <p style={{ color: 'red', display:'inline', marginLeft: 5 }}>Email is required</p>}
                         {errors?.email?.message && <p style={{ color: 'red', display:'inline', marginLeft: 5 }}>{errors.email.message}</p>}
                         <input className='formInput' type="email"
-                            value="joe@yllwdigital.com"
                             {...register('email', { required: true })} />
                     </div>
 
@@ -79,7 +76,6 @@ const RegisterForm = () => {
                         {errors?.password?.type === 'required' && <p style={{ color: 'red', display:'inline', marginLeft: 5 }}>Password is required</p>}
                         {errors?.password?.message && <p style={{ color: 'red', display:'inline', marginLeft: 5 }}>{errors.password.message}</p>}
                         <input className='formInput' type="password"
-                            value="password"
                             {...register('password', { required: true })} />
                     </div>
 
@@ -88,7 +84,6 @@ const RegisterForm = () => {
                         {errors?.password_confirmation?.type === 'required' && <p style={{ color: 'red', display:'inline', marginLeft: 5 }}>Please confirm password</p>}
                         {errors?.password_confirmation?.message && <p style={{ color: 'red', display:'inline', marginLeft: 5 }}>{errors.password_confirmation.message}</p>}
                         <input className='formInput' type="password"
-                            value="password"
                             {...register('password_confirmation', { required: true })} />
                     </div>
                 </div>
