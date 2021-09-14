@@ -45,19 +45,19 @@ export default function Filters({filters, handleFormSubmit, closeFilters}) {
     }
 
     return (
-        <div className={surveyStyles.filtersOverlay}>
-            <div className={surveyStyles.filtersContainer}>
+        <div className='filtersOverlay'>
+            <div className='filtersContainer'>
                 <h1>SELECT FILTERS</h1>
-                <img src="/close.png" className={styles.closeBtn}  onClick={closeFilters}/>
+                <img src="/close.png" className='closeBtn'  onClick={closeFilters}/>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className={surveyStyles.fieldsContainer}>
+                    <div className='fieldsContainer'>
                         {renderFields()}
                     </div>
-                    <div className={surveyStyles.thirdGrid} style={{ display: 'block' }}>
-                        <button type="submit" className={contactStyles.submitBtn}>SUBMIT</button>
+                    <div className='thirdGrid' style={{ display: 'block' }}>
+                        <button type="submit" className='submitBtn'>SUBMIT</button>
                         <button
                             type="button"
-                            className={`${contactStyles.submitBtn} ${contactStyles.buttonClear}`}
+                            className='submitBtn buttonClear'
                             style={{ marginLeft: '2rem' }}
                             onClick={() => reset()}
                         >RESET FILTERS</button>
