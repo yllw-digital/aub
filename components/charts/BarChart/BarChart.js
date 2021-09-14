@@ -5,8 +5,8 @@ export default function BarChart(props) {
    const { title , children} = props;
 
    return (
-      <div className={`${styles.barChart} separated`}>
-         <div className={styles.mainContentTitle}>
+      <div className='barChart separated'>
+         <div className='mainContentTitle'>
             <h2>{title}</h2>
          </div>
          {children}

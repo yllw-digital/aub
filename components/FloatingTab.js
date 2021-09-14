@@ -10,13 +10,13 @@ export default function FloatingTa({ children, title }) {
         setOpen(prev => !prev)
     }
     return (
-        <div className={styles.floatingTab}>
-            <div className={styles.tabTitle} onClick={handleToggle}>
+        <div className='floatingTab'>
+            <div className='tabTitle' onClick={handleToggle}>
                 <FontAwesomeIcon icon={faChevronDown} style={{ width: 20, marginRight: 15 }} />
                 <h2>{title}</h2>
             </div>
 
-            {open && <div className={styles.tabContent}>
+            {open && <div className='tabContent'>
                 {children}
             </div>}
         </div>
