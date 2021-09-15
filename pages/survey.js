@@ -9,6 +9,8 @@ import "../node_modules/react-datepicker/dist/react-datepicker.css";
 import { useForm } from "react-hook-form";
 import { useAuth } from '../context/auth';
 import { answerQuestions } from '../services/answers/answers';
+import { useRouter } from 'next/router'
+
 
 export default function Survey() {
     const [sections, setSections] = useState([]);
@@ -16,7 +18,12 @@ export default function Survey() {
     const { register, handleSubmit, setValue, formState: { errors } } = useForm();
     const { isAuthenticated } = useAuth()
     const [researcher, setResearcher] = useState(false);
-    const [zones, setZones] = useState([]);
+    // const [zones, setZones] = useState([]);
+
+    const router = useRouter();
+    const { zone, pid } = router.query
+    const [zoneInfo, setZoneInfo] = useState(null)
+    console.log(`zone: ${zone}, pid: ${pid}`)
 
     useEffect(() => {
         const fetchQuestions = async () => {
@@ -41,6 +48,12 @@ export default function Survey() {
         fetchZones();
     }, [isAuthenticated]);
 
+    useEffect(() => {
+        setZoneInfo({
+            zone_id: zone,
+            pid: pid
+        })
+    }, [zone,pid])
 
     const renderQuestions = (questions) => {
         let display = [];
@@ -153,9 +166,9 @@ export default function Survey() {
     }
 
     const onSubmit = async (data) => {
-        const arcgis_id = data['arcgis_id'];
-        delete data['arcgis_id'];
-        let res = await answerQuestions(prepareData(data), arcgis_id);
+        // const arcgis_id = data['arcgis_id'];
+        // delete data['arcgis_id'];
+        let res = await answerQuestions(prepareData(data), zoneInfo);
         console.log(res);
     }
 
@@ -186,7 +199,7 @@ export default function Survey() {
                 <form onSubmit={handleSubmit(onSubmit)}>
                     {/* <div className={surveyStyles.thirdGrid}> */}
                     {/* FIELDS START */}
-                    <div className='formItem'>
+                    {/* <div className='formItem'>
                         <label className='label requiredField'>Select your zone</label>
                         {errors['arcgis_id']?.type === 'required' && <p style={{ color: 'red', display: 'inline', marginLeft: 5 }}>Field is required</p>}
 
@@ -197,7 +210,7 @@ export default function Survey() {
                             <option value="">Specify Option</option>
                             {zones.map((zone, idx) => <option value={zone.arcgis_id}>{zone.name}</option>)}
                         </select>
-                    </div>
+                    </div> */}
 
                     {sections && renderQuestions(sections)}
 

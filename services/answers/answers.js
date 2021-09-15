@@ -2,8 +2,8 @@
 import { URL } from '../url'
 import api from '../config';
 
-export const answerQuestions = (answers, arcgis_id) => {
-    return api.post(URL + '/api/answer' ,{ answers, arcgis_id });
+export const answerQuestions = (answers, zoneInfo) => {
+    return api.post(URL + '/api/answer' ,{ answers, zone_id: zoneInfo.zone_id, pid: zoneInfo.pid });
 }            
 
 export const getUserSubmissions = () => {
