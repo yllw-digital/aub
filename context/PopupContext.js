@@ -7,7 +7,8 @@ export const PopupsContextProvider = ({ children }) => {
         login: false,
         register: false,
         welcome: false,
-        submitSurvey: false
+        submitSurvey: false,
+        surveyMessage: false
     });
 
     const handleShowPopup = (popup) => {

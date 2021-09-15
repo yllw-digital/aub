@@ -25,17 +25,25 @@ export default function Layout({ children, rightSideBar = null }) {
     const popupContext = useContext(PopupsContext)
     const { loginUser, isAuthenticated } = useAuth()
     const router = useRouter();
+    const { takesurvey } = router.query
 
-    useEffect(() => {   
+    console.log(takesurvey, 'take sruvey')
+    useEffect(() => {
         const checkPopupStatus = async () => {
             const hidePopups = await Cookies.get('hide-popups');
-            if(!hidePopups){
+            if (!hidePopups) {
                 popupContext.showPopup('welcome')
             }
         }
 
         checkPopupStatus()
     }, [])
+
+    useEffect(() => {
+        if (takesurvey) {
+            popupContext.showPopup('surveyMessage');
+        }
+    }, [takesurvey])
 
     const onLogin = async (data) => {
         try {
@@ -202,7 +210,7 @@ export default function Layout({ children, rightSideBar = null }) {
                 rightButtonText="I CONFIRM"
                 handleRightButtonPress={() => {
                     popupContext.closePopup()
-                    router.push('/survey')
+                    router.push({ pathname: '/', query: { takesurvey: true } })
                 }}
             >
                 <h2 className='popupTitle'>SUBMIT A SURVEY</h2>
@@ -213,6 +221,22 @@ export default function Layout({ children, rightSideBar = null }) {
                 <p>The estimated time to complete this survey is approximately 7 minutes. Please confirm that you have read and understood the consent form to proceed. </p>
                 <br />
                 <p>If you have any questions about this project, you may contact the Beirut Urban Lab on cityoftenants@aub.edu.lb </p>
+            </Popup>}
+
+            {popupContext.showPopups.surveyMessage && <Popup
+                popupStyle='submitSurvey'
+                rightButtonText="SELECT MY BUILDING"
+                handleRightButtonPress={() => {
+                    popupContext.closePopup()
+                }}
+            >
+                <h2 className='popupTitle'>SELECT YOUR BUILDING</h2>
+                <p>Dear Participant, <br />The first step for you to take the survey is to find your building and select it on the map by clicking on it.</p>
+                <br />
+                <p>Once your building is selected, a popup will show containing a button that says "Take Survey". Click that button to be redirected to the survey's page</p>
+                <br />
+
+                <p>If you have any questions, you may contact the Beirut Urban Lab on cityoftenants@aub.edu.lb </p>
             </Popup>}
 
             {popupContext.showPopups.register && <RegisterForm />}
