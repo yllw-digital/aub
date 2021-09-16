@@ -6,6 +6,8 @@ import { useForm } from "react-hook-form";
 
 
 export default function Filters({filters, handleFormSubmit, closeFilters}) {
+
+    console.log('rerenderd', filters)
     const { register, handleSubmit, reset } = useForm();
 
     const onSubmit = (data) => {

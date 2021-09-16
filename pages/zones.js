@@ -64,6 +64,8 @@ export default function Zones({ zones, allFilters }) {
             })
             setFilters(filtersCopy)
         }
+
+        
         fetchTableData(selectedFilters)
         updateFilters();
     }, [selectedFilters])
