@@ -84,7 +84,7 @@ export default function Survey() {
                 return <div className='formItem' key={index.toString()}>
                     <label className={`label ${config.researcher_validation == 'required' ? 'requiredField' : ''}`}>{question}</label>
                     {errors[questionId.toString()]?.type === 'required' && <p style={{ color: 'red', display: 'inline', marginLeft: 5 }}>Field is required</p>}
-                    <input className='formInput' type="text" value={Math.floor(Math.random() * 11) + 1} {...register(questionId.toString(), { required: config.researcher_validation == 'required' })} />
+                    <input className='formInput' type="text" value={question} {...register(questionId.toString(), { required: config.researcher_validation == 'required' })} />
                 </div>
 
             case "textarea":
@@ -92,7 +92,7 @@ export default function Survey() {
                     <label className={`label ${config.researcher_validation == 'required' ? 'requiredField' : ''}`}>{question}</label>
                     {errors[questionId.toString()]?.type === 'required' && <p style={{ color: 'red', display: 'inline', marginLeft: 5 }}>Field is required</p>}
 
-                    <textarea className='formTextarea' rows="10"  {...register(questionId.toString(), { required: config.researcher_validation == 'required' })} value="whatever answer"></textarea>
+                    <textarea className='formTextarea' rows="10"  {...register(questionId.toString(), { required: config.researcher_validation == 'required' })} value={question}></textarea>
                 </div>
 
             case "dropdown":

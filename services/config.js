@@ -14,7 +14,7 @@ const api = axios.create({
 api.interceptors.request.use( async function(config) {
     // Do something before request is sent
         const token = await Cookies.get('token')
-
+        console.log(token)
     if (token)
         config.headers.Authorization = `Bearer ${token}`
     return config;
