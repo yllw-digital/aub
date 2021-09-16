@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import Layout from '../components/Layout';
 // import styles from '../components/ZonesLayout.module.css';
 // import * as contactStyles from '../styles/Contact.module.css';
@@ -10,22 +10,28 @@ import { useForm } from "react-hook-form";
 import { useAuth } from '../context/auth';
 import { answerQuestions } from '../services/answers/answers';
 import { useRouter } from 'next/router'
-
+import { PopupsContext } from '../context/PopupContext';
 
 export default function Survey() {
     const [sections, setSections] = useState([]);
     const [dates, setDates] = useState({ 46: new Date, 47: new Date })
-    const { register, handleSubmit, setValue, formState: { errors } } = useForm();
+    const { register, handleSubmit, setValue, formState: { errors, isDirty, isValid, isSubmitted } , formState} = useForm();
     const { isAuthenticated } = useAuth()
     const [researcher, setResearcher] = useState(false);
     // const [zones, setZones] = useState([]);
-
     const router = useRouter();
     const { zone, pid } = router.query
     const [zoneInfo, setZoneInfo] = useState(null)
-    console.log(`zone: ${zone}, pid: ${pid}`)
+    const { showPopup, closePopup } = useContext(PopupsContext);
+
+    // console.log('isdirty', isDirty)
+    // useEffect(() => {
+    //     console.log('isValid', isValid)
+    //     console.log('isSubmitted',isSubmitted)
+    // }, [formState])
 
     useEffect(() => {
+
         const fetchQuestions = async () => {
             try {
                 const res = await getQuestions();
@@ -46,6 +52,13 @@ export default function Survey() {
 
         fetchQuestions();
         fetchZones();
+
+        if (!isAuthenticated) {
+            console.log('auth on timer', isAuthenticated)
+            showPopup('login')
+        }else {
+            closePopup()
+        }
     }, [isAuthenticated]);
 
     useEffect(() => {
@@ -53,7 +66,8 @@ export default function Survey() {
             zone_id: zone,
             pid: pid
         })
-    }, [zone,pid])
+    }, [zone, pid])
+
 
     const renderQuestions = (questions) => {
         let display = [];
@@ -168,8 +182,8 @@ export default function Survey() {
     const onSubmit = async (data) => {
         // const arcgis_id = data['arcgis_id'];
         // delete data['arcgis_id'];
-        let res = await answerQuestions(prepareData(data), zoneInfo);
-        console.log(res);
+        // let res = await answerQuestions(prepareData(data), zoneInfo);
+        // showPopup('submitSuccess')
     }
 
     const prepareData = (data) => {

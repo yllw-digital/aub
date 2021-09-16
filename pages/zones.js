@@ -65,7 +65,7 @@ export default function Zones({ zones, allFilters }) {
             setFilters(filtersCopy)
         }
 
-        
+
         fetchTableData(selectedFilters)
         updateFilters();
     }, [selectedFilters])
@@ -79,7 +79,8 @@ export default function Zones({ zones, allFilters }) {
 
         return (
             <div className={`zoneContainer separated`} onClick={() => setExpanded(!expanded)}>
-                <img src="/zone.png" />
+                {/* <img src={'http://aub-backend.tedmob.com' + zone?.image} /> */}
+                <div dangerouslySetInnerHTML={{ __html:  zone?.image}} className="svgContainer"></div>
                 <h3>{zone?.name}</h3>
 
                 <div className='zoneMetaContainer'>
@@ -94,118 +95,120 @@ export default function Zones({ zones, allFilters }) {
                     </div>
                 </div>
 
-                {expanded && <div className='zoneExpandableContainer'>
-                    {zone?.questions?.map((section, index) => (<DataSection section={section} key={index.toString()}/>) )}
-                </div>}
+                {
+            expanded && <div className='zoneExpandableContainer'>
+                {zone?.questions?.map((section, index) => (<DataSection section={section} key={index.toString()} />))}
             </div>
+        }
+            </div >
         )
-    }
+}
 
-    const DataSection = ({section}) => {
+const DataSection = ({ section }) => {
 
-        return <div className='expandableSection'>
-            <div className='headerSection'>
-                <h2>{section?.section}</h2>
-                <div className='optionsContainer'>
-                    <div className='option'>
-                        <div className='squareBox blueBg'></div>
-                        <p className='blueText'>N</p>
-                    </div>
-                    <div className='option'>
-                        <div className='squareBox greenBg'></div>
-                        <p className='greenText'>Y</p>
-                    </div>
+    return <div className='expandableSection'>
+        <div className='headerSection'>
+            <h2>{section?.section}</h2>
+            <div className='optionsContainer'>
+                <div className='option'>
+                    <div className='squareBox blueBg'></div>
+                    <p className='blueText'>N</p>
                 </div>
-            </div>
-            <div className='expandableData'>
-                {section?.questions?.map((question, index) => <DataItem question={question} key={index.toString()}/> )}
+                <div className='option'>
+                    <div className='squareBox greenBg'></div>
+                    <p className='greenText'>Y</p>
+                </div>
             </div>
         </div>
-    }
-    const DataItem = ({question}) => {
-        return (
-            <div className={'dataItem'}>
-                <p>{question?.question}</p>
+        <div className='expandableData'>
+            {section?.questions?.map((question, index) => <DataItem question={question} key={index.toString()} />)}
+        </div>
+    </div>
+}
+const DataItem = ({ question }) => {
+    return (
+        <div className={'dataItem'}>
+            <p>{question?.question}</p>
 
-                <div className={'dataBarContainer'}>
-                    <p className={`dataNumbers blueText`}>{question?.answers?.No}%</p>
+            <div className={'dataBarContainer'}>
+                <p className={`dataNumbers blueText`}>{question?.answers?.No}%</p>
 
-                    <div className={'barContainer'}>
-                        <div className={`bar blueBg marginRight`} style={{ width: `${question?.answers?.No}%` }}></div>
-                        <div className={`bar greenBg`} style={{ width:  `${question?.answers?.Yes}%` }}></div>
+                <div className={'barContainer'}>
+                    <div className={`bar blueBg marginRight`} style={{ width: `${question?.answers?.No}%` }}></div>
+                    <div className={`bar greenBg`} style={{ width: `${question?.answers?.Yes}%` }}></div>
+                </div>
+
+                <p className={`dataNumbers greenText`}>{question?.answers?.Yes}%</p>
+            </div>
+        </div>
+    )
+}
+
+const onSubmit = (data) => {
+    setShowFilters(false);
+    setSelectedFilters(data);
+}
+return (
+    <>
+        {showFilters && <Filters
+            closeFilters={() => setShowFilters(false)}
+            filters={filters}
+            handleFormSubmit={onSubmit} />}
+        <Layout>
+            <div className={'zonesLayoutContainer'}>
+                <div className={'leftSidebar'}>
+
+                    {/* /** top container start */}
+                    <div className={'topContainer'}>
+                        <div className={'titleBox'}>
+                            <p><span>{tableData?.submissions?.length}</span> SURVEYS</p>
+                        </div>
+
+                        <Link href="">
+                            <div className={'submit'} onClick={() => {
+                                popupContext.showPopup('submitSurvey')
+                            }}>
+                                <img src="/editpen.png" />
+                                SUBMIT A SURVEY
+                            </div>
+                        </Link>
                     </div>
+                    {/* /** top container end */}
 
-                    <p className={`dataNumbers greenText`}>{question?.answers?.Yes}%</p>
+                    {/* Zones list */}
+                    {zones?.map((zone, idx) => <Zone zone={zone} key={idx.toString()} />)}
+                </div>
+
+
+                <div className={'tableContainer'}>
+                    <div className={'filterButtonContainer'}>
+                        <button
+                            type="button"
+                            className={'submitBtn buttonClear'}
+                            style={{ marginLeft: '2rem' }}
+                            onClick={() => setShowFilters(true)}
+                        >FILTERS</button>
+                    </div>
+                    <table className={'table'}>
+                        <thead>
+                            <tr>
+                                <td>SURVEY</td>
+                                {tableData?.questions?.map((question, idx) => <td key={idx.toString()}>{question.question}</td>)}
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {tableData?.submissions?.map((submission, idx) => {
+                                return <tr key={idx.toString()}>
+                                    <td>{idx}</td>
+                                    {submission.map((answer, inx) => <td key={inx.toString()}>{answer}</td>)}
+                                </tr>
+                            })}
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        )
-    }
-
-    const onSubmit = (data) => {
-        setShowFilters(false);
-        setSelectedFilters(data);
-    }
-    return (
-        <>
-            {showFilters && <Filters
-                closeFilters={() => setShowFilters(false)}
-                filters={filters}
-                handleFormSubmit={onSubmit} />}
-            <Layout>
-                <div className={'zonesLayoutContainer'}>
-                    <div className={'leftSidebar'}>
-
-                        {/* /** top container start */}
-                        <div className={'topContainer'}>
-                            <div className={'titleBox'}>
-                                <p><span>{tableData?.submissions?.length}</span> SURVEYS</p>
-                            </div>
-
-                            <Link href="">
-                                <div className={'submit'} onClick={() => {
-                                    popupContext.showPopup('submitSurvey')
-                                }}>
-                                    <img src="/editpen.png" />
-                                    SUBMIT A SURVEY
-                                </div>
-                            </Link>
-                        </div>
-                        {/* /** top container end */}
-
-                        {/* Zones list */}
-                        {zones?.map((zone, idx) => <Zone zone={zone} key={idx.toString()} />)}
-                    </div>
-
-
-                    <div className={'tableContainer'}>
-                        <div className={'filterButtonContainer'}>
-                            <button
-                                type="button"
-                                className={'submitBtn buttonClear'}
-                                style={{ marginLeft: '2rem' }}
-                                onClick={() => setShowFilters(true)}
-                            >FILTERS</button>
-                        </div>
-                        <table className={'table'}>
-                            <thead>
-                                <tr>
-                                    <td>SURVEY</td>
-                                    {tableData?.questions?.map((question, idx) => <td key={idx.toString()}>{question.question}</td>)}
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                {tableData?.submissions?.map((submission, idx) => {
-                                    return <tr key={idx.toString()}>
-                                        <td>{idx}</td>
-                                        {submission.map((answer, inx) => <td key={inx.toString()}>{answer}</td>)}
-                                    </tr>
-                                })}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </Layout>
-        </>
-    )
+        </Layout>
+    </>
+)
 }

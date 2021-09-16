@@ -240,6 +240,40 @@ export default function Layout({ children, rightSideBar = null }) {
             </Popup>}
 
             {popupContext.showPopups.register && <RegisterForm />}
+
+
+            {popupContext.showPopups.submitSuccess && <Popup
+                popupStyle='submitSurvey'
+                rightButtonText="OKAY"
+                handleRightButtonPress={() => {
+                    popupContext.closePopup()
+                    router.push('/account')
+                }}
+            >
+                <h2 className='popupTitle'>SURVEY SUBMITTED!</h2>
+                <p>Thank you for your submission.</p>
+                <br />
+                <p>You can review your submission in your account section</p>
+                <br />
+
+                <p>If you have any questions, you may contact the Beirut Urban Lab on cityoftenants@aub.edu.lb </p>
+            </Popup>}
+
+            {popupContext.showPopups.submitError && <Popup
+                popupStyle='submitSurvey'
+                rightButtonText="CLOSE"
+                handleRightButtonPress={() => {
+                    popupContext.closePopup()
+                }}
+            >
+                <h2 className='popupTitle' style={{color:'red'}}>MISSING FIELDS</h2>
+                <p>Please make sure you fill all the required fields.</p>
+                <br />
+                <p>These fields are marked with a red asterisk, and if not filled will show an error in red. Please scroll up to make sure you filled all the required fields.</p>
+                <br />
+
+                <p>If you have any questions, you may contact the Beirut Urban Lab on cityoftenants@aub.edu.lb </p>
+            </Popup>}
         </div>
     )
 }

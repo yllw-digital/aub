@@ -1,3 +1,4 @@
+import { faSleigh } from "@fortawesome/free-solid-svg-icons";
 import { createContext, useState } from "react";
 
 export const PopupsContext = createContext();
@@ -8,7 +9,9 @@ export const PopupsContextProvider = ({ children }) => {
         register: false,
         welcome: false,
         submitSurvey: false,
-        surveyMessage: false
+        surveyMessage: false,
+        submitSuccess: false,
+        submitError: false
     });
 
     const handleShowPopup = (popup) => {
