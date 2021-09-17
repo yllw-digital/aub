@@ -15,7 +15,7 @@ import { PopupsContext } from '../context/PopupContext';
 export default function Survey() {
     const [sections, setSections] = useState([]);
     const [dates, setDates] = useState({ 46: new Date, 47: new Date })
-    const { register, handleSubmit, setValue, formState: { errors, isDirty, isValid, isSubmitted } , formState} = useForm();
+    const { register, handleSubmit, setValue, formState: { errors }} = useForm();
     const { isAuthenticated } = useAuth()
     const [researcher, setResearcher] = useState(false);
     // const [zones, setZones] = useState([]);
@@ -24,11 +24,7 @@ export default function Survey() {
     const [zoneInfo, setZoneInfo] = useState(null)
     const { showPopup, closePopup } = useContext(PopupsContext);
 
-    // console.log('isdirty', isDirty)
-    // useEffect(() => {
-    //     console.log('isValid', isValid)
-    //     console.log('isSubmitted',isSubmitted)
-    // }, [formState])
+
 
     useEffect(() => {
 
@@ -179,11 +175,15 @@ export default function Survey() {
         }).replace(/\s+/g, '');
     }
 
+    const onError = () => {
+        showPopup('submitError');
+    }
+
     const onSubmit = async (data) => {
         // const arcgis_id = data['arcgis_id'];
         // delete data['arcgis_id'];
-        // let res = await answerQuestions(prepareData(data), zoneInfo);
-        // showPopup('submitSuccess')
+        let res = await answerQuestions(prepareData(data), zoneInfo);
+        showPopup('submitSuccess')
     }
 
     const prepareData = (data) => {
@@ -210,7 +210,7 @@ export default function Survey() {
                     <input type="checkbox" onChange={(e) => setResearcher(e.target.checked)} />
                     <label className='label'>Take survey as a researcher (You will have to answer a few additional questions)</label>
                 </div>
-                <form onSubmit={handleSubmit(onSubmit)}>
+                <form onSubmit={handleSubmit(onSubmit, onError)}>
                     {/* <div className={surveyStyles.thirdGrid}> */}
                     {/* FIELDS START */}
                     {/* <div className='formItem'>
