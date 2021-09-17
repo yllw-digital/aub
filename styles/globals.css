@@ -1571,6 +1571,11 @@ footer .surveyCount .emphasised {
     font-family: 'DIN-Bold' !important;
 }
 
+.emphasis {
+    font-family: 'DIN-Bold' !important;
+    font-size: 2.8rem;
+}
+
 footer .buttonContainer {
     display: flex;
     flex-direction: column;
