@@ -148,11 +148,16 @@ export default function Zones({ zones, allFilters }) {
         setShowFilters(false);
         setSelectedFilters(data);
     }
+
+    const onReset = () => {
+        setSelectedFilters([]);
+    }
     return (
         <>
             {showFilters && <Filters
                 closeFilters={() => setShowFilters(false)}
                 filters={filters}
+                handleFormReset={onReset}
                 handleFormSubmit={onSubmit} />}
             <Layout>
                 <div className={'zonesLayoutContainer'}>

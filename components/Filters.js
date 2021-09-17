@@ -5,7 +5,7 @@
 import { useForm } from "react-hook-form";
 
 
-export default function Filters({filters, handleFormSubmit, closeFilters}) {
+export default function Filters({filters, handleFormSubmit, handleFormReset, closeFilters}) {
 
     console.log('rerenderd', filters)
     const { register, handleSubmit, reset } = useForm();
@@ -46,6 +46,11 @@ export default function Filters({filters, handleFormSubmit, closeFilters}) {
         return fields;
     }
 
+    const resetFilters = () => {
+        handleFormReset();
+        reset();
+    }
+
     return (
         <div className='filtersOverlay'>
             <div className='filtersContainer'>
@@ -61,7 +66,7 @@ export default function Filters({filters, handleFormSubmit, closeFilters}) {
                             type="button"
                             className='submitBtn buttonClear'
                             style={{ marginLeft: '2rem' }}
-                            onClick={() => reset()}
+                            onClick={resetFilters}
                         >RESET FILTERS</button>
                     </div>
                 </form>
