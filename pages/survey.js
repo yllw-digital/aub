@@ -15,7 +15,7 @@ import { PopupsContext } from '../context/PopupContext';
 export default function Survey() {
     const [sections, setSections] = useState([]);
     const [dates, setDates] = useState({ 46: new Date, 47: new Date })
-    const { register, handleSubmit, setValue, formState: { errors }} = useForm();
+    const { register, handleSubmit, setValue, formState: { errors } } = useForm();
     const { isAuthenticated } = useAuth()
     const [researcher, setResearcher] = useState(false);
     // const [zones, setZones] = useState([]);
@@ -52,7 +52,7 @@ export default function Survey() {
         if (!isAuthenticated) {
             console.log('auth on timer', isAuthenticated)
             showPopup('login')
-        }else {
+        } else {
             closePopup()
         }
     }, [isAuthenticated]);
@@ -94,7 +94,9 @@ export default function Survey() {
                 return <div className='formItem' key={index.toString()}>
                     <label className={`label ${config.researcher_validation == 'required' ? 'requiredField' : ''}`}>{question}</label>
                     {errors[questionId.toString()]?.type === 'required' && <p style={{ color: 'red', display: 'inline', marginLeft: 5 }}>Field is required</p>}
-                    <input className='formInput' type="text" value={question} {...register(questionId.toString(), { required: config.researcher_validation == 'required' })} />
+                    <input className='formInput' type="text"
+                        // value={question}
+                        {...register(questionId.toString(), { required: config.researcher_validation == 'required' })} />
                 </div>
 
             case "textarea":
@@ -102,7 +104,9 @@ export default function Survey() {
                     <label className={`label ${config.researcher_validation == 'required' ? 'requiredField' : ''}`}>{question}</label>
                     {errors[questionId.toString()]?.type === 'required' && <p style={{ color: 'red', display: 'inline', marginLeft: 5 }}>Field is required</p>}
 
-                    <textarea className='formTextarea' rows="10"  {...register(questionId.toString(), { required: config.researcher_validation == 'required' })} value={question}></textarea>
+                    <textarea className='formTextarea' rows="10"  {...register(questionId.toString(), { required: config.researcher_validation == 'required' })}
+                    //  value={question}
+                     ></textarea>
                 </div>
 
             case "dropdown":
@@ -119,7 +123,9 @@ export default function Survey() {
                     >
                         <option value="">Specify Option</option>
                         {config.options.map((option, index) => {
-                            return <option selected={index == rndInt} value={option}>{option}</option>
+                            return <option 
+                            // selected={index == rndInt}
+                             value={option}>{option}</option>
                         })}
                     </select>
                 </div>
@@ -130,7 +136,9 @@ export default function Survey() {
                     {errors[questionId.toString()]?.type === 'required' && <p style={{ color: 'red', display: 'inline', marginLeft: 5 }}>Field is required</p>}
 
                     {config.options.map((option, optionIndex) => {
-                        return <div className='checkboxContainer'><input type="checkbox" value={option} checked {...register(`${questionId}[]`, { required: config.researcher_validation == 'required' })} />{option}</div>
+                        return <div className='checkboxContainer'><input type="checkbox" value={option}
+                        //  checked 
+                         {...register(`${questionId}[]`, { required: config.researcher_validation == 'required' })} />{option}</div>
                     })}
                 </div>
 
