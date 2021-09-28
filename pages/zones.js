@@ -85,13 +85,13 @@ export default function Zones({ zones, allFilters }) {
 
                 <div className='zoneMetaContainer'>
                     <div className='zoneMeta'>
-                        <p>RENT AMOUNT</p>
-                        <p>{zone?.price}$</p>
+                        <p className="boldLabel">Rent amount</p>
+                        <p className="regularText">{zone?.price}$</p>
                     </div>
 
                     <div className='zoneMeta'>
-                        <p>APARTMENT SIZE</p>
-                        <p>{zone?.area}</p>
+                        <p className="boldLabel">Apartment size</p>
+                        <p className="regularText">{zone?.area}</p>
                     </div>
                 </div>
 

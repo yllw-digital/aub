@@ -81,8 +81,8 @@ export default function Layout({ children, rightSideBar = null }) {
                                     <a>
                                         <Image
                                             src="/logo.png"
-                                            height={100}
-                                            width={165}
+                                            height={90}
+                                            width={150}
                                         />
                                     </a>
                                 </Link>
@@ -92,17 +92,17 @@ export default function Layout({ children, rightSideBar = null }) {
                                 <ul>
                                     <li>
                                         <Link href={"/"}>
-                                            <a>THE MAP</a>
+                                            <a className={router.pathname == '/' ? 'active-menu-item' : ''}>THE MAP</a>
                                         </Link>
                                     </li>
                                     <li>
                                         <Link href={"/about"}>
-                                            <a>ABOUT</a>
+                                            <a className={router.pathname == '/about' ? 'active-menu-item' : ''}>ABOUT</a>
                                         </Link>
                                     </li>
                                     <li>
                                         <Link href={"/contact"}>
-                                            <a>CONTACT US</a>
+                                            <a className={router.pathname == '/contact' ? 'active-menu-item' : ''}>CONTACT US</a>
                                         </Link>
                                     </li>
                                 </ul>

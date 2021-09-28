@@ -33,7 +33,7 @@ export default function Stats() {
     const [contractArrangements, setContractArrangements] = useState(null)
     const [furnishedCount, setFurnishedCount] = useState(null);
     const [householdPerZone, setHouseholdPerZone] = useState([]);
-    const [elRefs, setElRefs ] = useState([])
+    const [elRefs, setElRefs] = useState([])
     const [selectedIndex, setSelectedIndex] = useState(0);
 
     useEffect(() => {
@@ -122,12 +122,12 @@ export default function Stats() {
 
         setElRefs(elRefs => (
             Array(12).fill().map((_, i) => elRefs[i] || createRef())
-          ));
+        ));
     }, [])
 
     const handleScroll = (index) => {
         setSelectedIndex(index);
-        elRefs[index].current.scrollIntoView()
+        elRefs[index].current.scrollIntoView({behavior: 'smooth'})
     }
 
     const ScrollList = () => {
@@ -138,18 +138,18 @@ export default function Stats() {
                 </div>
 
                 <ul className='graphList'>
-                    <li className={selectedIndex == 0 ?'active-stat' : ''} onClick={() => handleScroll(0)}>Building Age vs Rental Value</li>
-                    <li className={selectedIndex == 1 ?'active-stat' : ''} onClick={() => handleScroll(1)}>Building Age vs Contract Type</li>
-                    <li className={selectedIndex == 2 ?'active-stat' : ''} onClick={() => handleScroll(2)}>Number of Bedrooms vs Rental Value</li>
-                    <li className={selectedIndex == 3 ?'active-stat' : ''} onClick={() => handleScroll(3)}>Number of Bathrooms vs Rental Value</li>
-                    <li className={selectedIndex == 4 ?'active-stat' : ''} onClick={() => handleScroll(4)}>Building Status vs Rental Value</li>
-                    <li className={selectedIndex == 5 ?'active-stat' : ''} onClick={() => handleScroll(5)}>Building Condition vs Rental Value</li>
-                    <li className={selectedIndex == 6 ?'active-stat' : ''} onClick={() => handleScroll(6)}>Rental Arrangements / Contract Type</li>
-                    <li className={selectedIndex == 7 ?'active-stat' : ''} onClick={() => handleScroll(7)}>Zone / Number of household members</li>
-                    <li className={selectedIndex == 8 ?'active-stat' : ''} onClick={() => handleScroll(8)}>Number of bedrooms / Rent Count</li>
-                    <li className={selectedIndex == 9 ?'active-stat' : ''} onClick={() => handleScroll(9)}>Rental Value Distribution</li>
-                    <li className={selectedIndex == 10 ?'active-stat' : ''} onClick={() => handleScroll(10)}>Old contract count</li>
-                    <li className={selectedIndex == 11 ?'active-stat' : ''} onClick={() => handleScroll(11)}>Furnished apartments count</li>
+                    <li className={selectedIndex == 0 ? 'active-stat' : ''} onClick={() => handleScroll(0)}>Building Age vs Rental Value</li>
+                    <li className={selectedIndex == 1 ? 'active-stat' : ''} onClick={() => handleScroll(1)}>Building Age vs Contract Type</li>
+                    <li className={selectedIndex == 2 ? 'active-stat' : ''} onClick={() => handleScroll(2)}>Number of Bedrooms vs Rental Value</li>
+                    <li className={selectedIndex == 3 ? 'active-stat' : ''} onClick={() => handleScroll(3)}>Number of Bathrooms vs Rental Value</li>
+                    <li className={selectedIndex == 4 ? 'active-stat' : ''} onClick={() => handleScroll(4)}>Building Status vs Rental Value</li>
+                    <li className={selectedIndex == 5 ? 'active-stat' : ''} onClick={() => handleScroll(5)}>Building Condition vs Rental Value</li>
+                    <li className={selectedIndex == 6 ? 'active-stat' : ''} onClick={() => handleScroll(6)}>Rental Arrangements / Contract Type</li>
+                    <li className={selectedIndex == 7 ? 'active-stat' : ''} onClick={() => handleScroll(7)}>Zone / Number of household members</li>
+                    <li className={selectedIndex == 8 ? 'active-stat' : ''} onClick={() => handleScroll(8)}>Number of bedrooms / Rent Count</li>
+                    <li className={selectedIndex == 9 ? 'active-stat' : ''} onClick={() => handleScroll(9)}>Rental Value Distribution</li>
+                    <li className={selectedIndex == 10 ? 'active-stat' : ''} onClick={() => handleScroll(10)}>Old contract count</li>
+                    <li className={selectedIndex == 11 ? 'active-stat' : ''} onClick={() => handleScroll(11)}>Furnished apartments count</li>
                 </ul>
             </div>
 
@@ -157,208 +157,210 @@ export default function Stats() {
     }
 
     return <Layout rightSideBar={<ScrollList />}>
-        <div ref={elRefs[0]} style={{ margin: 80 }}>
-            <Chart
-                width={'100%'}
-                height={'500px'}
-                chartType="ColumnChart"
-                loader={<div>Loading Chart</div>}
-                data={buildingAgeRentalValue}
-                options={{
-                    colors: colorsArray,
-                    title: 'Building Age vs Rental Value',
-                    hAxis: { title: 'Building Age', minValue: 0 },
-                    vAxis: { title: 'Rental Value', minValue: 0 },
-                    legend: 'none',
-                }}
-            />
-        </div>
-        <div ref={elRefs[1]} style={{ margin: 80 }}>
-            <Chart
-                width={'100%'}
-                height={'500px'}
-                chartType="ComboChart"
-                loader={<div>Loading Chart</div>}
-                data={buildingAgeContractType}
-                options={{
-                    colors: colorsArray,
-                    title: 'Building Age vs Contract Type',
-                    vAxis: { title: 'Number of Contracts' },
-                    hAxis: { title: 'Age of Building' },
-                    seriesType: 'bars',
-                    series: { 5: { type: 'line' } },
-                }}
-                rootProps={{ 'data-testid': '1' }}
-            />
-        </div>
+        <div className="pageContainer">
+            <div ref={elRefs[0]} style={{ marginBottom: 80 }}>
+                <Chart
+                    width={'100%'}
+                    height={'500px'}
+                    chartType="ColumnChart"
+                    loader={<div>Loading Chart</div>}
+                    data={buildingAgeRentalValue}
+                    options={{
+                        colors: colorsArray,
+                        title: 'Building Age vs Rental Value',
+                        hAxis: { title: 'Building Age', minValue: 0 },
+                        vAxis: { title: 'Rental Value', minValue: 0 },
+                        legend: 'none',
+                    }}
+                />
+            </div>
+            <div ref={elRefs[1]} style={{ margin: 80 }}>
+                <Chart
+                    width={'100%'}
+                    height={'500px'}
+                    chartType="ComboChart"
+                    loader={<div>Loading Chart</div>}
+                    data={buildingAgeContractType}
+                    options={{
+                        colors: colorsArray,
+                        title: 'Building Age vs Contract Type',
+                        vAxis: { title: 'Number of Contracts' },
+                        hAxis: { title: 'Age of Building' },
+                        seriesType: 'bars',
+                        series: { 5: { type: 'line' } },
+                    }}
+                    rootProps={{ 'data-testid': '1' }}
+                />
+            </div>
 
-        <div ref={elRefs[2]} style={{ margin: 80 }}>
-            <Chart
-                width={'100%'}
-                height={'500px'}
-                chartType="ColumnChart"
-                loader={<div>Loading Chart</div>}
-                data={numberBedroomsRentalValue}
-                options={{
-                    colors: colorsArray,
-                    bar: { groupWidth: '15%' },
-                    title: 'Number of Bedrooms vs Rental Value',
-                    hAxis: {
-                        title: 'Number of Bedrooms',
-                        minValue: 0,
-                    },
-                    vAxis: {
-                        title: 'Rental Value',
-                        minValue: 0,
-                    },
-                }}
-            />
-        </div>
+            <div ref={elRefs[2]} style={{ margin: 80 }}>
+                <Chart
+                    width={'100%'}
+                    height={'500px'}
+                    chartType="ColumnChart"
+                    loader={<div>Loading Chart</div>}
+                    data={numberBedroomsRentalValue}
+                    options={{
+                        colors: colorsArray,
+                        bar: { groupWidth: '15%' },
+                        title: 'Number of Bedrooms vs Rental Value',
+                        hAxis: {
+                            title: 'Number of Bedrooms',
+                            minValue: 0,
+                        },
+                        vAxis: {
+                            title: 'Rental Value',
+                            minValue: 0,
+                        },
+                    }}
+                />
+            </div>
 
-        <div ref={elRefs[3]} style={{ margin: 80 }}>
-            <Chart
-                width={'100%'}
-                height={'500px'}
-                chartType="ColumnChart"
-                loader={<div>Loading Chart</div>}
-                data={numberOfBathroomsRentalValue}
-                options={{
-                    colors: colorsArray,
-                    bar: { groupWidth: '15%' },
-                    title: 'Number of Bathrooms vs Rental Value',
-                    hAxis: {
-                        title: 'Number of Bathrooms',
-                        minValue: 0,
-                    },
-                    vAxis: {
-                        title: 'Rental Value',
-                        minValue: 0,
-                    },
-                }}
-            />
-        </div>
+            <div ref={elRefs[3]} style={{ margin: 80 }}>
+                <Chart
+                    width={'100%'}
+                    height={'500px'}
+                    chartType="ColumnChart"
+                    loader={<div>Loading Chart</div>}
+                    data={numberOfBathroomsRentalValue}
+                    options={{
+                        colors: colorsArray,
+                        bar: { groupWidth: '15%' },
+                        title: 'Number of Bathrooms vs Rental Value',
+                        hAxis: {
+                            title: 'Number of Bathrooms',
+                            minValue: 0,
+                        },
+                        vAxis: {
+                            title: 'Rental Value',
+                            minValue: 0,
+                        },
+                    }}
+                />
+            </div>
 
-        <div ref={elRefs[4]} style={{ margin: 80 }}>
-            <Chart
-                width={'100%'}
-                height={'500px'}
-                chartType="ColumnChart"
-                loader={<div>Loading Chart</div>}
-                data={buildingStatusRentalValue}
-                options={{
-                    colors: colorsArray,
-                    bar: { groupWidth: '15%' },
-                    title: 'Building Status vs Rental Value',
-                    hAxis: {
-                        title: 'Building status',
-                        minValue: 0,
-                    },
-                    vAxis: {
-                        title: 'Rental Value',
-                        minValue: 0,
-                    },
-                }}
-            />
-        </div>
+            <div ref={elRefs[4]} style={{ margin: 80 }}>
+                <Chart
+                    width={'100%'}
+                    height={'500px'}
+                    chartType="ColumnChart"
+                    loader={<div>Loading Chart</div>}
+                    data={buildingStatusRentalValue}
+                    options={{
+                        colors: colorsArray,
+                        bar: { groupWidth: '15%' },
+                        title: 'Building Status vs Rental Value',
+                        hAxis: {
+                            title: 'Building status',
+                            minValue: 0,
+                        },
+                        vAxis: {
+                            title: 'Rental Value',
+                            minValue: 0,
+                        },
+                    }}
+                />
+            </div>
 
-        <div ref={elRefs[5]} style={{ margin: 80 }}>
-            <Chart
-                width={'100%'}
-                height={'500px'}
-                chartType="ColumnChart"
-                loader={<div>Loading Chart</div>}
-                data={buildingConditionRentalValue}
-                options={{
-                    colors: colorsArray,
-                    bar: { groupWidth: '15%' },
-                    title: 'Building Condition vs Rental Value',
-                    hAxis: {
-                        title: 'Building Condition',
-                        minValue: 0,
-                    },
-                    vAxis: {
-                        title: 'Rental Value',
-                        minValue: 0,
-                    },
-                }}
-            />
-        </div>
+            <div ref={elRefs[5]} style={{ margin: 80 }}>
+                <Chart
+                    width={'100%'}
+                    height={'500px'}
+                    chartType="ColumnChart"
+                    loader={<div>Loading Chart</div>}
+                    data={buildingConditionRentalValue}
+                    options={{
+                        colors: colorsArray,
+                        bar: { groupWidth: '15%' },
+                        title: 'Building Condition vs Rental Value',
+                        hAxis: {
+                            title: 'Building Condition',
+                            minValue: 0,
+                        },
+                        vAxis: {
+                            title: 'Rental Value',
+                            minValue: 0,
+                        },
+                    }}
+                />
+            </div>
 
-        <div ref={elRefs[6]} style={{ margin: 80 }}>
-            <Chart
-                width={'100%'}
-                height={'500px'}
-                chartType="PieChart"
-                loader={<div>Loading Chart</div>}
-                data={rentalArrangementsContractType}
-                options={{
-                    colors: colorsArray,
-                    title: 'Rental Arrangements / Contract Type',
-                }}
-                rootProps={{ 'data-testid': '1' }}
-            />
-        </div>
+            <div ref={elRefs[6]} style={{ margin: 80 }}>
+                <Chart
+                    width={'100%'}
+                    height={'500px'}
+                    chartType="PieChart"
+                    loader={<div>Loading Chart</div>}
+                    data={rentalArrangementsContractType}
+                    options={{
+                        colors: colorsArray,
+                        title: 'Rental Arrangements / Contract Type',
+                    }}
+                    rootProps={{ 'data-testid': '1' }}
+                />
+            </div>
 
-        <div ref={elRefs[7]} style={{ margin: 80 }}>
-            <Chart
-                width={'100%'}
-                height={'500px'}
-                chartType="PieChart"
-                loader={<div>Loading Chart</div>}
-                data={householdPerZone}
-                options={{
-                    colors: colorsArray,
-                    title: 'Zone / Number of household members',
-                }}
-                rootProps={{ 'data-testid': '1' }}
-            />
-        </div>
+            <div ref={elRefs[7]} style={{ margin: 80 }}>
+                <Chart
+                    width={'100%'}
+                    height={'500px'}
+                    chartType="PieChart"
+                    loader={<div>Loading Chart</div>}
+                    data={householdPerZone}
+                    options={{
+                        colors: colorsArray,
+                        title: 'Zone / Number of household members',
+                    }}
+                    rootProps={{ 'data-testid': '1' }}
+                />
+            </div>
 
-        <div ref={elRefs[8]} style={{ margin: 80 }}>
-            <Chart
-                width={'100%'}
-                height={'500px'}
-                chartType="PieChart"
-                loader={<div>Loading Chart</div>}
-                data={numberOfBedroomsDistribution}
-                options={{
-                    colors: colorsArray,
-                    title: 'Number Of Bedrooms / Rent counts',
-                }}
-                rootProps={{ 'data-testid': '1' }}
-            />
-        </div>
+            <div ref={elRefs[8]} style={{ margin: 80 }}>
+                <Chart
+                    width={'100%'}
+                    height={'500px'}
+                    chartType="PieChart"
+                    loader={<div>Loading Chart</div>}
+                    data={numberOfBedroomsDistribution}
+                    options={{
+                        colors: colorsArray,
+                        title: 'Number Of Bedrooms / Rent counts',
+                    }}
+                    rootProps={{ 'data-testid': '1' }}
+                />
+            </div>
 
-        <div ref={elRefs[9]} style={{ margin: 80 }}>
-            <Chart
-                width={'100%'}
-                height={'500px'}
-                chartType="ScatterChart"
-                loader={<div>Loading Chart</div>}
-                data={rentalValueDistribution}
-                options={{
-                    colors: colorsArray,
-                    title: 'Rental Value Distribution',
-                    hAxis: { title: 'Rental Value' },
-                    vAxis: { title: 'Person Count' },
-                    legend: 'none',
-                }}
-                rootProps={{ 'data-testid': '1' }}
-            />
-        </div>
+            <div ref={elRefs[9]} style={{ margin: 80 }}>
+                <Chart
+                    width={'100%'}
+                    height={'500px'}
+                    chartType="ScatterChart"
+                    loader={<div>Loading Chart</div>}
+                    data={rentalValueDistribution}
+                    options={{
+                        colors: colorsArray,
+                        title: 'Rental Value Distribution',
+                        hAxis: { title: 'Rental Value' },
+                        vAxis: { title: 'Person Count' },
+                        legend: 'none',
+                    }}
+                    rootProps={{ 'data-testid': '1' }}
+                />
+            </div>
 
-        <div ref={elRefs[10]} style={{ margin: 80 }}>
-            <CircledNumber
-                text={'Live under old rent contracts'}
-                value={contractArrangements?.toString() + '+'}
-            />
-        </div>
+            <div ref={elRefs[10]} style={{ margin: 80 }}>
+                <CircledNumber
+                    text={'Live under old rent contracts'}
+                    value={contractArrangements?.toString() + '+'}
+                />
+            </div>
 
-        <div ref={elRefs[11]} style={{ margin: 80 }}>
-            <CircledNumber
-                text={'Live in furnished apartments'}
-                value={furnishedCount?.toString() + '+'}
-            />
+            <div ref={elRefs[11]} style={{ margin: 80 }}>
+                <CircledNumber
+                    text={'Live in furnished apartments'}
+                    value={furnishedCount?.toString() + '+'}
+                />
+            </div>
         </div>
     </Layout>
 }
