@@ -146,9 +146,9 @@ export default function Layout({ children, rightSideBar = null }) {
                                 <GraphSideMenu />
                             </FloatingTab>
 
-                            <FloatingTab title="LEGEND">
+                            {/* <FloatingTab title="LEGEND">
                                 <GraphSideMenu />
-                            </FloatingTab>
+                            </FloatingTab> */}
 
                         </div>}
                         {children}
