@@ -23,8 +23,6 @@ export default function Map() {
         const fetchTableData = async (selectedFilters) => {
             const res = await getTable(selectedFilters);
             setTableData(res?.data);
-
-            tableData
         }
 
         const updateFilters = () => {
