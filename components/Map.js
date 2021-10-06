@@ -11,6 +11,7 @@ export default function Map() {
     const [selectedFilters, setSelectedFilters] = useState([])
     const [tableData, setTableData] = useState([]);
     const [filters, setFilters] = useState([])
+    const [showLegend, setShowLegend] = useState(false);
     const router = useRouter();
 
     useEffect(() => {
@@ -266,6 +267,8 @@ export default function Map() {
         setSelectedFilters([]);
     }
 
+    const toggleLegend = () => setShowLegend(!showLegend)
+
     return (
         <>
             {showFilters && <Filters
@@ -275,11 +278,11 @@ export default function Map() {
                 handleFormSubmit={onSubmit} />}
 
             <div className='map-legend'>
-                <h2>
+                <h2 onClick={toggleLegend}>
                     <i className="fa fa-caret-down"> </i>
                     Legend
                 </h2>
-                <div className='map-content'>
+               { showLegend && <div className='map-content'>
                     <p>Please find below the legend of the symbols available on the map.</p>
 
                     <h3>Rent Amount (USD)</h3>
@@ -321,7 +324,7 @@ export default function Map() {
                             80 - 110
                         </div>
                     </div>
-                </div>
+                </div>}
             </div>
 
 
