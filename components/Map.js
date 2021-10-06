@@ -4,12 +4,14 @@ import { loadModules } from 'esri-loader';
 import { useEffect, useState } from 'react';
 import Filters from '../components/Filters';
 import { getFilters, getTable } from '../services/statistics/statistics'
+import { useRouter } from 'next/router'
 
 export default function Map() {
     const [showFilters, setShowFilters] = useState(false);
     const [selectedFilters, setSelectedFilters] = useState([])
     const [tableData, setTableData] = useState([]);
     const [filters, setFilters] = useState([])
+    const router = useRouter();
 
     useEffect(() => {
         const fetchFilters = async () => {
@@ -30,7 +32,7 @@ export default function Map() {
             const keys = Object.keys(filters);
             const filtersCopy = { ...filters }
             const filterIds = [];
-            
+
             if (selectedFilters.length) {
                 selectedFilters.map(filter => filterIds.push(parseInt(filter.question_id)))
             }
@@ -60,192 +62,199 @@ export default function Map() {
             "esri/Graphic",
             "esri/layers/GraphicsLayer"
         ])
-        .then(([esriConfig, WebMap, MapView, SketchViewModel, Expand, Graphic, GraphicsLayer]) => {
-            esriConfig.apiKey = apiKey;
-            console.log(tableData);
-            
-            const initialGraphics = getInitialGraphics();
-            const graphicsLayer = new GraphicsLayer({
-                graphics: initialGraphics,
-            });
-    
-            const webmap = new WebMap({
-                portalItem: {
-                    id: "15a376ea595a4c859c24b4e380591d67"
-                },
-            });
-        
-            const view = new MapView({
-                map        : webmap,
-                center     : [35.49980223628851, 33.89],
-                zoom       : 14,
-                container  : "map",
-                constraints: {
-                    snapToZoom: false
-                }
-            });
+            .then(([esriConfig, WebMap, MapView, SketchViewModel, Expand, Graphic, GraphicsLayer]) => {
+                esriConfig.apiKey = apiKey;
+                console.log(tableData);
 
-            view.on("click", function (event) { 
-                view.hitTest(event, {
-                    include: graphicsLayer
-                }).then((resp) => {
-                    if(resp.results.length) {
-                        console.log(resp.results[0].graphic.attributes)
+                const initialGraphics = getInitialGraphics();
+                const graphicsLayer = new GraphicsLayer({
+                    graphics: initialGraphics,
+                });
+
+                const webmap = new WebMap({
+                    portalItem: {
+                        id: "15a376ea595a4c859c24b4e380591d67"
+                    },
+                });
+
+                const view = new MapView({
+                    map: webmap,
+                    center: [35.49980223628851, 33.89],
+                    zoom: 14,
+                    container: "map",
+                    constraints: {
+                        snapToZoom: false
                     }
-                })
-            });
+                });
 
-            view.when(() => {
-                webmap.add(graphicsLayer, 100);
-            });
+                view.on("click", function (event) {
+                    view.hitTest(event, {
+                        include: graphicsLayer
+                    }).then((resp) => {
+                        if (resp.results.length) {
+                            // let params = [];
+                            // selectedFilters.map(filter => params.push(`answer_${filter.question_id}=${filter.answer}`));
 
-            function getInitialGraphics() {
-                let graphics = [];
-
-                for(const zone_id in tableData.zones_count) {
-                    graphics.push(
-                        new Graphic({
-                            attributes: {
-                                "id": zone_id,
-                                "count": tableData.zones_count[zone_id]
-                            },
-                            geometry: {
-                                type     : "point",
-                                latitude : 33.89,
-                                longitude: 35.49980223628851
-                            },
-                            symbol: {
-                                type: "cim",
-                                data: {
-                                    type: "CIMSymbolReference",
-                                    symbol: getPointSymbolData(tableData.zones_count[zone_id])
-                                }
+                            let query = {
+                                zone_id: resp.results[0].graphic.attributes.id,
+                                selectedMapFilters: encodeURIComponent(JSON.stringify(selectedFilters))
                             }
-                        })
-                    );
+                            location.href = `/zones?zone_id=${query.zone_id}&selectedMapFilters=${query.selectedMapFilters}`
+                        }
+                    })
+                });
+
+                view.when(() => {
+                    webmap.add(graphicsLayer, 100);
+                });
+
+                function getInitialGraphics() {
+                    let graphics = [];
+
+                    for (const zone_id in tableData.zones_count) {
+                        graphics.push(
+                            new Graphic({
+                                attributes: {
+                                    "id": zone_id,
+                                    "count": tableData.zones_count[zone_id]
+                                },
+                                geometry: {
+                                    type: "point",
+                                    latitude: 33.89,
+                                    longitude: 35.49980223628851
+                                },
+                                symbol: {
+                                    type: "cim",
+                                    data: {
+                                        type: "CIMSymbolReference",
+                                        symbol: getPointSymbolData(tableData.zones_count[zone_id])
+                                    }
+                                }
+                            })
+                        );
+                    }
+
+                    return graphics;
                 }
 
-                return graphics;
-            }
 
-
-            function getPointSymbolData(resultsCount) {
-                return {
-                type: "CIMPointSymbol",
-                symbolLayers: [
-                    {
-                    type: "CIMVectorMarker",
-                    enable: true,
-                    size: 28,
-                    colorLocked: true,
-                    anchorPointUnits: "Relative",
-                    frame: { xmin: -5, ymin: -5, xmax: 5, ymax: 5 },
-                    markerGraphics: [
-                        {
-                        type: "CIMMarkerGraphic",
-                        geometry: { x: 0, y: 0 },
-                        symbol: {
-                            type: "CIMTextSymbol",
-                            fontFamilyName: "Arial",
-                            fontStyleName: "Bold",
-                            height: 4,
-                            horizontalAlignment: "Center",
-                            offsetX: 0,
-                            offsetY: 5.5,
-                            symbol: {
-                            type: "CIMPolygonSymbol",
-                            symbolLayers: [
-                                {
-                                type: "CIMSolidFill",
-                                enable: true,
-                                color: [255, 255, 255, 255]
-                                }
-                            ]
-                            },
-                            verticalAlignment: "Center"
-                        },
-                        textString: "" + resultsCount
-                        }
-                    ],
-                    scaleSymbolsProportionally: true,
-                    respectFrame: true
-                    },
-                    {
-                    type: "CIMVectorMarker",
-                    enable: true,
-                    anchorPoint: { x: 0, y: -0.5 },
-                    anchorPointUnits: "Relative",
-                    size: 30.8,
-                    frame: { xmin: 0.0, ymin: 0.0, xmax: 17.0, ymax: 17.0 },
-                    markerGraphics: [
-                        {
-                        type: "CIMMarkerGraphic",
-                        geometry: {
-                            rings: [
-                            [
-                                [8.5, 0.2],
-                                [7.06, 0.33],
-                                [5.66, 0.7],
-                                [4.35, 1.31],
-                                [3.16, 2.14],
-                                [2.14, 3.16],
-                                [1.31, 4.35],
-                                [0.7, 5.66],
-                                [0.33, 7.06],
-                                [0.2, 8.5],
-                                [0.33, 9.94],
-                                [0.7, 11.34],
-                                [1.31, 12.65],
-                                [2.14, 13.84],
-                                [3.16, 14.86],
-                                [4.35, 15.69],
-                                [5.66, 16.3],
-                                [7.06, 16.67],
-                                [8.5, 16.8],
-                                [9.94, 16.67],
-                                [11.34, 16.3],
-                                [12.65, 15.69],
-                                [13.84, 14.86],
-                                [14.86, 13.84],
-                                [15.69, 12.65],
-                                [16.3, 11.34],
-                                [16.67, 9.94],
-                                [16.8, 8.5],
-                                [16.67, 7.06],
-                                [16.3, 5.66],
-                                [15.69, 4.35],
-                                [14.86, 3.16],
-                                [13.84, 2.14],
-                                [12.65, 1.31],
-                                [11.34, 0.7],
-                                [9.94, 0.33],
-                                [8.5, 0.2]
-                            ]
-                            ]
-                        },
-                        symbol: {
-                            type: "CIMPolygonSymbol",
-                            symbolLayers: [
+                function getPointSymbolData(resultsCount) {
+                    return {
+                        type: "CIMPointSymbol",
+                        symbolLayers: [
                             {
-                                type: "CIMSolidFill",
+                                type: "CIMVectorMarker",
                                 enable: true,
-                                color: [39, 129, 153, 255]
-                            }
-                            ]
-                        }
-                        }
-                    ],
-                    scaleSymbolsProportionally: true,
-                    respectFrame: true
-                    },
-                ]
-                };
-            }
-        })
-        .catch(err => {
-            // handle any errors
-            console.error(err);
-        });
+                                size: 28,
+                                colorLocked: true,
+                                anchorPointUnits: "Relative",
+                                frame: { xmin: -5, ymin: -5, xmax: 5, ymax: 5 },
+                                markerGraphics: [
+                                    {
+                                        type: "CIMMarkerGraphic",
+                                        geometry: { x: 0, y: 0 },
+                                        symbol: {
+                                            type: "CIMTextSymbol",
+                                            fontFamilyName: "Arial",
+                                            fontStyleName: "Bold",
+                                            height: 4,
+                                            horizontalAlignment: "Center",
+                                            offsetX: 0,
+                                            offsetY: 5.5,
+                                            symbol: {
+                                                type: "CIMPolygonSymbol",
+                                                symbolLayers: [
+                                                    {
+                                                        type: "CIMSolidFill",
+                                                        enable: true,
+                                                        color: [255, 255, 255, 255]
+                                                    }
+                                                ]
+                                            },
+                                            verticalAlignment: "Center"
+                                        },
+                                        textString: "" + resultsCount
+                                    }
+                                ],
+                                scaleSymbolsProportionally: true,
+                                respectFrame: true
+                            },
+                            {
+                                type: "CIMVectorMarker",
+                                enable: true,
+                                anchorPoint: { x: 0, y: -0.5 },
+                                anchorPointUnits: "Relative",
+                                size: 30.8,
+                                frame: { xmin: 0.0, ymin: 0.0, xmax: 17.0, ymax: 17.0 },
+                                markerGraphics: [
+                                    {
+                                        type: "CIMMarkerGraphic",
+                                        geometry: {
+                                            rings: [
+                                                [
+                                                    [8.5, 0.2],
+                                                    [7.06, 0.33],
+                                                    [5.66, 0.7],
+                                                    [4.35, 1.31],
+                                                    [3.16, 2.14],
+                                                    [2.14, 3.16],
+                                                    [1.31, 4.35],
+                                                    [0.7, 5.66],
+                                                    [0.33, 7.06],
+                                                    [0.2, 8.5],
+                                                    [0.33, 9.94],
+                                                    [0.7, 11.34],
+                                                    [1.31, 12.65],
+                                                    [2.14, 13.84],
+                                                    [3.16, 14.86],
+                                                    [4.35, 15.69],
+                                                    [5.66, 16.3],
+                                                    [7.06, 16.67],
+                                                    [8.5, 16.8],
+                                                    [9.94, 16.67],
+                                                    [11.34, 16.3],
+                                                    [12.65, 15.69],
+                                                    [13.84, 14.86],
+                                                    [14.86, 13.84],
+                                                    [15.69, 12.65],
+                                                    [16.3, 11.34],
+                                                    [16.67, 9.94],
+                                                    [16.8, 8.5],
+                                                    [16.67, 7.06],
+                                                    [16.3, 5.66],
+                                                    [15.69, 4.35],
+                                                    [14.86, 3.16],
+                                                    [13.84, 2.14],
+                                                    [12.65, 1.31],
+                                                    [11.34, 0.7],
+                                                    [9.94, 0.33],
+                                                    [8.5, 0.2]
+                                                ]
+                                            ]
+                                        },
+                                        symbol: {
+                                            type: "CIMPolygonSymbol",
+                                            symbolLayers: [
+                                                {
+                                                    type: "CIMSolidFill",
+                                                    enable: true,
+                                                    color: [39, 129, 153, 255]
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ],
+                                scaleSymbolsProportionally: true,
+                                respectFrame: true
+                            },
+                        ]
+                    };
+                }
+            })
+            .catch(err => {
+                // handle any errors
+                console.error(err);
+            });
     }, [tableData]);
 
     const onSubmit = (data) => {
@@ -264,6 +273,57 @@ export default function Map() {
                 filters={filters}
                 handleFormReset={onReset}
                 handleFormSubmit={onSubmit} />}
+
+            <div className='map-legend'>
+                <h2>
+                    <i className="fa fa-caret-down"> </i>
+                    Legend
+                </h2>
+                <div className='map-content'>
+                    <p>Please find below the legend of the symbols available on the map.</p>
+
+                    <h3>Rent Amount (USD)</h3>
+
+                    <div>
+                        <div className='map-total-rent'><span>> 3,000</span></div>
+                        <div className='map-bars'>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div><span>450 - 500</span></div>
+                        </div>
+                    </div>
+
+                    <h3 className='pb'>Apartment Size (SQM)</h3>
+
+                    <div className='apt-size'>
+                        <div className='apt-size-divs'>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+
+                        <div className='apt-size-label'>
+                            <span></span>
+                            450 - 500
+                        </div>
+                        <div className='apt-size-label-2'>
+                            <span></span>
+                            80 - 110
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
             <div className={'filterButtonContainer filterButtonContainer--homepage'}>
                 <button

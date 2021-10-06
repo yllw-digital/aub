@@ -57,10 +57,11 @@ export const getFurnishedCount = () => {
 
 /** STATISTICS TABLE */
 
-export const getTable = (filters) => {
+export const getTable = (filters, zoneId = null) => {
     let params = [];
     filters.map(filter => params.push(`answer_${filter.question_id}=${filter.answer}`));
-    return api.get(URL + `/api/table?${params.join('&')}`);
+
+    return api.get(URL + `/api/table?${params.join('&')}&zone_id=${zoneId}`);
 }
 
 export const getFilters = () => {

@@ -20,6 +20,8 @@ export async function getServerSideProps() {
     const filtersRes = await getFilters();
     const allFilters = filtersRes?.data;
 
+
+
     return {
         props: {
             zones,
@@ -30,6 +32,10 @@ export async function getServerSideProps() {
 
 export default function Zones({ zones, allFilters }) {
     const router = useRouter();
+    const { zone_id, selectedMapFilters } = router.query
+
+    console.log("ZoneId: ", zone_id, " selectedMapFilters: ", selectedMapFilters);
+
     const popupContext = useContext(PopupsContext)
     const [showFilters, setShowFilters] = useState(false);
     const [tableData, setTableData] = useState([]);
@@ -39,7 +45,14 @@ export default function Zones({ zones, allFilters }) {
 
     useEffect(() => {
         const fetchTableData = async (selectedFilters) => {
-            const res = await getTable(selectedFilters);
+            console.log(selectedMapFilters);
+            let params = [];
+            
+            if (selectedMapFilters && !selectedFilters.length) {
+                selectedFilters = JSON.parse(selectedMapFilters)
+            }
+
+            const res = await getTable(selectedFilters, zone_id || null);
             setTableData(res?.data);
         }
 
@@ -68,7 +81,7 @@ export default function Zones({ zones, allFilters }) {
 
         fetchTableData(selectedFilters)
         updateFilters();
-    }, [selectedFilters])
+    }, [selectedFilters, selectedMapFilters])
 
 
 

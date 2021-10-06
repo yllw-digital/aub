@@ -32,9 +32,8 @@ export const AuthProvider = ({ children }) => {
 
     const loginUser = async (email, password) => {
         const res = await login(email, password)
-        console.log(res)
+        
         if (res?.data?.token) {
-            
             return {status: authenticate(res)};
         } else if (res?.data?.status === 'pending_verification') {
             return {status: false, type: 'verification'}
