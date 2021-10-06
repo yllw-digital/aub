@@ -285,7 +285,7 @@ export default function Map() {
                     <h3>Rent Amount (USD)</h3>
 
                     <div>
-                        <div className='map-total-rent'><span>> 3,000</span></div>
+                        <div className='map-total-rent'><span>&gt; 3,000</span></div>
                         <div className='map-bars'>
                             <div></div>
                             <div></div>
