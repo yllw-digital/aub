@@ -4,6 +4,7 @@ export default function Header() {
   return (
     <Head>
       <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+      <link rel="stylesheet" href="https://js.arcgis.com/4.21/esri/themes/light/main.css" />
       <link
         href="/fonts/D-DIN-Bold.woff"
         rel="preload"

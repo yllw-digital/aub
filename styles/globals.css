@@ -667,6 +667,12 @@ html {
     margin-top: -7rem;
 }
 
+.filterButtonContainer--homepage {
+    position: absolute;
+    right: 400px;
+    z-index: 90;
+    top: 200px;
+}
 @media(max-width: 700px) {
     .accountPadding {
         padding: 5.8rem 2.8rem 3rem;
@@ -848,7 +854,7 @@ html {
     left: 0;
     right: 0;
     background-color: rgba(0, 0, 0, 0.6);
-    z-index: 2;
+    z-index: 91;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -859,7 +865,7 @@ html {
     background-color: white;
     position: relative;
     padding: 6rem 8rem;
-    max-height: 500px;
+    max-height: calc(100vh - 200px);
     overflow-y: scroll;
 }
 
