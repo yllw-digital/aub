@@ -1213,7 +1213,187 @@ html {
     column-gap: 1rem;
 }
 
+.map-legend {
+    position: absolute;
+    width: 300px;
+    z-index: 2;
+    background-color: rgba(255, 255, 255, .9); 
+    padding: 20px; 
+    border: 2px solid #344093;
+    margin-top: 90px;
+    margin-left: 15px;
+}
 
+.map-legend h2 {
+    color: #344093; 
+    font-weight: bold; 
+    font-size: 15px; 
+    padding-top: 0; 
+    margin-top: 0; 
+    margin-bottom: 0; 
+    cursor: pointer;
+}
+
+.map-legend h2 i {
+    display: inline-block; 
+    margin-right: 10px
+}
+
+.map-content {
+    padding: 5px 15px 40px 15px;
+}
+
+.map-content p {
+    font-size: 13px; 
+    color: #030404;
+}
+
+.map-content h3 {
+    color: #038487; 
+    font-weight: bold; 
+    font-size: 14px; 
+    margin-top: 25px;
+}
+
+.map-content h3.pb {
+    padding-bottom: 25px;
+}
+
+.map-total-rent {
+    width: 21px; 
+    height: 10px; 
+    background: rgba(52, 64, 147, 1); 
+    margin-bottom: 3px;
+}
+
+.map-total-rent span {
+    font-weight: 400; 
+    font-size: 11px; 
+    position: absolute; 
+    margin-top: -3px; 
+    margin-left: 30px;
+}
+
+.map-bars div {
+    width: 21px; 
+    height: 10px; 
+    background: rgba(52, 64, 147, .9); 
+    margin-bottom: 3px;
+}
+
+.map-bars div:nth-child(2) {
+    background: rgba(52, 64, 147, .8);
+}
+
+.map-bars div:nth-child(3) {
+    background: rgba(52, 64, 147, .7);
+}
+
+.map-bars div:nth-child(4) {
+    background: rgba(52, 64, 147, .6);
+}
+
+.map-bars div:nth-child(5) {
+    background: rgba(52, 64, 147, .5);
+}
+
+.map-bars div:nth-child(6) {
+    background: rgba(52, 64, 147, .4);
+}
+
+.map-bars div:nth-child(7) {
+    background: rgba(52, 64, 147, .3);
+}
+
+.map-bars div:nth-child(8) {
+    background: rgba(52, 64, 147, .2);
+}
+
+.map-bars div:nth-child(9) {
+    background: rgba(52, 64, 147, .1);
+}
+
+.map-bars div span {
+    font-weight: 400; 
+    font-size: 11px; 
+    position: absolute; 
+    margin-top: -3px; 
+    margin-left: 30px;
+}
+
+.apt-size {
+    position: relative; 
+    height: 78px; 
+    width: 78px;
+}
+
+.apt-size .apt-size-divs div {
+    border: 1px solid #FFF; 
+    position: absolute; 
+    left: 50%; 
+    bottom: 0;
+    transform: translate(-50%, 0); 
+    width: 100%; 
+    height: 100%; 
+    border-radius: 100%; 
+    background-color: #038487;
+}
+
+.apt-size .apt-size-divs div:nth-child(2) {
+    width: 85%;
+    height: 85%;
+}
+
+.apt-size .apt-size-divs div:nth-child(3) {
+    width: 70%;
+    height: 70%;
+}
+
+.apt-size .apt-size-divs div:nth-child(4) {
+    width: 55%;
+    height: 55%;
+}
+
+.apt-size .apt-size-divs div:nth-child(5) {
+    width: 40%;
+    height: 40%;
+}
+
+.apt-size .apt-size-divs div:nth-child(6) {
+    width: 25%;
+    height: 25%;
+}
+
+.apt-size .apt-size-divs div:nth-child(7) {
+    width: 10%;
+    height: 10%;
+}
+
+.apt-size-label {
+    position: absolute; 
+    width: 160px; 
+    font-size: 11px; 
+    font-weight: 400; 
+    top: -12px; 
+    left: 37px;
+}
+
+.apt-size-label span,
+.apt-size-label-2 span{
+    width: 70px; 
+    height: 1px; 
+    background: #000; 
+    display: inline-block;
+}
+
+.apt-size-label-2 {
+    position: absolute; 
+    width: 160px; 
+    font-size: 11px; 
+    font-weight: 400; 
+    bottom: 6px; 
+    left: 37px;
+}
 /* MOBILE VIEW */
 
 @media (max-width: 1200px) {
