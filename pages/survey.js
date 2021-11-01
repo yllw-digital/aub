@@ -15,16 +15,16 @@ import { PopupsContext } from '../context/PopupContext';
 export default function Survey() {
     const [sections, setSections] = useState([]);
     const [dates, setDates] = useState({ 46: new Date, 47: new Date })
-    const { register, handleSubmit, setValue, formState: { errors } } = useForm();
+    const { register, handleSubmit, setValue, getValues, formState: { errors }, watch } = useForm();
     const { isAuthenticated } = useAuth()
+    const [questionaire, setQuestionaire] = useState(null)
     const [researcher, setResearcher] = useState(false);
     // const [zones, setZones] = useState([]);
     const router = useRouter();
     const { zone, pid } = router.query
     const [zoneInfo, setZoneInfo] = useState(null)
     const { showPopup, closePopup } = useContext(PopupsContext);
-
-
+    const watchFields = watch(["34", "45"]);
 
     useEffect(() => {
 
@@ -64,6 +64,18 @@ export default function Survey() {
         })
     }, [zone, pid])
 
+    useEffect(() => {
+        console.log('rerendered')
+        renderQuestions(sections)
+    }, [sections])
+
+    useEffect(() => {
+        console.log('useEffect', watchFields)
+        // const subscription = watch((value, { name, type }) => console.log(value, name, type));
+
+        renderQuestions(sections)
+        // return () => subscription.unsubscribe();
+    }, [watchFields[0], watchFields[1]]);
 
     const renderQuestions = (questions) => {
         let display = [];
@@ -71,7 +83,9 @@ export default function Survey() {
         sections.map((section, sectionIdx) => {
             let sectionQuestions = [];
             section?.questions.map((question, questionIdx) => {
+                // console.log(question);
                 sectionQuestions.push(prepareField(question.config, question.question_id, questionIdx));
+
             })
             display.push(
                 <div key={sectionIdx.toString()} className={'sectionContainer'}>
@@ -80,20 +94,27 @@ export default function Survey() {
                 </div>);
         })
 
-        return display;
+        setQuestionaire(display)
+        // return display;
     }
 
     const prepareField = (config, questionId, index) => {
 
         const { question } = config
-
         if (config?.researcher_only && !researcher) { return null }
+      
+        if (config?.dependency == 34 && config?.dependency_value !== getValues('34')) {
+            return null;
+        }
+        
+        if (config?.dependency == 45 && config?.dependency_value !== getValues('45')) {
+            return null;
+        }
 
         switch (config.type) {
             case "textfield":
                 return <div className='formItem' key={index.toString()}>
-                    <label className={`label ${config.researcher_validation == 'required' ? 'requiredField' : ''}`}>{question}</label>
-                    {errors[questionId.toString()]?.type === 'required' && <p style={{ color: 'red', display: 'inline', marginLeft: 5 }}>Field is required</p>}
+                    {getLabel(config, question, questionId)}
                     <input className='formInput' type="text"
                         // value={question}
                         {...register(questionId.toString(), { required: config.researcher_validation == 'required' })} />
@@ -101,12 +122,11 @@ export default function Survey() {
 
             case "textarea":
                 return <div className='formItem' key={index.toString()}>
-                    <label className={`label ${config.researcher_validation == 'required' ? 'requiredField' : ''}`}>{question}</label>
-                    {errors[questionId.toString()]?.type === 'required' && <p style={{ color: 'red', display: 'inline', marginLeft: 5 }}>Field is required</p>}
+                    {getLabel(config, question, questionId)}
 
                     <textarea className='formTextarea' rows="10"  {...register(questionId.toString(), { required: config.researcher_validation == 'required' })}
                     //  value={question}
-                     ></textarea>
+                    ></textarea>
                 </div>
 
             case "dropdown":
@@ -114,8 +134,7 @@ export default function Survey() {
                 let rndInt = Math.floor(Math.random() * (size + 1))
 
                 return <div className='formItem' key={index.toString()}>
-                    <label className={`label ${config.researcher_validation == 'required' ? 'requiredField' : ''}`}>{question}</label>
-                    {errors[questionId.toString()]?.type === 'required' && <p style={{ color: 'red', display: 'inline', marginLeft: 5 }}>Field is required</p>}
+                    {getLabel(config, question, questionId)}
 
                     <select
                         className='formInput'
@@ -123,30 +142,28 @@ export default function Survey() {
                     >
                         <option value="">Specify Option</option>
                         {config.options.map((option, index) => {
-                            return <option 
-                            // selected={index == rndInt}
-                             value={option}>{option}</option>
+                            return <option
+                                // selected={index == rndInt}
+                                value={option}>{option}</option>
                         })}
                     </select>
                 </div>
 
             case "checkbox":
                 return <div className='formItem' key={index.toString()}>
-                    <label className={`label ${config.researcher_validation == 'required' ? 'requiredField' : ''}`}>{question}</label>
-                    {errors[questionId.toString()]?.type === 'required' && <p style={{ color: 'red', display: 'inline', marginLeft: 5 }}>Field is required</p>}
+                    {getLabel(config, question, questionId)}
 
                     {config.options.map((option, optionIndex) => {
                         return <div className='checkboxContainer'><input type="checkbox" value={option}
-                        //  checked 
-                         {...register(`${questionId}[]`, { required: config.researcher_validation == 'required' })} />{option}</div>
+                            //  checked 
+                            {...register(`${questionId}[]`, { required: config.researcher_validation == 'required' })} />{option}</div>
                     })}
                 </div>
 
 
             case "date":
                 return <div className='formItem' key={index.toString()}>
-                    <label className={`label ${config.researcher_validation == 'required' ? 'requiredField' : ''}`}>{question}</label>
-                    {errors[questionId.toString()]?.type === 'required' && <p style={{ color: 'red', display: 'inline', marginLeft: 5 }}>Field is required</p>}
+                    {getLabel(config, question, questionId)}
 
                     <DatePicker
                         selected={dates[questionId]}
@@ -161,6 +178,13 @@ export default function Survey() {
                 </div>
 
         }
+    }
+
+    const getLabel = (config, question, questionId) => {
+        return (<><label className={`label ${config.researcher_validation == 'required' ? 'requiredField' : ''}`}>{question}</label>
+            {config?.description && <p>{config.description}</p>}
+            {errors[questionId.toString()]?.type === 'required' && <p style={{ color: 'red', display: 'inline', marginLeft: 5 }}>Field is required</p>}</>
+        )
     }
 
     const formatDate = (d) => {
@@ -196,7 +220,6 @@ export default function Survey() {
 
     const prepareData = (data) => {
 
-        console.log(data);
         const keys = Object.keys(data);
         let answers = [];
 
@@ -234,7 +257,8 @@ export default function Survey() {
                         </select>
                     </div> */}
 
-                    {sections && renderQuestions(sections)}
+                    {/* {sections && renderQuestions(sections)} */}
+                    {questionaire}
 
                     {/* <div className='formItem'>
                             <label className={contactStyles.label}>EMAIL ADDRESS</label>

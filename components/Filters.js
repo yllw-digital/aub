@@ -61,7 +61,7 @@ export default function Filters({filters, handleFormSubmit, handleFormReset, clo
                         {renderFields()}
                     </div>
                     <div className='thirdGrid' style={{ display: 'block' }}>
-                        <button type="submit" className='submitBtn'>SUBMIT</button>
+                        <button type="submit" className='submitBtn'>FILTER</button>
                         <button
                             type="button"
                             className='submitBtn buttonClear'

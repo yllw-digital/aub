@@ -1055,7 +1055,7 @@ html {
 
 .menuBar::after {
     content: "";
-    height: 2px;
+    height: 1px;
     width: 100%;
     background-color: black;
     position: absolute;
@@ -1527,15 +1527,17 @@ html {
 
 .stats-header {
     padding: 3rem 4rem;
+    text-align: center;
 }
 
 .stats-header h1 {
+
     font-family: 'DIN-Bold';
     font-size: 2rem;
     position: relative;
 }
 
-.stats-header h1:before {
+/* .stats-header h1:before {
     content: "";
     height: 2rem;
     width: 5px;
@@ -1543,7 +1545,7 @@ html {
     position: absolute;
     left: -10px;
     bottom: 7px;
-}
+} */
 
 .graphList {
     border-top: 1px solid;

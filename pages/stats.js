@@ -1,7 +1,10 @@
+import router from "next/router";
 import { useState, useEffect, createRef } from "react";
 import { Chart } from "react-google-charts";
 import CircledNumber from '../components/charts/CircledNumber/CircledNumber';
 import Layout from '../components/Layout';
+import { useRouter } from 'next/router'
+
 // import styles from '../styles/ScrollList.module.css';
 
 import {
@@ -21,6 +24,7 @@ import {
 
 const colorsArray = ['rgb(52, 64, 147)', 'rgb(26, 133, 136)', 'rgb(254, 213, 49)']
 export default function Stats() {
+    const router = useRouter();
     const [buildingAgeRentalValue, setBuildingAgeRentalValue] = useState([])
     const [buildingAgeContractType, setBuildingAgeContractType] = useState([])
     const [numberBedroomsRentalValue, setNumberOfBedroomsRentalValue] = useState([])
@@ -127,7 +131,7 @@ export default function Stats() {
 
     const handleScroll = (index) => {
         setSelectedIndex(index);
-        elRefs[index].current.scrollIntoView({behavior: 'smooth'})
+        elRefs[index].current.scrollIntoView({ behavior: 'smooth' })
     }
 
     const ScrollList = () => {
@@ -135,6 +139,10 @@ export default function Stats() {
             <div className='stats-container'>
                 <div className='stats-header'>
                     <h1>Graphs List</h1>
+
+                    <div style={{ textAlign: 'center', paddingTop: 20 }}>
+                        <button className='submitBtn buttonClear' onClick={() => { router.push({pathname: '/'}) }}>Back to map</button>
+                    </div>
                 </div>
 
                 <ul className='graphList'>
@@ -151,6 +159,9 @@ export default function Stats() {
                     <li className={selectedIndex == 10 ? 'active-stat' : ''} onClick={() => handleScroll(10)}>Old contract count</li>
                     <li className={selectedIndex == 11 ? 'active-stat' : ''} onClick={() => handleScroll(11)}>Furnished apartments count</li>
                 </ul>
+
+
+
             </div>
 
         </>

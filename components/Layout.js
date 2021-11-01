@@ -160,8 +160,8 @@ export default function Layout({ children, rightSideBar = null }) {
                     {!rightSideBar && <GraphSideMenu />}
                 </div>
             </div >
-            <img src="/aub-logo.png" className='aubLogo hiddenOnMobile' />
-            <img src="/beirut-logo.png" className='beirutLogo hiddenOnMobile' />
+            <a href="https://www.aub.edu.lb.com" target="_blank" rel="noopener noreferrer" ><img src="/aub-logo.png" className='aubLogo hiddenOnMobile' /></a>
+            <a href="https://www.beiruturbanlab.com" target="_blank" rel="noopener noreferrer" ><img src="/beirut-logo.png" className='beirutLogo hiddenOnMobile' /></a>
 
             {/* </PopupsContext.Provider> */}
             {popupContext.showPopups.login && <Popup

@@ -12,7 +12,7 @@ export default function About() {
                 <div className='gridHalf'>
                     <div>
                         <p className='text'>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                        Have any questions? We’d love to hear from you!</p>
 
                         <form className='contactForm'>
                             <div className='formItem'>
@@ -26,16 +26,26 @@ export default function About() {
                             </div>
 
                             <div className='formItem'>
+                                <label className='label'>PHONE</label>
+                                <input className='formInput' type="text" />
+                            </div>
+
+                            <div className='formItem'>
+                                <label className='label'>ORGANIZATION</label>
+                                <input className='formInput' type="text" />
+                            </div>
+
+                            <div className='formItem'>
                                 <label className='label'>YOUR MESSAGE</label>
                                 <textarea className='formTextarea' placeholder="Tell us more"></textarea>
                             </div>
 
-                            <div className='formItem'>
+                            {/* <div className='formItem'>
                                 <label className='label'>REASON</label>
                                 <select className='formInput' >
                                     <option>Pick a reason</option>
                                 </select>
-                            </div>
+                            </div> */}
 
                             <button type="submit" className='submitBtn'>SUBMIT</button>
                         </form>

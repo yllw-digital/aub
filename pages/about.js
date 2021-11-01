@@ -36,10 +36,7 @@ export default function About() {
                         <p className='text'>
                         This is an ongoing project. The data is expanding and changing regularly. We do not provide any guarantees about the accuracy of the information provided on the site.
                         </p>
-                        <br/>
-                        <p className='text'>
-                        This is an ongoing project. The data is expanding and changing regularly. We do not provide any guarantees about the accuracy of the information provided on the site.
-                    </p>
+
             </div>
         </Layout>
 
