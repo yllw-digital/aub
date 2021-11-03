@@ -101,6 +101,11 @@ export default function Layout({ children, rightSideBar = null }) {
                                         </Link>
                                     </li>
                                     <li>
+                                    <Link href={"/stats"}>
+                                            <a className={router.pathname == '/stats' ? 'active-menu-item' : ''}>MORE STATS</a>
+                                        </Link>
+                                        </li>
+                                    <li>
                                         <Link href={"/contact"}>
                                             <a className={router.pathname == '/contact' ? 'active-menu-item' : ''}>CONTACT US</a>
                                         </Link>

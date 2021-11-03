@@ -252,8 +252,11 @@ export default function GraphSideMenu() {
                     </div>
 
                     <div className='buttonContainer'>
-                        <Link href={'/stats'} >
+                        {/* <Link href={'/stats'} >
                             MORE STATS
+                        </Link> */}
+                        <Link href={{ pathname: '/', query: { takesurvey: true } }}>
+                            LEAVE SURVEY
                         </Link>
                         <Link href={'/zones'} >
                             VIEW SURVEYS
