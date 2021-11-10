@@ -4,7 +4,8 @@ import { loadModules } from 'esri-loader';
 import { useEffect, useState } from 'react';
 import Filters from '../components/Filters';
 import { getFilters, getTable } from '../services/statistics/statistics'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
+import { getSubmissionCount } from '../services/answers/answers';
 
 export default function Map() {
     const [showFilters, setShowFilters] = useState(false);
@@ -12,6 +13,7 @@ export default function Map() {
     const [tableData, setTableData] = useState([]);
     const [filters, setFilters] = useState([])
     const [showLegend, setShowLegend] = useState(false);
+	const [submissionCount, setSubmissionCount] = useState(0);
     const router = useRouter();
 
     useEffect(() => {
@@ -20,6 +22,12 @@ export default function Map() {
             setFilters(filtersRes?.data);
         }
 
+		const fetchSubmissionCount = async () => {
+			const res = await getSubmissionCount();
+			setSubmissionCount(res?.data.count)
+		}
+
+		fetchSubmissionCount();
         fetchFilters();
     }, []);
 
@@ -61,9 +69,10 @@ export default function Map() {
             "esri/widgets/Sketch/SketchViewModel",
             "esri/widgets/Expand",
             "esri/Graphic",
-            "esri/layers/GraphicsLayer"
+            "esri/layers/GraphicsLayer",
+			"esri/widgets/Fullscreen"
         ])
-            .then(([esriConfig, WebMap, MapView, SketchViewModel, Expand, Graphic, GraphicsLayer]) => {
+            .then(([esriConfig, WebMap, MapView, SketchViewModel, Expand, Graphic, GraphicsLayer, Fullscreen]) => {
                 esriConfig.apiKey = apiKey;
                 console.log(tableData);
 
@@ -87,6 +96,12 @@ export default function Map() {
                         snapToZoom: false
                     }
                 });
+
+				const fullScreen = new Fullscreen({
+					view: view
+				});
+
+				view.ui.add(fullScreen, "bottom-right");
 
                 view.on("click", function (event) {
                     view.hitTest(event, {
@@ -283,9 +298,8 @@ export default function Map() {
                     Legend
                 </h2>
                { showLegend && <div className='map-content'>
-                    <p>Please find below the legend of the symbols available on the map.</p>
-
-                    <h3>Rent Amount (USD)</h3>
+				   <h3><span>{submissionCount}</span> total submissions.</h3>
+                    <h3 class='pb'>Average rent amount by neighborhood (USD)</h3>
 
                     <div>
                         <div className='map-total-rent'><span>&gt; 3,000</span></div>
@@ -302,7 +316,7 @@ export default function Map() {
                         </div>
                     </div>
 
-                    <h3 className='pb'>Apartment Size (SQM)</h3>
+                    <h3 className='pb'>Average apartment size by neighborhood (SQM)</h3>
 
                     <div className='apt-size'>
                         <div className='apt-size-divs'>
