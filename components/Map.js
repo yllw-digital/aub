@@ -68,12 +68,14 @@ export default function Map() {
             "esri/views/MapView",
             "esri/geometry/Point",
             "esri/widgets/Sketch/SketchViewModel",
+            "esri/symbols/SimpleMarkerSymbol",
             "esri/widgets/Expand",
             "esri/Graphic",
             "esri/layers/GraphicsLayer",
+            "esri/widgets/Locate",
 			"esri/widgets/Fullscreen"
         ])
-            .then(([esriConfig, WebMap, MapView, SketchViewModel, Expand, Graphic, Point, GraphicsLayer, Fullscreen]) => {
+            .then(([esriConfig, WebMap, MapView, SketchViewModel, Expand, Graphic, Locate, Point, SimpleMarkerSymbol, GraphicsLayer, Fullscreen]) => {
                 esriConfig.apiKey = apiKey;
                 console.log(tableData);
 
@@ -103,13 +105,22 @@ export default function Map() {
 				});
 
 				view.ui.add(fullScreen, "bottom-right");
-
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    let lat = position.coords.latitude;
-                    let long = position.coords.longitude;
-                    view.center = [long, lat];
-                    view.zoom = 18;
+                const locate = new Locate({
+                    view: view,
+                    useHeadingEnabled: false,
+                    goToOverride: function(view, options) {
+                      options.target.scale = 1500;
+                      return view.goTo(options.target);
+                    }
                 });
+                view.ui.add(locate, "bottom-left");
+
+                // navigator.geolocation.getCurrentPosition(function(position) {
+                //     let lat = position.coords.latitude;
+                //     let long = position.coords.longitude;
+                //     view.center = [long, lat];
+                //     view.zoom = 18;
+                // });
 
                 view.on("click", function (event) {
                     view.hitTest(event, {
