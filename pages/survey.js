@@ -17,6 +17,7 @@ export default function Survey() {
     const [dates, setDates] = useState({ 46: new Date, 47: new Date })
     const { register, handleSubmit, setValue, getValues, formState: { errors }, watch } = useForm();
     const { isAuthenticated, user } = useAuth()
+    console.log('user', user)
     const [questionaire, setQuestionaire] = useState(null)
     const [researcher, setResearcher] = useState(false);
     // const [zones, setZones] = useState([]);
@@ -27,7 +28,6 @@ export default function Survey() {
     const watchFields = watch(["34", "45"]);
 
     useEffect(() => {
-        console.log('user', user)
         const fetchQuestions = async () => {
             try {
                 const res = await getQuestions();
