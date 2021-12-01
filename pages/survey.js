@@ -16,7 +16,7 @@ export default function Survey() {
     const [sections, setSections] = useState([]);
     const [dates, setDates] = useState({ 46: new Date, 47: new Date })
     const { register, handleSubmit, setValue, getValues, formState: { errors }, watch } = useForm();
-    const { isAuthenticated } = useAuth()
+    const { isAuthenticated, user } = useAuth()
     const [questionaire, setQuestionaire] = useState(null)
     const [researcher, setResearcher] = useState(false);
     // const [zones, setZones] = useState([]);
@@ -116,6 +116,7 @@ export default function Survey() {
                 return <div className='formItem' key={index.toString()}>
                     {getLabel(config, question, questionId)}
                     <input className='formInput' type="text"
+                        value={ questionId == 1 ? user?.email : ""}
                         // value={question}
                         {...register(questionId.toString(), { required: config.researcher_validation == 'required' })} />
                 </div>
