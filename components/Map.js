@@ -66,16 +66,12 @@ export default function Map() {
             "esri/config",
             "esri/WebMap",
             "esri/views/MapView",
-            "esri/geometry/Point",
-            "esri/widgets/Sketch/SketchViewModel",
-            "esri/symbols/SimpleMarkerSymbol",
-            "esri/widgets/Expand",
             "esri/Graphic",
-            "esri/layers/GraphicsLayer",
             "esri/widgets/Locate",
+            "esri/layers/GraphicsLayer",
 			"esri/widgets/Fullscreen"
         ])
-            .then(([esriConfig, WebMap, MapView, SketchViewModel, Expand, Graphic, Locate, Point, SimpleMarkerSymbol, GraphicsLayer, Fullscreen]) => {
+            .then(([esriConfig, WebMap, MapView, Graphic, Locate, GraphicsLayer, Fullscreen]) => {
                 esriConfig.apiKey = apiKey;
                 console.log(tableData);
 
@@ -107,11 +103,6 @@ export default function Map() {
 				view.ui.add(fullScreen, "bottom-right");
                 const locate = new Locate({
                     view: view,
-                    useHeadingEnabled: false,
-                    goToOverride: function(view, options) {
-                      options.target.scale = 1500;
-                      return view.goTo(options.target);
-                    }
                 });
                 view.ui.add(locate, "bottom-left");
 
