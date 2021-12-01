@@ -27,7 +27,7 @@ export default function Survey() {
     const watchFields = watch(["34", "45"]);
 
     useEffect(() => {
-
+        console.log('user', user)
         const fetchQuestions = async () => {
             try {
                 const res = await getQuestions();
