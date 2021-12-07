@@ -116,9 +116,7 @@ export default function Survey() {
                 return <div className='formItem' key={index.toString()}>
                     {getLabel(config, question, questionId)}
                     <input className='formInput' type="text"
-                        value={ questionId == 1 ? user?.email : ""}
-                        // value={question}
-                        {...register(questionId.toString(), { required: config.researcher_validation == 'required' })} />
+                        {...register(questionId.toString(), { required: config.researcher_validation == 'required', value: questionId == 1 ? user?.email : '' })} />
                 </div>
 
             case "textarea":
