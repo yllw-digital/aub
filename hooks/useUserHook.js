@@ -8,13 +8,13 @@ import Cookies from 'js-cookie'
 const useUserHook = () => {
     const [user, setUser] = useState(null);
 
-
- 
-
     useEffect(() => {
         const retrieveUser = async () => {
             let userStr =  await Cookies.get('user');
-            setUser(JSON.parse(userStr));
+            console.log(userStr,'uzuz')
+            if(userStr){
+                setUser(JSON.parse(userStr));
+            }
         }
 
         retrieveUser()

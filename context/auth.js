@@ -42,6 +42,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     const saveUser = (user) => {
+        setUser(user)
         Cookies.set('user', JSON.stringify(user));
     }
 

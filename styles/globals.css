@@ -671,6 +671,11 @@ html {
 		flex-direction: column;
 		align-items: flex-start;
 	}
+
+	.gridHalf {
+		grid-template-columns: 1fr !important;
+		row-gap: 40px;
+	}
 }
 
 @media (max-width: 650px) {
@@ -1839,3 +1844,28 @@ footer .buttonContainer a {
 	font-size: 1.4rem;
 }
 
+.mobileNavigation {
+	/* background-color: red; */
+	width: 100%;
+	padding-bottom: 20px;
+	/* padding: 40px 0px; */
+	/* height: 200px; */
+}
+
+.mobileNavigation ul {
+	text-align: center;
+}
+
+.mobileNavigation li {
+	padding: 10px;
+	border-top: 1px solid;
+}
+
+.mobileNavigation li:last-child {
+	border-bottom: 1px solid;
+}
+
+.mobileNavigation li a {
+	font-family: "DIN-Bold";
+	font-size: 1.5rem;
+}

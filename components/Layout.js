@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import React, { useContext, useRef } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import Image from 'next/image'
 // import styles from '../styles/Layout.module.css'
 // import * as forms from '../styles/Contact.module.css'
@@ -21,13 +21,13 @@ import Cookies from 'js-cookie'
 export default function Layout({ children, rightSideBar = null }) {
     const { register, handleSubmit, formState: { errors }, setError } = useForm();
     const loginForm = useRef(null);
-
+    const [mobileMenuOpen, setMobileMenuOpen ] = useState(false); 
     const popupContext = useContext(PopupsContext)
     const { loginUser, isAuthenticated } = useAuth()
     const router = useRouter();
     const { takesurvey } = router.query
 
-
+    console.log(takesurvey, 'take sruvey')
     useEffect(() => {
         const checkPopupStatus = async () => {
             const hidePopups = await Cookies.get('hide-popups');
@@ -48,9 +48,9 @@ export default function Layout({ children, rightSideBar = null }) {
     const onLogin = async (data) => {
         try {
             const res = await loginUser(data['email'], data['password']);
-            // console.log(res, 'asdf');
+            console.log(res, 'asdf');
             if (res.status) {
-                // console.log('logged in user');
+                console.log('logged in user');
                 popupContext.closePopup();
                 // router:push('/account');
             } else if (!res.status && res.type === 'verification') {
@@ -101,10 +101,10 @@ export default function Layout({ children, rightSideBar = null }) {
                                         </Link>
                                     </li>
                                     <li>
-                                    <Link href={"/stats"}>
+                                        <Link href={"/stats"}>
                                             <a className={router.pathname == '/stats' ? 'active-menu-item' : ''}>MORE STATS</a>
                                         </Link>
-                                        </li>
+                                    </li>
                                     <li>
                                         <Link href={"/contact"}>
                                             <a className={router.pathname == '/contact' ? 'active-menu-item' : ''}>CONTACT US</a>
@@ -115,7 +115,7 @@ export default function Layout({ children, rightSideBar = null }) {
                         </div>
 
                         <div className='mobileMenu'>
-                            <FontAwesomeIcon icon={faBars} style={{ width: 20 }} />
+                            <FontAwesomeIcon icon={faBars} style={{ width: 20 }} onClick={() => setMobileMenuOpen(!mobileMenuOpen)}/>
                             <a href="/" style={{ textAlign: 'center' }}>
 
                                 <div className='mobileLogo'>
@@ -142,6 +142,31 @@ export default function Layout({ children, rightSideBar = null }) {
                             </div>
 
                         </div>
+                        {mobileMenuOpen && <div className="mobileNavigation">
+                            <ul>
+                                <li>
+                                    <Link href={"/"}>
+                                        <a className={router.pathname == '/' ? 'active-menu-item' : ''}>THE MAP</a>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link href={"/about"}>
+                                        <a className={router.pathname == '/about' ? 'active-menu-item' : ''}>ABOUT</a>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link href={"/stats"}>
+                                        <a className={router.pathname == '/stats' ? 'active-menu-item' : ''}>MORE STATS</a>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link href={"/contact"}>
+                                        <a className={router.pathname == '/contact' ? 'active-menu-item' : ''}>CONTACT US</a>
+                                    </Link>
+                                </li>
+                            </ul>
+                        </div>
+                        }
                     </header>
 
                     <div>
@@ -271,7 +296,7 @@ export default function Layout({ children, rightSideBar = null }) {
                     popupContext.closePopup()
                 }}
             >
-                <h2 className='popupTitle' style={{color:'red'}}>MISSING FIELDS</h2>
+                <h2 className='popupTitle' style={{ color: 'red' }}>MISSING FIELDS</h2>
                 <p>Please make sure you fill all the required fields.</p>
                 <br />
                 <p>These fields are marked with a red asterisk, and if not filled will show an error in red. Please scroll up to make sure you filled all the required fields.</p>

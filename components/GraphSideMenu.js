@@ -33,9 +33,12 @@ import {
 export default function GraphSideMenu() {
 
     const { showPopup } = useContext(PopupsContext)
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, user } = useAuth();
     const router = useRouter();
-    const user = useUserHook();
+    const hookUser = useUserHook();
+    console.log(user,'us side')
+    console.log('rerenderd side')
+
     const [buildingStatusRentalValue, setBuildingStatusRentalValue] = useState([])
     const [buildingConditionRentalValue, setBuildingConditionRentalValue] = useState([])
     const [numberOfBedroomsDistribution, setNumberOfBedroomsDistribution] = useState([])
@@ -142,7 +145,7 @@ export default function GraphSideMenu() {
 
             {isAuthenticated && <div className='sideHeader'>
                 <h1>WELCOME BACK</h1>
-                <h1 style={{ textTransform: 'uppercase' }}>{user?.firstname}</h1>
+                <h1 style={{ textTransform: 'uppercase' }}>{ typeof hookUseruser !== 'undefined' ? hookUser?.firstname : user?.firstname}</h1>
                 <button href={'/'} onClick={(e) => {
                     router.push('/account')
                 }} >
