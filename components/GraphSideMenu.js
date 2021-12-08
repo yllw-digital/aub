@@ -12,7 +12,7 @@ import OwlCarousel from 'react-owl-carousel2';
 import { useAuth } from '../context/auth';
 import { useRouter } from 'next/router'
 import { Chart } from "react-google-charts";
-import { getSubmissionCount} from '../services/answers/answers';
+import { getSubmissionCount } from '../services/answers/answers';
 
 const colorsArray = ['rgb(52, 64, 147)', 'rgb(26, 133, 136)', 'rgb(254, 213, 49)']
 import {
@@ -45,38 +45,67 @@ export default function GraphSideMenu() {
 
     useEffect(() => {
         const fetchSubmissionCount = async () => {
-            const res = await getSubmissionCount();
-            setSubmissionCount(res?.data?.count)
+            try {
+                const res = await getSubmissionCount();
+                setSubmissionCount(res?.data?.count)
+            } catch (e) {
+                console.log('fetchSubmissionCount', e)
+            }
         }
 
         const buildingStatusRentalValue = async () => {
-            const res = await getBuildingStatusRentalValue();
-            setBuildingStatusRentalValue(res.data);
+            try {
+                const res = await getBuildingStatusRentalValue();
+                setBuildingStatusRentalValue(res.data);
+            } catch (e) {
+                console.log('buildingStatusRentalValue', e)
+
+            }
         }
 
         const buildingConditionRentalValue = async () => {
-            const res = await getBuildingConditionRentalValue();
-            setBuildingConditionRentalValue(res.data);
+            try {
+                const res = await getBuildingConditionRentalValue();
+                setBuildingConditionRentalValue(res.data);
+            } catch (e) {
+                console.log('buildingConditionRentalValue', e)
+            }
         }
 
         const householdPerZone = async () => {
-            const res = await getHouseholdPerZone();
-            setHouseholdPerZone(res.data);
+            try {
+                const res = await getHouseholdPerZone();
+                setHouseholdPerZone(res.data);
+            } catch (e) {
+                console.log('householdPerZone', e)
+            }
         }
 
         const numberOfBedroomsDistribution = async () => {
-            const res = await getNumberOfBedroomsDistribution();
-            setNumberOfBedroomsDistribution(res.data);
+            try {
+                const res = await getNumberOfBedroomsDistribution();
+                setNumberOfBedroomsDistribution(res.data);
+            } catch (e) {
+                console.log('numberOfBedrromsDistribution', e)
+            }
         }
 
         const contractArrangements = async () => {
+            try {
             const res = await getContractArrangements();
             setContractArrangements(res.data);
+            } catch (e) {
+                console.log('contractsAgreements', e)
+            }
         }
 
         const furnishedCount = async () => {
+            try {
             const res = await getFurnishedCount();
             setFurnishedCount(res.data);
+            } catch (e) {
+                console.log('furnishedCount', e)
+            }
         }
 
         buildingConditionRentalValue();
