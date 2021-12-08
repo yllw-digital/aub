@@ -67,7 +67,7 @@ export default function Survey() {
     useEffect(() => {
         console.log('rerendered')
         renderQuestions(sections)
-    }, [sections, dates[47], dates[48]])
+    }, [sections, dates[47], dates[48], researcher])
 
     useEffect(() => {
         console.log('useEffect', watchFields)
@@ -86,10 +86,17 @@ export default function Survey() {
         let display = [];
 
         sections.map((section, sectionIdx) => {
+            const questionsForResearchers = section?.questions?.filter((question) => question.config.researcher_only === true)
+            
+            if((questionsForResearchers.length == section?.questions?.length) && !researcher) {
+                return;
+            }
+
             let sectionQuestions = [];
             section?.questions.map((question, questionIdx) => {
                 sectionQuestions.push(prepareField(question.config, question.question_id, questionIdx));
             })
+            console.log(section)
             display.push(
                 <div key={sectionIdx.toString()} className={'sectionContainer'}>
                     <h1>{section.name}</h1>
@@ -104,8 +111,8 @@ export default function Survey() {
     const prepareField = (config, questionId, index) => {
 
         const { question } = config
-        if (config?.researcher_only && !researcher) { return null }
 
+        if (config?.researcher_only && !researcher) { return null }
         if (config?.dependency == 34 && config?.dependency_value !== getValues('34')) {
             return null;
         }
