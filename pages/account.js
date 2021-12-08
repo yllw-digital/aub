@@ -9,9 +9,11 @@ import { getUserSubmissions } from '../services/answers/answers'
 import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie'
 import api from '../services/config';
+import useUserHook from '../hooks/useUserHook';
 
 export default function Account() {
-    const { logout, user } = useAuth()
+    const { logout } = useAuth()
+    const user = useUserHook()
     const router = useRouter();
     const [submissions, setUserSubmissions] = useState(null)
 

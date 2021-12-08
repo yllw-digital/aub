@@ -11,13 +11,15 @@ import { useAuth } from '../context/auth';
 import { answerQuestions } from '../services/answers/answers';
 import { useRouter } from 'next/router'
 import { PopupsContext } from '../context/PopupContext';
+import useUserHook from '../hooks/useUserHook';
 
 export default function Survey() {
-    console.log('rerendered survey page');
     const [sections, setSections] = useState([]);
     const [dates, setDates] = useState({47: null, 48:null})
+    const [counter, setCounter ] = useState(0)
     const { register, handleSubmit, setValue, getValues, formState: { errors }, watch } = useForm();
-    const { isAuthenticated, user } = useAuth()
+    const { isAuthenticated } = useAuth()
+    const user = useUserHook()
     const [questionaire, setQuestionaire] = useState(null)
     const [researcher, setResearcher] = useState(false);
     // const [zones, setZones] = useState([]);
@@ -50,7 +52,7 @@ export default function Survey() {
         fetchZones();
 
         if (!isAuthenticated) {
-            console.log('auth on timer', isAuthenticated)
+
             showPopup('login')
         } else {
             closePopup()
@@ -65,24 +67,24 @@ export default function Survey() {
     }, [zone, pid])
 
     useEffect(() => {
-        console.log('rerendered')
+        console.log('error', errors)
         renderQuestions(sections)
-    }, [sections, dates[47], dates[48], researcher])
+    }, [sections, dates[47], dates[48], researcher, watchFields[0], watchFields[1], counter])
+
+    // useEffect(() => {
+
+    //     // const subscription = watch((value, { name, type }) => console.log(value, name, type));
+
+    //     renderQuestions(sections)
+    //     // return () => subscription.unsubscribe();
+    // }, [watchFields[0], watchFields[1]]);
 
     useEffect(() => {
-        console.log('useEffect', watchFields)
-        // const subscription = watch((value, { name, type }) => console.log(value, name, type));
 
-        renderQuestions(sections)
-        // return () => subscription.unsubscribe();
-    }, [watchFields[0], watchFields[1]]);
-
-    useEffect(() => {
-        console.log('reset dates')
         setDates({ 47: new Date(), 48: new Date()})
     }, [])
 
-    const renderQuestions = (questions) => {
+    const renderQuestions = () => {
         let display = [];
 
         sections.map((section, sectionIdx) => {
@@ -96,7 +98,7 @@ export default function Survey() {
             section?.questions.map((question, questionIdx) => {
                 sectionQuestions.push(prepareField(question.config, question.question_id, questionIdx));
             })
-            console.log(section)
+
             display.push(
                 <div key={sectionIdx.toString()} className={'sectionContainer'}>
                     <h1>{section.name}</h1>
@@ -216,7 +218,11 @@ export default function Survey() {
     }
 
     const onError = () => {
+        setTimeout(() => {
+            setCounter(prev => prev + 1)
+        }, 1000)
         showPopup('submitError');
+
     }
 
     const onSubmit = async (data) => {

@@ -4,7 +4,6 @@ import Router, { useRouter } from 'next/router'
 
 import api from '../services/config';
 import { login, getUser } from '../services/auth/auth';
-import { faSlidersH } from '@fortawesome/free-solid-svg-icons';
 
 const AuthContext = createContext({});
 
@@ -42,11 +41,26 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
+    const saveUser = (user) => {
+        Cookies.set('user', JSON.stringify(user));
+    }
+
+    const forgetUser = () => {
+        Cookies.remove('user')
+    }
+
+    const retrieveUser = async () => {
+        let user =  await Cookies.get('user');
+
+        return JSON.parse(user);
+    }
+
     const authenticate = (res) => {
         const token = res.data.token;
         const user = res.data.user
         Cookies.set('token', token, { expires: 60 })
         Cookies.set('hide-popups', true);
+        saveUser(user);
 
         api.defaults.headers.Authorization = `Bearer ${token}`
         setIsAuthenticated(true);
@@ -58,13 +72,14 @@ export const AuthProvider = ({ children }) => {
 
     const logout = (email, password) => {
         Cookies.remove('token')
+        forgetUser()
         setIsAuthenticated(false)
         delete api.defaults.headers.Authorization
         return true
     }
 
     return (
-        <AuthContext.Provider value={{ user, isAuthenticated, loginUser, loading, logout, authenticate }}>
+        <AuthContext.Provider value={{ user, isAuthenticated, loginUser, loading, logout, authenticate, retrieveUser: () => retrieveUser() }}>
             {children}
         </AuthContext.Provider>
     )

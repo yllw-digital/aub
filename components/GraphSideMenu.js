@@ -13,6 +13,7 @@ import { useAuth } from '../context/auth';
 import { useRouter } from 'next/router'
 import { Chart } from "react-google-charts";
 import { getSubmissionCount } from '../services/answers/answers';
+import useUserHook from '../hooks/useUserHook'
 
 const colorsArray = ['rgb(52, 64, 147)', 'rgb(26, 133, 136)', 'rgb(254, 213, 49)']
 import {
@@ -32,9 +33,9 @@ import {
 export default function GraphSideMenu() {
 
     const { showPopup } = useContext(PopupsContext)
-    const { isAuthenticated, user } = useAuth();
+    const { isAuthenticated } = useAuth();
     const router = useRouter();
-
+    const user = useUserHook();
     const [buildingStatusRentalValue, setBuildingStatusRentalValue] = useState([])
     const [buildingConditionRentalValue, setBuildingConditionRentalValue] = useState([])
     const [numberOfBedroomsDistribution, setNumberOfBedroomsDistribution] = useState([])
