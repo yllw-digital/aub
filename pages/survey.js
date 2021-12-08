@@ -13,11 +13,11 @@ import { useRouter } from 'next/router'
 import { PopupsContext } from '../context/PopupContext';
 
 export default function Survey() {
+    console.log('rerendered survey page');
     const [sections, setSections] = useState([]);
-    const [dates, setDates] = useState({ 46: new Date, 47: new Date })
+    const [dates, setDates] = useState({47: null, 48:null})
     const { register, handleSubmit, setValue, getValues, formState: { errors }, watch } = useForm();
     const { isAuthenticated, user } = useAuth()
-    console.log('user', user)
     const [questionaire, setQuestionaire] = useState(null)
     const [researcher, setResearcher] = useState(false);
     // const [zones, setZones] = useState([]);
@@ -67,7 +67,7 @@ export default function Survey() {
     useEffect(() => {
         console.log('rerendered')
         renderQuestions(sections)
-    }, [sections])
+    }, [sections, dates[47], dates[48]])
 
     useEffect(() => {
         console.log('useEffect', watchFields)
@@ -77,15 +77,18 @@ export default function Survey() {
         // return () => subscription.unsubscribe();
     }, [watchFields[0], watchFields[1]]);
 
+    useEffect(() => {
+        console.log('reset dates')
+        setDates({ 47: new Date(), 48: new Date()})
+    }, [])
+
     const renderQuestions = (questions) => {
         let display = [];
 
         sections.map((section, sectionIdx) => {
             let sectionQuestions = [];
             section?.questions.map((question, questionIdx) => {
-                // console.log(question);
                 sectionQuestions.push(prepareField(question.config, question.question_id, questionIdx));
-
             })
             display.push(
                 <div key={sectionIdx.toString()} className={'sectionContainer'}>
@@ -102,11 +105,11 @@ export default function Survey() {
 
         const { question } = config
         if (config?.researcher_only && !researcher) { return null }
-      
+
         if (config?.dependency == 34 && config?.dependency_value !== getValues('34')) {
             return null;
         }
-        
+
         if (config?.dependency == 45 && config?.dependency_value !== getValues('45')) {
             return null;
         }
@@ -163,7 +166,6 @@ export default function Survey() {
             case "date":
                 return <div className='formItem' key={index.toString()}>
                     {getLabel(config, question, questionId)}
-
                     <DatePicker
                         selected={dates[questionId]}
                         className='formInput'
@@ -411,8 +413,8 @@ export default function Survey() {
                         <button type="submit" className={'submitBtn'}>SUBMIT</button>
                     </div>
                 </form>
-            </div>
-        </Layout>
+            </div >
+        </Layout >
     )
 
 }
