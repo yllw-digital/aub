@@ -20,6 +20,7 @@ export default function Survey() {
     const { register, handleSubmit, setValue, getValues, formState: { errors }, watch } = useForm();
     const { isAuthenticated } = useAuth()
     const user = useUserHook()
+    console.log('fkn1', user)
     const [questionaire, setQuestionaire] = useState(null)
     const [researcher, setResearcher] = useState(false);
     // const [zones, setZones] = useState([]);
@@ -86,7 +87,8 @@ export default function Survey() {
 
     const renderQuestions = () => {
         let display = [];
-
+        console.log('fkn user', user)
+        setValue('1', user?.email)
         sections.map((section, sectionIdx) => {
             const questionsForResearchers = section?.questions?.filter((question) => question.config.researcher_only === true)
             
@@ -128,7 +130,7 @@ export default function Survey() {
                 return <div className='formItem' key={index.toString()}>
                     {getLabel(config, question, questionId)}
                     <input className='formInput' type="text"
-                        {...register(questionId.toString(), { required: config.researcher_validation == 'required', value: questionId == 1 ? user?.email : '' })} />
+                        {...register(questionId.toString(), { required: config.researcher_validation == 'required'})} />
                 </div>
 
             case "textarea":
