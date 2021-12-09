@@ -1388,6 +1388,13 @@ html {
 /* MOBILE VIEW */
 
 @media (max-width: 1200px) {
+	.map-legend{
+		margin-top: 145px;
+	}
+
+	.filterButtonContainer--homepage button {
+		margin-left: 1rem !important;
+	}
 	.map {
 		height: calc(100vh - 217px);
 	}
