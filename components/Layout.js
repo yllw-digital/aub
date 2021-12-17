@@ -27,7 +27,6 @@ export default function Layout({ children, rightSideBar = null }) {
     const router = useRouter();
     const { takesurvey } = router.query
 
-    console.log(takesurvey, 'take sruvey')
     useEffect(() => {
         const checkPopupStatus = async () => {
             const hidePopups = await Cookies.get('hide-popups');
@@ -48,9 +47,9 @@ export default function Layout({ children, rightSideBar = null }) {
     const onLogin = async (data) => {
         try {
             const res = await loginUser(data['email'], data['password']);
-            console.log(res, 'asdf');
+
             if (res.status) {
-                console.log('logged in user');
+
                 popupContext.closePopup();
                 // router:push('/account');
             } else if (!res.status && res.type === 'verification') {

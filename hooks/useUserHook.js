@@ -11,7 +11,6 @@ const useUserHook = () => {
     useEffect(() => {
         const retrieveUser = async () => {
             let userStr =  await Cookies.get('user');
-            console.log(userStr,'uzuz')
             if(userStr){
                 setUser(JSON.parse(userStr));
             }

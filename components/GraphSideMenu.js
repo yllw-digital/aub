@@ -36,8 +36,6 @@ export default function GraphSideMenu() {
     const { isAuthenticated, user } = useAuth();
     const router = useRouter();
     const hookUser = useUserHook();
-    console.log(user,'us side')
-    console.log('rerenderd side')
 
     const [buildingStatusRentalValue, setBuildingStatusRentalValue] = useState([])
     const [buildingConditionRentalValue, setBuildingConditionRentalValue] = useState([])

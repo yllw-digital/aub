@@ -5,7 +5,7 @@ import Layout from '../components/Layout';
 import Link from 'next/link'
 import { useAuth } from '../context/auth';
 import { useRouter } from 'next/router'
-import { getUserSubmissions } from '../services/answers/answers'
+import { getUserSubmissions, getUserDrafts } from '../services/answers/answers'
 import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie'
 import api from '../services/config';
@@ -16,18 +16,54 @@ export default function Account() {
     const user = useUserHook()
     const router = useRouter();
     const [submissions, setUserSubmissions] = useState(null)
+    const [drafts, setDrafts] = useState(null);
 
     useEffect(() => {
-        const fetchUserSubmissions = async () => {
-            const token = await Cookies.get('token')
-            if (token) {
-                api.defaults.headers.Authorization = `Bearer ${token}`
-            }
-            const res = await getUserSubmissions();
-            setUserSubmissions(res?.data);
+        const fetchUserSubmissions = () => {
+            return new Promise(async (resolve, reject) => {
+                const token = await Cookies.get('token')
+                if (token) {
+                    api.defaults.headers.Authorization = `Bearer ${token}`
+                }
+                try {
+                    const res = await getUserSubmissions();
+                    resolve(res?.data);
+                    // setUserSubmissions(res?.data);
+                } catch (e) {
+                    console.log(e)
+                    reject(e)
+                }
+            })
         }
 
-        fetchUserSubmissions()
+        const fetchUserDrafts = () => {
+            return new Promise(async (resolve, reject) => {
+                const token = await Cookies.get('token')
+                if (token) {
+                    api.defaults.headers.Authorization = `Bearer ${token}`
+                }
+                try {
+                    const res = await getUserDrafts();
+                    resolve(res?.data);
+                    // setUserSubmissions(res?.data);
+                } catch (e) {
+                    console.log(e)
+                    reject(e)
+                }
+            })
+        }
+
+        Promise.all([
+            fetchUserSubmissions(),
+            fetchUserDrafts()
+        ]).then(data => {
+            console.log('draft', data[1])
+            setUserSubmissions(data[0])
+            setDrafts(data[1])
+        }).catch(err => {
+            console.log('promise error', err)
+        })
+        // fetchUserSubmissions()
     }, []);
 
 
@@ -57,10 +93,13 @@ export default function Account() {
                     </div>
                 </div>
 
-                <Link href={`/submission/${submission.id}`}>
+                {!submission?.is_draft && <Link href={`/submission/${submission.id}`}>
                     VIEW SURVEY
-                </Link>
+                </Link>}
 
+                {submission?.is_draft && <Link href={`/survey?zone=${submission.zone.arcgis_id}&pid=${submission.pid}&draftId=${submission.id}`}>
+                    VIEW DRAFT
+                </Link>}
             </div>
         </div>
 
@@ -69,7 +108,7 @@ export default function Account() {
         <Layout>
             <div className='accountSectionContainer'>
                 {user && <div style={{ borderBottom: '1px solid' }}>
-                    <div  className='accountPadding'>
+                    <div className='accountPadding'>
                         <h1 className='pageTitle' style={{ paddingLeft: 0 }}>MY ACCOUNT</h1>
                         <p className='profileName' >HELLO {user.firstname + ' ' + user.lastname}</p>
 
@@ -94,12 +133,25 @@ export default function Account() {
                     </div>
                 </div>}
 
+                {drafts && <div className='profileSurveysSection'>
+                    <div className='surveysTop'>
+                        <p className='profileName' >YOU HAVE {drafts ? drafts.length : 0} DRAFTS</p>
+                        <Link href={'/?takesurvey=true'} >
+                            NEW SURVEY
+                        </Link>
+                    </div>
+
+                    <div className='surveysContainer'>
+                        {drafts && drafts.map((submission, index) => <Survey submission={submission} key={index.toString()} />)}
+                    </div>
+                </div>}
+
                 <div className='profileSurveysSection'>
                     <div className='surveysTop'>
                         <p className='profileName' >YOU HAVE {submissions ? submissions.length : 0} SURVEYS</p>
-                        <Link href={'/survey'} >
+                        {!drafts && <Link href={'/survey'} >
                             NEW SURVEY
-                        </Link>
+                        </Link>}
                     </div>
 
                     <div className='surveysContainer'>

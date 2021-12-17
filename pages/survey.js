@@ -3,29 +3,30 @@ import Layout from '../components/Layout';
 // import styles from '../components/ZonesLayout.module.css';
 // import * as contactStyles from '../styles/Contact.module.css';
 // import * as surveyStyles from '../styles/Survey.module.css';
-import { getQuestions, getZones } from '../services/questions/questions';
+import { getQuestions } from '../services/questions/questions';
 import DatePicker from "react-datepicker";
 import "../node_modules/react-datepicker/dist/react-datepicker.css";
 import { useForm } from "react-hook-form";
 import { useAuth } from '../context/auth';
-import { answerQuestions } from '../services/answers/answers';
+import { answerQuestions, getDraftAnswers } from '../services/answers/answers';
 import { useRouter } from 'next/router'
 import { PopupsContext } from '../context/PopupContext';
 import useUserHook from '../hooks/useUserHook';
+import { faBreadSlice } from '@fortawesome/free-solid-svg-icons';
 
 export default function Survey() {
     const [sections, setSections] = useState([]);
-    const [dates, setDates] = useState({47: null, 48:null})
-    const [counter, setCounter ] = useState(0)
+    const [dates, setDates] = useState({ 47: null, 48: null })
+    const [counter, setCounter] = useState(0)
+    // const [ draftAnswers, setDraftAnswers ] = useState(null);
     const { register, handleSubmit, setValue, getValues, formState: { errors }, watch } = useForm();
     const { isAuthenticated } = useAuth()
     const user = useUserHook()
-    console.log('fkn1', user)
     const [questionaire, setQuestionaire] = useState(null)
     const [researcher, setResearcher] = useState(false);
     // const [zones, setZones] = useState([]);
     const router = useRouter();
-    const { zone, pid } = router.query
+    const { zone, pid, draftId } = router.query
     const [zoneInfo, setZoneInfo] = useState(null)
     const { showPopup, closePopup } = useContext(PopupsContext);
     const watchFields = watch(["34", "45"]);
@@ -40,25 +41,29 @@ export default function Survey() {
             }
         }
 
-        const fetchZones = async () => {
+        const fetchDraft = async () => {
             try {
-                const res = await getZones();
-                setZones(res.data)
+                const res = await getDraftAnswers(draftId);
+                fillAnswers(res?.data?.submission);
             } catch (e) {
                 console.log(e)
             }
         }
 
+        setValue('1', user?.email)
+
+        if (draftId) {
+            fetchDraft()
+        }
+
         fetchQuestions();
-        fetchZones();
 
         if (!isAuthenticated) {
-
             showPopup('login')
         } else {
             closePopup()
         }
-    }, [isAuthenticated]);
+    }, [isAuthenticated, draftId, zone, pid, user]);
 
     useEffect(() => {
         setZoneInfo({
@@ -68,7 +73,6 @@ export default function Survey() {
     }, [zone, pid])
 
     useEffect(() => {
-        console.log('error', errors)
         renderQuestions(sections)
     }, [sections, dates[47], dates[48], researcher, watchFields[0], watchFields[1], counter])
 
@@ -81,18 +85,49 @@ export default function Survey() {
     // }, [watchFields[0], watchFields[1]]);
 
     useEffect(() => {
-
-        setDates({ 47: new Date(), 48: new Date()})
+        if (dates[47] == null && dates[48] == null) {
+            setDates({ 47: new Date(), 48: new Date() })
+        }
     }, [])
+
+    const fillAnswers = (answers) => {
+        // console.log(answers)
+        // return
+        let answerDates = {47: null, 48:null};
+
+        answers.map((answer) => {
+
+            const key = answer?.question_id.toString();
+
+            switch (answer?.type) {
+                case "textfield":
+                case "dropdown":
+                    setValue(key, answer?.answers[0]?.answer)
+                    break;
+
+                case "checkbox":
+                    const answerArray = answer.answers.map(answer => answer.answer)
+                    setValue(key, answerArray)
+                    break;
+                case "date":
+                    if (answer?.answers[0]?.answer) {
+                        const date = new Date(answer?.answers[0]?.answer);
+                        answerDates[key] = date;
+                        setValue(key, formatDate(date), { shouldValidate: true })
+                    }
+                    break;
+            }
+            setDates(answerDates)
+        })
+    }
 
     const renderQuestions = () => {
         let display = [];
-        console.log('fkn user', user)
-        setValue('1', user?.email)
+
         sections.map((section, sectionIdx) => {
             const questionsForResearchers = section?.questions?.filter((question) => question.config.researcher_only === true)
-            
-            if((questionsForResearchers.length == section?.questions?.length) && !researcher) {
+
+            if ((questionsForResearchers.length == section?.questions?.length) && !researcher) {
                 return;
             }
 
@@ -130,7 +165,7 @@ export default function Survey() {
                 return <div className='formItem' key={index.toString()}>
                     {getLabel(config, question, questionId)}
                     <input className='formInput' type="text"
-                        {...register(questionId.toString(), { required: config.researcher_validation == 'required'})} />
+                        {...register(questionId.toString(), { required: config.researcher_validation == 'required' })} />
                 </div>
 
             case "textarea":
@@ -157,7 +192,7 @@ export default function Survey() {
                         {config.options.map((option, index) => {
                             return <option
                                 // selected={index == rndInt}
-                                value={option}>{option}</option>
+                                value={option} key={index.toString()}>{option}</option>
                         })}
                     </select>
                 </div>
@@ -167,7 +202,7 @@ export default function Survey() {
                     {getLabel(config, question, questionId)}
 
                     {config.options.map((option, optionIndex) => {
-                        return <div className='checkboxContainer'><input type="checkbox" value={option}
+                        return <div className='checkboxContainer' key={optionIndex.toString() + index.toString()}><input type="checkbox" value={option}
                             //  checked 
                             {...register(`${questionId}[]`, { required: config.researcher_validation == 'required' })} />{option}</div>
                     })}
@@ -219,18 +254,22 @@ export default function Survey() {
         }).replace(/\s+/g, '');
     }
 
-    const onError = () => {
+    const onError = async () => {
+        // if (1 == 1) {
+        //     const data = getValues();
+        //     onSubmit(data);
+        //     return;
+        // } 
         setTimeout(() => {
             setCounter(prev => prev + 1)
         }, 1000)
         showPopup('submitError');
-
     }
 
-    const onSubmit = async (data) => {
+    const onSubmit = async (data, isDraft = false) => {
         // const arcgis_id = data['arcgis_id'];
         // delete data['arcgis_id'];
-        let res = await answerQuestions(prepareData(data), zoneInfo);
+        let res = await answerQuestions(prepareData(data), zoneInfo, isDraft);
         showPopup('submitSuccess')
     }
 
@@ -426,6 +465,9 @@ export default function Survey() {
                     {/* FIELDS END  */}
                     <div className={'thirdGrid'}>
                         <button type="submit" className={'submitBtn'}>SUBMIT</button>
+                        <button type="button" onClick={(e) => {
+                            onSubmit(getValues(), true)
+                        }} className={'submitBtn'}>SAVE DRAFT</button>
                     </div>
                 </form>
             </div >

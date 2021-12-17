@@ -89,7 +89,7 @@ export const useAuth = () => useContext(AuthContext);
 
 export const ProtectRoute = ({ children }) => {
     const { isAuthenticated, isLoading } = useAuth();
-    console.log('isAuth', isAuthenticated)
+    // console.log('isAuth', isAuthenticated)
     // if (isLoading || (!isAuthenticated && window.location.pathname !== '/login')){
     // //   return <LoadingScreen />; 
     // }
