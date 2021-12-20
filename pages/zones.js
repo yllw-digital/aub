@@ -174,19 +174,7 @@ export default function Zones({ zones, allFilters }) {
                 handleFormSubmit={onSubmit} />}
             <Layout>
                 <div className={'zonesLayoutContainer'}>
-                    <CSVLink
-                        onClick={(event, done) => {
-                            console.log('on onclick', csvData)
-                            setTimeout(done, 2000)
-                        }}
-                        data={csvData}
-                        asyncOnClick={true}
-                        filename={"my-file.csv"}
-                        className="btn btn-primary"
-                        target="_blank"
-                    >
-                        Download me
-                    </CSVLink>;
+
                     <div className={'leftSidebar'}>
 
                         {/* /** top container start */}
@@ -219,6 +207,21 @@ export default function Zones({ zones, allFilters }) {
                                 style={{ marginLeft: '2rem' }}
                                 onClick={() => setShowFilters(true)}
                             >FILTERS</button>
+
+                            <CSVLink
+                                onClick={(event, done) => {
+                                    console.log('on onclick', csvData)
+                                    setTimeout(done, 2000)
+                                }}
+                                className='downloadCSVBtn'
+                                data={csvData}
+                                asyncOnClick={true}
+                                filename={"my-file.csv"}
+                                target="_blank"
+                            >
+                                Download CSV
+                            </CSVLink>
+
                         </div>
                         <table className={'table'}>
                             <thead>

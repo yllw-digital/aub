@@ -1882,3 +1882,10 @@ footer .buttonContainer a {
 	font-family: "DIN-Bold";
 	font-size: 1.5rem;
 }
+
+.downloadCSVBtn {
+	font-family:  'DIN-Bold';
+	color:#1a8487;
+	margin-left: 20px;
+	font-size: 1.4rem;
+}
