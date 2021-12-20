@@ -742,6 +742,12 @@ html {
 	column-gap: 5rem;
 }
 
+.formSubmissionButtonContainer{
+	display:flex;
+	justify-content: flex-start;
+	flex-direction: row;
+}
+
 .table {
 	width: 100%;
 }

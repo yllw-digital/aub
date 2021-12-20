@@ -1,9 +1,9 @@
 
 import { URL } from '../url'
-import api from '../config';
+import api from '../config'; 
 
-export const answerQuestions = (answers, zoneInfo, isDraft =  false) => {
-    return api.post(URL + '/api/answer' ,{ answers, zone_id: zoneInfo.zone_id, pid: zoneInfo.pid, is_draft: isDraft });
+export const answerQuestions = (answers, zoneInfo, draftId =  null, isDraft = false) => {
+    return api.post(URL + '/api/answer' ,{ answers, zone_id: zoneInfo.zone_id, pid: zoneInfo.pid, draft_id: draftId, is_draft: isDraft });
 }            
 
 export const getUserSubmissions = () => {

@@ -93,7 +93,7 @@ export default function Survey() {
     const fillAnswers = (answers) => {
         // console.log(answers)
         // return
-        let answerDates = {47: null, 48:null};
+        let answerDates = { 47: null, 48: null };
 
         answers.map((answer) => {
 
@@ -266,10 +266,10 @@ export default function Survey() {
         showPopup('submitError');
     }
 
-    const onSubmit = async (data, isDraft = false) => {
+    const onSubmit = async (data, draftId = null, isDraft = false) => {
         // const arcgis_id = data['arcgis_id'];
         // delete data['arcgis_id'];
-        let res = await answerQuestions(prepareData(data), zoneInfo, isDraft);
+        let res = await answerQuestions(prepareData(data), zoneInfo, draftId, isDraft);
         showPopup('submitSuccess')
     }
 
@@ -296,7 +296,9 @@ export default function Survey() {
                     <input type="checkbox" onChange={(e) => setResearcher(e.target.checked)} />
                     <label className='label'>Take survey as a researcher (You will have to answer a few additional questions)</label>
                 </div>
-                <form onSubmit={handleSubmit(onSubmit, onError)}>
+                <form onSubmit={handleSubmit((data, e) => {
+                    onSubmit(data, draftId, false)
+                }, onError)}>
                     {/* <div className={surveyStyles.thirdGrid}> */}
                     {/* FIELDS START */}
                     {/* <div className='formItem'>
@@ -463,10 +465,10 @@ export default function Survey() {
                             </div>
                         </div> */}
                     {/* FIELDS END  */}
-                    <div className={'thirdGrid'}>
-                        <button type="submit" className={'submitBtn'}>SUBMIT</button>
+                    <div className={'formSubmissionButtonContainer'}>
+                        <button type="submit" className={'submitBtn'} style={{marginRight: 40}}>SUBMIT</button>
                         <button type="button" onClick={(e) => {
-                            onSubmit(getValues(), true)
+                            onSubmit(getValues(), draftId, true)
                         }} className={'submitBtn'}>SAVE DRAFT</button>
                     </div>
                 </form>
