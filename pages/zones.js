@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { PopupsContext } from '../context/PopupContext';
 import { getZones } from '../services/questions/questions'
 import { getFilters, getTable } from '../services/statistics/statistics'
-
+import { CSVLink, CSVDownload } from "react-csv";
 import { useContext, useEffect, useState } from 'react';
 import Filters from '../components/Filters';
 
@@ -21,7 +21,6 @@ export async function getServerSideProps() {
     const allFilters = filtersRes?.data;
 
 
-
     return {
         props: {
             zones,
@@ -33,8 +32,7 @@ export async function getServerSideProps() {
 export default function Zones({ zones, allFilters }) {
     const router = useRouter();
     const { zone_id, selectedMapFilters } = router.query
-
-    console.log("ZoneId: ", zone_id, " selectedMapFilters: ", selectedMapFilters);
+    const [csvData, setCsvData] = useState([]);
 
     const popupContext = useContext(PopupsContext)
     const [showFilters, setShowFilters] = useState(false);
@@ -45,14 +43,15 @@ export default function Zones({ zones, allFilters }) {
 
     useEffect(() => {
         const fetchTableData = async (selectedFilters) => {
-            console.log(selectedMapFilters);
             let params = [];
-            
+
             if (selectedMapFilters && !selectedFilters.length) {
                 selectedFilters = JSON.parse(selectedMapFilters)
             }
 
             const res = await getTable(selectedFilters, zone_id || null);
+            let columnHeaders = res?.data?.questions?.map(question => question?.question)
+            setCsvData([columnHeaders, ...res?.data?.submissions])
             setTableData(res?.data);
         }
 
@@ -169,11 +168,25 @@ export default function Zones({ zones, allFilters }) {
         <>
             {showFilters && <Filters
                 closeFilters={() => setShowFilters(false)}
+
                 filters={filters}
                 handleFormReset={onReset}
                 handleFormSubmit={onSubmit} />}
             <Layout>
                 <div className={'zonesLayoutContainer'}>
+                    <CSVLink
+                        onClick={(event, done) => {
+                            console.log('on onclick', csvData)
+                            setTimeout(done, 2000)
+                        }}
+                        data={csvData}
+                        asyncOnClick={true}
+                        filename={"my-file.csv"}
+                        className="btn btn-primary"
+                        target="_blank"
+                    >
+                        Download me
+                    </CSVLink>;
                     <div className={'leftSidebar'}>
 
                         {/* /** top container start */}
