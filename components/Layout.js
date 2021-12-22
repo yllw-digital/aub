@@ -29,7 +29,7 @@ export default function Layout({ children, rightSideBar = null }) {
 
     useEffect(() => {
         const checkPopupStatus = async () => {
-            const hidePopups = await Cookies.get('hide-popups');
+            const hidePopups = await Cookies.get('token');
             if (!hidePopups) {
                 popupContext.showPopup('welcome')
             }

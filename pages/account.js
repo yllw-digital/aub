@@ -12,12 +12,12 @@ import api from '../services/config';
 import useUserHook from '../hooks/useUserHook';
 
 export default function Account() {
-    const { logout } = useAuth()
+    const { logout, user: useAuthUser } = useAuth()
     const user = useUserHook()
     const router = useRouter();
     const [submissions, setUserSubmissions] = useState(null)
     const [drafts, setDrafts] = useState(null);
-
+  
     useEffect(() => {
         const fetchUserSubmissions = () => {
             return new Promise(async (resolve, reject) => {
@@ -57,7 +57,6 @@ export default function Account() {
             fetchUserSubmissions(),
             fetchUserDrafts()
         ]).then(data => {
-            console.log('draft', data[1])
             setUserSubmissions(data[0])
             setDrafts(data[1])
         }).catch(err => {
@@ -107,20 +106,20 @@ export default function Account() {
     return (
         <Layout>
             <div className='accountSectionContainer'>
-                {user && <div style={{ borderBottom: '1px solid' }}>
+                {useAuthUser && <div style={{ borderBottom: '1px solid' }}>
                     <div className='accountPadding'>
                         <h1 className='pageTitle' style={{ paddingLeft: 0 }}>MY ACCOUNT</h1>
-                        <p className='profileName' >HELLO {user.firstname + ' ' + user.lastname}</p>
+                        <p className='profileName' >Hello { useAuthUser?.firstname + ' ' +  useAuthUser?.lastname }</p>
 
                         <div className='profileInfoContainer'>
                             <div>
                                 <div className='info'>
                                     <img src="/email-icon.png" />
-                                    <p>E. {user?.email}</p>
+                                    <p>E. { useAuthUser?.email}</p>
                                 </div>
                                 {user?.mobile && <div className='info'>
                                     <img src="/phone-icon.png" />
-                                    <p>T. {user.mobile}</p>
+                                    <p>T. {useAuthUser?.mobile}</p>
                                 </div>}
                             </div>
 

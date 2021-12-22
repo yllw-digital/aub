@@ -21,6 +21,7 @@ export default function Submission() {
             }
 
             const submission = await getSubmission(id);
+            console.log('submission', submission.data)
             setSections(submission.data);
         }
         if(typeof id !== 'undefined') loadSubmission();
@@ -76,6 +77,11 @@ export default function Submission() {
                 <div className='researcherCheckbox'>
 
                     <p className='label'>Submitted {sections?.submission_date}</p>
+                </div>
+
+                <div className='formItem' >
+                    <label className='label'>PID:</label>
+                    <p>{sections?.pid}</p>
                 </div>
 
                 {renderAnswers()}

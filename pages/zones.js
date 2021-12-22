@@ -226,16 +226,16 @@ export default function Zones({ zones, allFilters }) {
                         <table className={'table'}>
                             <thead>
                                 <tr>
-                                    <td>SURVEY</td>
-                                    {tableData?.questions?.map((question, idx) => <td key={idx.toString()}>{question.question}</td>)}
+                                    <th width={200}>SURVEY</th>
+                                    {tableData?.questions?.map((question, idx) => <th width={200} key={idx.toString()}>{question.question}</th>)}
                                 </tr>
                             </thead>
 
                             <tbody>
                                 {tableData?.submissions?.map((submission, idx) => {
                                     return <tr key={idx.toString()}>
-                                        <td>{idx}</td>
-                                        {submission.map((answer, inx) => <td key={inx.toString()}>{answer}</td>)}
+                                        <td width={200}>{idx}</td>
+                                        {submission.map((answer, inx) => <td width={200} key={inx.toString()}>{answer}</td>)}
                                     </tr>
                                 })}
                             </tbody>
