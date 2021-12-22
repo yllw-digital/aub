@@ -523,6 +523,7 @@ html {
 .table thead th { position: sticky; top: 80px; z-index: 1;background-color: white; }
 .table tbody th { position: sticky; left: 0; }
 
+/* table borders */
 .table,
 .table td {
   box-shadow: inset 1px -1px #000;
@@ -533,11 +534,14 @@ html {
 }
 .table th {
   box-shadow: inset 1px 1px #000, 0 1px #000;
+  border-bottom: 1px solid black;
 }
 
 .table th:first-child {
 	box-shadow: inset 0px 1px #000, 0 1px #000;
   }
+
+  /* table borders end */
 
 /* :not(:first-child) */
 
