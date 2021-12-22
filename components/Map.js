@@ -351,8 +351,8 @@ export default function Map() {
                 </div>}
             </div>
 
-
-            <div className={'filterButtonContainer filterButtonContainer--homepage'}>
+{/* //filterButtonContainer */}
+            <div className={' filterButtonContainer--homepage'}>
                 <button
                     type="button"
                     className={'submitBtn buttonClear'}
