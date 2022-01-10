@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "NODE_OPTIONS='--inspect' next dev -p 3001",
     "build": "next build",
-    "start": "next start -p 3002"
+    "start": "next start -p 3002",
+    "yllw-build": "node ./node_modules/yllw-postman-to-functions/index.js"
   },
   "dependencies": {
     "@arcgis/core": "^4.21.2",

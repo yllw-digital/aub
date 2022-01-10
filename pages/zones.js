@@ -51,6 +51,8 @@ export default function Zones({ zones, allFilters }) {
 
             const res = await getTable(selectedFilters, zone_id || null);
             let columnHeaders = res?.data?.questions?.map(question => question?.question)
+            // ADD PID to the headers of the excel as it is not returned by backend
+            columnHeaders.unshift('PID');
             setCsvData([columnHeaders, ...res?.data?.submissions])
             setTableData(res?.data);
         }
@@ -227,6 +229,7 @@ export default function Zones({ zones, allFilters }) {
                             <thead>
                                 <tr>
                                     <th width={200}>SURVEY</th>
+                                    <th width={200} >PID</th>
                                     {tableData?.questions?.map((question, idx) => <th width={200} key={idx.toString()}>{question.question}</th>)}
                                 </tr>
                             </thead>
