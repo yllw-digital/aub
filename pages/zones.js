@@ -8,6 +8,7 @@ import { getFilters, getTable } from '../services/statistics/statistics'
 import { CSVLink, CSVDownload } from "react-csv";
 import { useContext, useEffect, useState } from 'react';
 import Filters from '../components/Filters';
+import { setConstantValue } from 'typescript';
 
 // import styles from '../components/ZonesLayout.module.css';
 
@@ -33,7 +34,7 @@ export default function Zones({ zones, allFilters }) {
     const router = useRouter();
     const { zone_id, selectedMapFilters } = router.query
     const [csvData, setCsvData] = useState([]);
-
+    const [columnHeaders, setColumnHeaders] = useState([]);
     const popupContext = useContext(PopupsContext)
     const [showFilters, setShowFilters] = useState(false);
     const [tableData, setTableData] = useState([]);
@@ -50,10 +51,13 @@ export default function Zones({ zones, allFilters }) {
             }
 
             const res = await getTable(selectedFilters, zone_id || null);
-            let columnHeaders = res?.data?.questions?.map(question => question?.question)
+            let columnHeadersRes = res?.data?.questions?.map(question => question?.question)
             // ADD PID to the headers of the excel as it is not returned by backend
-            columnHeaders.unshift('PID');
-            setCsvData([columnHeaders, ...res?.data?.submissions])
+            if (res?.data?.is_admin) {
+                columnHeadersRes.unshift('PID');
+            }
+            setColumnHeaders(columnHeadersRes);
+            setCsvData([columnHeadersRes, ...res?.data?.submissions])
             setTableData(res?.data);
         }
 
@@ -100,16 +104,17 @@ export default function Zones({ zones, allFilters }) {
                 <div className='zoneMetaContainer'>
                     <div className='zoneMeta'>
                         <p className="boldLabel">Rent amount</p>
-                        <p className="regularText">{zone?.price}$</p>
+                        <p className="regularText">{zone?.price_usd ?? 0}$</p>
+                        <p className="regularText">{zone?.price_lbp ?? 0}LBP</p>
                     </div>
 
                     <div className='zoneMeta'>
                         <p className="boldLabel">Apartment size</p>
-                        <p className="regularText">{zone?.area}</p>
+                        <p className="regularText">{zone?.area ?? 0}sqm</p>
                     </div>
                 </div>
 
-                {zone?.questions?.length &&
+                {zone?.questions?.length > 0 &&
                     expanded && <div className='zoneExpandableContainer'>
                         {zone?.questions?.map((section, index) => (<DataSection section={section} key={index.toString()} />))}
                     </div>
@@ -210,7 +215,7 @@ export default function Zones({ zones, allFilters }) {
                                 onClick={() => setShowFilters(true)}
                             >FILTERS</button>
 
-                            <CSVLink
+                            {tableData?.is_admin && <CSVLink
                                 onClick={(event, done) => {
                                     console.log('on onclick', csvData)
                                     setTimeout(done, 2000)
@@ -218,19 +223,21 @@ export default function Zones({ zones, allFilters }) {
                                 className='downloadCSVBtn'
                                 data={csvData}
                                 asyncOnClick={true}
-                                filename={"my-file.csv"}
+                                filename={"surveys-export.csv"}
                                 target="_blank"
                             >
                                 Download CSV
-                            </CSVLink>
+                            </CSVLink>}
 
                         </div>
                         <table className={'table'}>
                             <thead>
                                 <tr>
                                     <th width={200}>SURVEY</th>
-                                    <th width={200} >PID</th>
-                                    {tableData?.questions?.map((question, idx) => <th width={200} key={idx.toString()}>{question.question}</th>)}
+                                    {/* <th width={200} >PID</th>
+                                    {tableData?.questions?.map((question, idx) => <th width={200} key={idx.toString()}>{question.question}</th>)} */}
+                                    {columnHeaders?.map((question, idx) => <th width={200} key={idx.toString()}>{question}</th>)}
+
                                 </tr>
                             </thead>
 
