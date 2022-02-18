@@ -14,6 +14,8 @@ import { useForm } from "react-hook-form";
 import { useAuth } from '../context/auth';
 import Popup from '../components/Popup';
 import RegisterForm from '../components/forms/RegisterForm';
+import ForgotPassword from '../components/forms/ForgotPassword';
+
 import { route } from 'next/dist/next-server/server/router';
 import { useEffect } from 'react';
 import Cookies from 'js-cookie'
@@ -21,7 +23,7 @@ import Cookies from 'js-cookie'
 export default function Layout({ children, rightSideBar = null }) {
     const { register, handleSubmit, formState: { errors }, setError } = useForm();
     const loginForm = useRef(null);
-    const [mobileMenuOpen, setMobileMenuOpen ] = useState(false); 
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const popupContext = useContext(PopupsContext)
     const { loginUser, isAuthenticated } = useAuth()
     const router = useRouter();
@@ -30,7 +32,7 @@ export default function Layout({ children, rightSideBar = null }) {
     useEffect(() => {
         const checkPopupStatus = async () => {
             const hidePopups = await Cookies.get('token');
-            if (!hidePopups) {
+            if (!hidePopups && shouldShowPopup()) {
                 popupContext.showPopup('welcome')
             }
         }
@@ -62,8 +64,14 @@ export default function Layout({ children, rightSideBar = null }) {
         }
     }
 
+    const shouldShowPopup = () => {
+        const hidden = ['/resetPassword'];
+        const currentRoute = router.pathname;
+        return !hidden.includes(currentRoute)
+    }
+
     const existsInHidden = () => {
-        const hidden = ['/account', '/survey', '/about', '/contact', '/zones', '/stats', '/submission/[id]'];
+        const hidden = ['/account', '/survey', '/about', '/contact', '/zones', '/stats', '/submission/[id]', '/resetPassword'];
         const currentRoute = router.pathname;
         return hidden.includes(currentRoute)
     }
@@ -114,7 +122,7 @@ export default function Layout({ children, rightSideBar = null }) {
                         </div>
 
                         <div className='mobileMenu'>
-                            <FontAwesomeIcon icon={faBars} style={{ width: 20 }} onClick={() => setMobileMenuOpen(!mobileMenuOpen)}/>
+                            <FontAwesomeIcon icon={faBars} style={{ width: 20 }} onClick={() => setMobileMenuOpen(!mobileMenuOpen)} />
                             <a href="/" style={{ textAlign: 'center' }}>
 
                                 <div className='mobileLogo'>
@@ -207,6 +215,7 @@ export default function Layout({ children, rightSideBar = null }) {
                         <label className='label'>PASSWORD</label>
                         <input className='formInput' type="password" {...register('password', { required: true })} />
                     </div>
+                    <p id="forgot-password" onClick={() =>  popupContext.showPopup('forgotPassword')}>Forgot password?</p>
                     <div className='inlineButton'>
                         <button className='submitBtn buttonClear' onClick={() => { popupContext.showPopup('register') }}>SIGN UP INSTEAD</button>
                         <button className='submitBtn'>SIGN IN</button>
@@ -269,6 +278,7 @@ export default function Layout({ children, rightSideBar = null }) {
             </Popup>}
 
             {popupContext.showPopups.register && <RegisterForm />}
+            {popupContext.showPopups.forgotPassword && <ForgotPassword />}
 
 
             {popupContext.showPopups.submitSuccess && <Popup

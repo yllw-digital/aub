@@ -11,7 +11,8 @@ export const PopupsContextProvider = ({ children }) => {
         submitSurvey: false,
         surveyMessage: false,
         submitSuccess: false,
-        submitError: false
+        submitError: false,
+        forgotPassword:false
     });
 
     const handleShowPopup = (popup) => {

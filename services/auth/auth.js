@@ -13,16 +13,16 @@ export const login = (email, password) => {
 
 export const getUser = () => {
     return api.get(URL + '/api/user');
-}             
+}
+
+export const resetPassword = (email) => {
+    return api.post(URL + '/api/reset-password', {email});
+}
 
 export const verifyEmail = () => {
     return axios.get(URL + '/undefined');
-}             
+}                    
 
-export const resetPassword = () => {
-    return axios.get(URL + '/undefined');
-}             
-
-export const changePassword = () => {
-    return axios.get(URL + '/undefined');
+export const changePassword = (password, password_confirmation, token) => {
+    return axios.post(URL + '/api/forgot-password', {password, password_confirmation, token});
 }             
