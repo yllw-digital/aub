@@ -69,11 +69,14 @@ export default function Map() {
             "esri/Graphic",
             "esri/widgets/Locate",
             "esri/layers/GraphicsLayer",
-			"esri/widgets/Fullscreen"
+			"esri/widgets/Fullscreen",
+            "esri/widgets/Search",
+            "esri/layers/FeatureLayer",
+            "esri/core/watchUtils"
         ])
-            .then(([esriConfig, WebMap, MapView, Graphic, Locate, GraphicsLayer, Fullscreen]) => {
+            .then(([esriConfig, WebMap, MapView, Graphic, Locate, GraphicsLayer, Fullscreen, Search, FeatureLayer, watchUtils]) => {
                 esriConfig.apiKey = apiKey;
-                console.log(tableData);
+                let showingCircles = true;
 
                 const initialGraphics = getInitialGraphics();
                 const graphicsLayer = new GraphicsLayer({
@@ -86,6 +89,7 @@ export default function Map() {
                     },
                 });
 
+
                 const view = new MapView({
                     map: webmap,
                     center: [35.49980223628851, 33.89],
@@ -95,7 +99,52 @@ export default function Map() {
                         snapToZoom: false
                     }
                 });
+                watchUtils.watch(view, "updating", onZoomChange);
+                function onZoomChange(newValue, oldValue, propertyName, target) {
+                    if (!view.updating){
+                    // View just finished updating. Get the new zoom value from the view
+                        if(view.zoom > 14.9) {
+                            if(showingCircles) {
+                                webmap.remove(graphicsLayer);
+                                showingCircles = false;
+                            }
+                        } else {
+                            if(!showingCircles) {
+                                webmap.add(graphicsLayer);
+                                showingCircles = true;
+                            }
+                        }
+                        console.log("view.stationary", view.stationary, "view.updating", view.updating, view.zoom)
+                    }
+                }
 
+                const searchWidget = new Search({
+                    view: view,
+
+                    sources: [
+                        {
+                        layer: new FeatureLayer({
+                          url: "https://services3.arcgis.com/tuNLpt6Wfhd22qmO/ArcGIS/rest/services/Join_Features_to_Bld_hightData/FeatureServer/0",
+                          outFields: ["*"]
+                        }),
+                        searchFields: ["PID"],
+                        displayField: "PID",
+                        exactMatch: false,
+                        outFields: ["*"],
+                        name: "Building ID",
+                        placeholder: "Building PID",
+                        maxResults: 6,
+                        maxSuggestions: 6,
+                        suggestionsEnabled: true,
+                        minSuggestCharacters: 0
+                      }
+                    ]
+                });
+                view.ui.add(searchWidget, {
+                    position: "top-right",
+                    index: 2,
+                });
+                  
 				const fullScreen = new Fullscreen({
 					view: view
 				});
@@ -105,14 +154,6 @@ export default function Map() {
                     view: view,
                 });
                 view.ui.add(locate, "bottom-left");
-
-                // navigator.geolocation.getCurrentPosition(function(position) {
-                //     let lat = position.coords.latitude;
-                //     let long = position.coords.longitude;
-                //     view.center = [long, lat];
-                //     view.zoom = 18;
-                // });
-
                 view.on("click", function (event) {
                     view.hitTest(event, {
                         include: graphicsLayer
@@ -136,42 +177,70 @@ export default function Map() {
 
                 function getInitialGraphics() {
                     let graphics = [];
-
-                    for (const zone_id in tableData.zones_count) {
-                        graphics.push(
-                            new Graphic({
-                                attributes: {
-                                    "id": zone_id,
-                                    "count": tableData.zones_count[zone_id]
-                                },
-                                geometry: {
-                                    type: "point",
-                                    latitude: 33.89,
-                                    longitude: 35.49980223628851
-                                },
-                                symbol: {
-                                    type: "cim",
-                                    data: {
-                                        type: "CIMSymbolReference",
-                                        symbol: getPointSymbolData(tableData.zones_count[zone_id])
+                    
+                    if(selectedFilters.length) {
+                        for (const zone_id in tableData.zones_count) {
+                            if((!tableData.zones_count[zone_id] || !tableData.coordinates[zone_id])) {
+                                continue;
+                            }
+                            graphics.push(
+                                new Graphic({
+                                    attributes: {
+                                        "id": zone_id,
+                                        "count": tableData.zones_count[zone_id]
+                                    },
+                                    geometry: {
+                                        type: "point",
+                                        latitude: parseFloat(tableData.coordinates[zone_id][1]),
+                                        longitude: parseFloat(tableData.coordinates[zone_id][0]),
+                                    },
+                                    symbol: {
+                                        type: "cim",
+                                        data: {
+                                            type: "CIMSymbolReference",
+                                            symbol: getPointSymbolData(tableData.zones_count[zone_id], 20)
+                                        }
                                     }
-                                }
-                            })
-                        );
+                                })
+                            );
+                        }
+                    } else {
+                        for (const zone_id in tableData.coordinates) {
+                            graphics.push(
+                                new Graphic({
+                                    attributes: {
+                                        "id": zone_id,
+                                        "count": '0'
+                                    },
+                                    geometry: {
+                                        type: "point",
+                                        latitude: parseFloat(tableData.coordinates[zone_id][1]),
+                                        longitude: parseFloat(tableData.coordinates[zone_id][0]),
+                                    },
+                                    symbol: {
+                                        type: "cim",
+                                        data: {
+                                            type: "CIMSymbolReference",
+                                            symbol: getPointSymbolData('', tableData.coordinates[zone_id][2])
+                                        }
+                                    }
+                                })
+                            );
+                        }
                     }
 
                     return graphics;
                 }
 
 
-                function getPointSymbolData(resultsCount) {
+                function getPointSymbolData(resultsCount, size) {
                     return {
                         type: "CIMPointSymbol",
                         symbolLayers: [
                             {
                                 type: "CIMVectorMarker",
                                 enable: true,
-                                size: 28,
+                                size: size,
                                 colorLocked: true,
                                 anchorPointUnits: "Relative",
                                 frame: { xmin: -5, ymin: -5, xmax: 5, ymax: 5 },
@@ -210,7 +279,7 @@ export default function Map() {
                                 enable: true,
                                 anchorPoint: { x: 0, y: -0.5 },
                                 anchorPointUnits: "Relative",
-                                size: 30.8,
+                                size: size,
                                 frame: { xmin: 0.0, ymin: 0.0, xmax: 17.0, ymax: 17.0 },
                                 markerGraphics: [
                                     {

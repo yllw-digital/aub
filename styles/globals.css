@@ -474,6 +474,10 @@ html {
 	line-height: 3.9rem;
 }
 
+.datatable {
+	margin-top: 100px;
+}
+
 .surveyContainer {
 	display: grid;
 	grid-template-columns: 3fr 4fr 1fr;
@@ -701,6 +705,36 @@ html {
 	top: 200px;
 }
 @media (max-width: 700px) {
+
+	.chartContainer.chartContainer__grid {
+		grid-template-columns: 1fr !important;
+	}
+	.zonesLayoutContainer {
+		grid-template-columns: 1fr 1fr;
+	}
+	.headerSection {
+		display: block;
+	}
+	.optionsContainer {
+		justify-content: flex-start;
+	}
+	.optionsContainer .option {
+		margin-left: 0;
+		margin-right: 10px;
+	}
+	.zoneMeta {
+		display: block;
+		margin-bottom: 10px;
+	}
+
+	.zoneContainer {
+		padding: 3.2rem 20px;
+	}
+
+	.leftSidebar {
+		overflow-x: hidden;
+	}
+	
 	.accountPadding {
 		padding: 5.8rem 2.8rem 3rem;
 	}
@@ -1067,6 +1101,10 @@ html {
 	grid-template-columns: 5fr minmax(375px, 1fr);
 	padding-left: 100px;
 	height: 100vh;
+}
+
+.main.collapsed {
+	grid-template-columns: 1fr 30px;
 }
 
 .leftSide {
@@ -1696,6 +1734,11 @@ html {
 	padding: 0px 50px;
 }
 
+.mainContentTitle.chartTitle {
+	margin-bottom: 0;
+	text-transform: uppercase;
+}
+
 .horizontalBarsContainer {
 	position: relative;
 	height: 150px;
@@ -1727,6 +1770,37 @@ html {
 	font-family: "Interstate-Light";
 	text-align: center;
 	padding: 1rem 3rem 0;
+}
+
+.chartContainer {
+	/* background:rgba(52, 64, 147, .15); */
+	border-radius: 5px;
+	padding-top: 20px;
+}
+
+
+.expandedDatatable div {
+	padding: 5px 15px;
+	border-bottom: 1px solid #EEE;
+}
+
+.expandedDatatable h2 {
+	font-size: 12px;
+	font-weight: 500;
+}
+
+.expandedDatatable h3 {
+	font-size: 11px;
+}
+
+.chartContainer.chartContainer__grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-gap: 30px;
+}
+
+.chartContainer .separated::after {
+	width: 0 !important;
 }
 
 .pieChartContainer {
@@ -1761,8 +1835,68 @@ html {
 /** Right side bar menu */
 
 .sideMenuContainer {
+	height: 100%;
+	position: relative;
+}
+
+.sideMenuContainer__expand {
+	display: none;
+}
+
+.sideMenuContainer.collapsed .sideMenuContainer__collapse {
+	display: none;
+}
+
+.sideMenuContainer__collapse {
+	position: absolute;
+	width: 15px;
+	height: 100%;
+	left: 0;
+	top: 0;
+	display: grid;
+	z-index: 2;
+	text-align: center;
+	color:rgba(52, 64, 147, 1);
+	font-size: 15px;
+}
+
+.sideMenuContainer__collapse:hover {
+	cursor: pointer;
+	background: #EEE;
+}
+
+.sideMenuContainer__collapse > div {
+	align-self: center;
+}
+
+.sideMenuContainer.collapsed .sideMenuContainer__expand {
+	display: grid;
+	height: 100%;
+	-webkit-box-shadow: -8px 3px 25px -8px rgba(0, 0, 0, 0.65);
+	-moz-box-shadow: -8px 3px 25px -8px rgba(0, 0, 0, 0.65);
+	box-shadow: -8px 3px 25px -8px rgba(0, 0, 0, 0.65);
+}
+
+.sideMenuContainer.collapsed .sideMenuContainer__expand:hover {
+	cursor: pointer;
+	background-color: #eee;
+}
+
+.sideMenuContainer.collapsed .sideMenuContainer__expand div{
+	align-self: center;
+	text-align: center;
+	color:rgba(52, 64, 147, 1);
+	font-size: 20px;
+}
+
+.sideMenuContainer.collapsed .sideMenuContainer__content {
+	display: none;
+}
+
+.sideMenuContainer__content {
 	display: flex;
 	flex-flow: column;
+	/* padding-left: 15px; */
 	height: 100%;
 	-webkit-box-shadow: -8px 3px 25px -8px rgba(0, 0, 0, 0.65);
 	-moz-box-shadow: -8px 3px 25px -8px rgba(0, 0, 0, 0.65);
@@ -1770,7 +1904,7 @@ html {
 }
 
 .sideHeader {
-	background-color: Î#F9F9F9;
+	background-color:#F9F9F9;
 	text-align: center;
 	/* padding-top: 7rem;
     padding-bottom: 4.3rem; */
@@ -1796,16 +1930,29 @@ html {
 	line-height: 3.9rem;
 	display: block;
 	margin: 0 auto;
-	margin-top: 4.3rem;
+	margin-top: 2.3rem;
 }
 
 .mainContent {
-	flex: 1 1 auto;
-	flex-flow: column;
+	/* flex: 1 1 auto; */
+	/* flex-flow: column; */
 	padding-top: 4.8rem;
 	/* height: 65vh; */
-	display: flex;
-	overflow-y: scroll;
+	/* display: flex; */
+	/* overflow-y: scroll; */
+}
+
+.scrollarea .scrollbar-container.vertical .scrollbar {
+	background: #038487 !important;
+	margin-left: 0 !important;
+}
+
+.scrollarea .scrollbar-container.vertical {
+	border: 1px solid #000;
+}
+
+.scrollarea .scrollbar-container {
+	opacity: 1 !important;
 }
 
 .footerContainer {

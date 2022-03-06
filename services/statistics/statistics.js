@@ -40,6 +40,16 @@ export const getHouseholdPerZone = () => {
     return api.get(URL + '/api/householdPerZone');
 }
 
+export const getHouseholdPerZoneBar = () => {
+    return api.get(URL + '/api/householdPerZoneBar');
+}
+export const getHouseholdPerZoneBarSecond = () => {
+    return api.get(URL + '/api/householdPerZoneBar/1');
+}
+export const getHouseholdPerZoneBarThird = () => {
+    return api.get(URL + '/api/householdPerZoneBar/1/1');
+}
+
 /** SCATTER CHART */
 export const getRentalValueDistribution = () => {
     return api.get(URL + '/api/rentalValueDistribution');

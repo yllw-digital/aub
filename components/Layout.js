@@ -19,12 +19,14 @@ import ForgotPassword from '../components/forms/ForgotPassword';
 import { route } from 'next/dist/next-server/server/router';
 import { useEffect } from 'react';
 import Cookies from 'js-cookie'
+import { SidebarContext } from '../context/SidebarContext';
 
 export default function Layout({ children, rightSideBar = null }) {
     const { register, handleSubmit, formState: { errors }, setError } = useForm();
     const loginForm = useRef(null);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const popupContext = useContext(PopupsContext)
+    const sidebarContext = useContext(SidebarContext);
     const { loginUser, isAuthenticated } = useAuth()
     const router = useRouter();
     const { takesurvey } = router.query
@@ -78,7 +80,7 @@ export default function Layout({ children, rightSideBar = null }) {
 
     return (
         <div>
-            <div className='main'>
+            <div className={sidebarContext.showSidebar ? 'main' : 'main collapsed' }>
                 <Header />
                 <div className='leftSide'>
                     <header>

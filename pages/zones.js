@@ -1,4 +1,4 @@
-import Layout from '../components/Layout';
+    import Layout from '../components/Layout';
 
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -6,8 +6,10 @@ import { PopupsContext } from '../context/PopupContext';
 import { getZones } from '../services/questions/questions'
 import { getFilters, getTable } from '../services/statistics/statistics'
 import { CSVLink, CSVDownload } from "react-csv";
+import DataTable from 'react-data-table-component';
 import { useContext, useEffect, useState } from 'react';
 import Filters from '../components/Filters';
+import { SidebarContext } from '../context/SidebarContext';
 import { setConstantValue } from 'typescript';
 
 // import styles from '../components/ZonesLayout.module.css';
@@ -17,7 +19,6 @@ export async function getServerSideProps() {
 
     const zoneRes = await getZones();
     const zones = zoneRes?.data;
-
     const filtersRes = await getFilters();
     const allFilters = filtersRes?.data;
 
@@ -33,12 +34,16 @@ export async function getServerSideProps() {
 export default function Zones({ zones, allFilters }) {
     const router = useRouter();
     const { zone_id, selectedMapFilters } = router.query
+    const sidebarContext = useContext(SidebarContext);
     const [csvData, setCsvData] = useState([]);
     const [columnHeaders, setColumnHeaders] = useState([]);
     const popupContext = useContext(PopupsContext)
     const [showFilters, setShowFilters] = useState(false);
     const [tableData, setTableData] = useState([]);
     const [selectedFilters, setSelectedFilters] = useState([])
+    const [columns, setColumns] = useState([]);
+    const [cleanColumns, setCleanColumns] = useState([]);
+    const [rows, setRows] = useState([]);
 
     const [filters, setFilters] = useState(allFilters)
 
@@ -56,6 +61,30 @@ export default function Zones({ zones, allFilters }) {
             if (res?.data?.is_admin) {
                 columnHeadersRes.unshift('PID');
             }
+
+            let cols = [{ name: 'Survey', selector: row => row.answers[0], sortable: true},{ name: 'Zone', selector: row => row.answers[1], sortable: true}, {name: 'Date', selector: row => row.answers[2], sortable: true, hide: 'md'}];
+            let cleanCol = ['Survey', 'Zone', 'Date'];
+            columnHeadersRes.map((question, idx) => {
+                cols.push({
+                    name: question,
+                    selector: row => row.answers[idx + 3],
+                    sortable: true,
+                    wrap: true,
+                    hide: 'md'
+                })
+                cleanCol.push(question);
+            });
+
+            let rows = [];
+            res.data.submissions.map((submission, idx) => {
+                rows.push({
+                    answers: [idx+1, ...submission]
+                });
+            });
+
+            setRows(rows);
+            setCleanColumns(cleanCol);
+            setColumns(cols);
             setColumnHeaders(columnHeadersRes);
             setCsvData([columnHeadersRes, ...res?.data?.submissions])
             setTableData(res?.data);
@@ -86,10 +115,18 @@ export default function Zones({ zones, allFilters }) {
 
         fetchTableData(selectedFilters)
         updateFilters();
+        sidebarContext.sidebarHide();
     }, [selectedFilters, selectedMapFilters])
 
 
 
+    const ExpandedComponent = ({ data }) => {
+        return (
+            <div className='expandedDatatable'>
+                {data.answers.map((row, idx) => (<div key={idx}><h2>{cleanColumns[idx]}</h2><h3>{row}</h3></div>))}
+            </div>
+        )
+    }
 
     const Zone = ({ zone }) => {
         const [expanded, setExpanded] = useState(false);
@@ -103,13 +140,13 @@ export default function Zones({ zones, allFilters }) {
 
                 <div className='zoneMetaContainer'>
                     <div className='zoneMeta'>
-                        <p className="boldLabel">Rent amount</p>
+                        <p className="boldLabel">Average rent amount</p>
                         <p className="regularText">{zone?.price_usd ?? 0}$</p>
                         <p className="regularText">{zone?.price_lbp ?? 0}LBP</p>
                     </div>
 
                     <div className='zoneMeta'>
-                        <p className="boldLabel">Apartment size</p>
+                        <p className="boldLabel">Average apartment size</p>
                         <p className="regularText">{zone?.area ?? 0}sqm</p>
                     </div>
                 </div>
@@ -130,12 +167,12 @@ export default function Zones({ zones, allFilters }) {
                 <h2>{section?.section}</h2>
                 <div className='optionsContainer'>
                     <div className='option'>
-                        <div className='squareBox blueBg'></div>
-                        <p className='blueText'>N</p>
-                    </div>
-                    <div className='option'>
                         <div className='squareBox greenBg'></div>
                         <p className='greenText'>Y</p>
+                    </div>
+                    <div className='option'>
+                        <div className='squareBox blueBg'></div>
+                        <p className='blueText'>N</p>
                     </div>
                 </div>
             </div>
@@ -150,14 +187,14 @@ export default function Zones({ zones, allFilters }) {
                 <p>{question?.question}</p>
 
                 <div className={'dataBarContainer'}>
-                    <p className={`dataNumbers blueText`}>{question?.answers?.No}%</p>
+                    <p className={`dataNumbers greenText`}>{question?.answers?.Yes}%</p>
 
                     <div className={'barContainer'}>
-                        <div className={`bar blueBg marginRight`} style={{ width: `${question?.answers?.No}%` }}></div>
-                        <div className={`bar greenBg`} style={{ width: `${question?.answers?.Yes}%` }}></div>
+                        <div className={`bar greenBg marginRight`} style={{ width: `${question?.answers?.Yes}%` }}></div>
+                        <div className={`bar blueBg `} style={{ width: `${question?.answers?.No}%` }}></div>
                     </div>
 
-                    <p className={`dataNumbers greenText`}>{question?.answers?.Yes}%</p>
+                    <p className={`dataNumbers blueText`}>{question?.answers?.No}%</p>
                 </div>
             </div>
         )
@@ -230,26 +267,14 @@ export default function Zones({ zones, allFilters }) {
                             </CSVLink>}
 
                         </div>
-                        <table className={'table'}>
-                            <thead>
-                                <tr>
-                                    <th width={200}>SURVEY</th>
-                                    {/* <th width={200} >PID</th>
-                                    {tableData?.questions?.map((question, idx) => <th width={200} key={idx.toString()}>{question.question}</th>)} */}
-                                    {columnHeaders?.map((question, idx) => <th width={200} key={idx.toString()}>{question}</th>)}
 
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                {tableData?.submissions?.map((submission, idx) => {
-                                    return <tr key={idx.toString()}>
-                                        <td width={200}>{idx}</td>
-                                        {submission.map((answer, inx) => <td width={200} key={inx.toString()}>{answer}</td>)}
-                                    </tr>
-                                })}
-                            </tbody>
-                        </table>
+                        <div className='datatable'>
+                            <DataTable
+                                columns={columns}
+                                data={rows}
+                                expandableRows expandableRowsComponent={ExpandedComponent}
+                            />
+                        </div>
                     </div>
                 </div>
             </Layout>
