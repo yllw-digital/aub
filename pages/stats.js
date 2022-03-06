@@ -187,8 +187,8 @@ export default function Stats() {
                     options={{
                         backgroundColor: 'transparent',
                         colors: colorsArray,
-                        chartArea: { width: '70%' },
-                        bar: { groupWidth: '80%' },
+                        chartArea: { width: '50%' },
+                        bar: { groupWidth: '50%' },
                         annotations: {
                             alwaysOutside: true,
                             textStyle: {
@@ -285,7 +285,7 @@ export default function Stats() {
                         colors: colorsArray,
                         backgroundColor: 'transparent',
                         chartArea: { width: '70%' },
-                        bar: { groupWidth: '80%' },
+                        bar: { groupWidth: '40%' },
                         series: {
                             0: {targetAxisIndex: 0},
                             1: {targetAxisIndex: 1}
@@ -306,7 +306,7 @@ export default function Stats() {
                             },
                         },
                         vAxis: {
-                            title: 'Rental Value',
+                            title: 'Average Rental Value/SQM',
                             minValue: 0 ,
                             titleTextStyle: {
                                 italic: false,
@@ -336,7 +336,7 @@ export default function Stats() {
                         colors: colorsArray,
                         backgroundColor: 'transparent',
                         chartArea: { width: '70%' },
-                        bar: { groupWidth: '80%' },
+                        bar: { groupWidth: '40%' },
                         series: {
                             0: {targetAxisIndex: 0},
                             1: {targetAxisIndex: 1}
@@ -386,8 +386,8 @@ export default function Stats() {
                     options={{
                         colors: colorsArray,
                         backgroundColor: 'transparent',
-                        bar: { groupWidth: '80%' },
-                        chartArea: { width: '70%' },
+                        bar: { groupWidth: '50%' },
+                        chartArea: { width: '20%' },
                         title: '',
                         annotations: {
                             alwaysOutside: true,
@@ -440,8 +440,9 @@ export default function Stats() {
                     data={buildingConditionRentalValue}
                     options={{
                         colors: colorsArray,
+                        chartArea: { width: '60%' },
                         backgroundColor: 'transparent',
-                        bar: { groupWidth: '70%' },
+                        bar: { groupWidth: '40%' },
                         title: '',                
                         annotations: {
                             alwaysOutside: true,

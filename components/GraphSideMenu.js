@@ -189,7 +189,7 @@ export default function GraphSideMenu() {
                                     data={buildingStatusRentalValue}
                                     options={{
                                         colors: colorsArray,
-                                        chartArea: { width: '70%' },
+                                        chartArea: { width: '40%' },
                                         bar: { groupWidth: '60%' },
                                         // title: 'Building Status vs Rental Value',
                                         annotations: {
@@ -242,8 +242,8 @@ export default function GraphSideMenu() {
                                     data={buildingConditionRentalValue}
                                     options={{
                                         colors: colorsArray,
-                                        chartArea: { width: '70%' },
-                                        bar: { groupWidth: '80%' },
+                                        chartArea: { width: '80%' },
+                                        bar: { groupWidth: '70%' },
                                         // title: 'Building Status vs Rental Value',
                                         annotations: {
                                             alwaysOutside: true,
