@@ -6,8 +6,6 @@ import { useForm } from "react-hook-form";
 
 
 export default function Filters({filters, handleFormSubmit, handleFormReset, closeFilters}) {
-
-    console.log('rerenderd', filters)
     const { register, handleSubmit, reset } = useForm();
 
     const onSubmit = (data) => {
@@ -31,7 +29,7 @@ export default function Filters({filters, handleFormSubmit, handleFormReset, clo
         keys.map((key) => {
             fields.push(
                 <div className='formItem' key={key.toString()}>
-                    <label className='label'>{filters[key].question}</label>
+                    <label className='label'>{filters[key].filters_text && filters[key].filters_text.length ? filters[key].filters_text : filters[key].question}</label>
 
                     <select className='formInput' {...register(filters[key].question_id.toString())}>
                         <option value="">Set filter</option>

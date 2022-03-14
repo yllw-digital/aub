@@ -105,7 +105,6 @@ export default function Zones({ zones, allFilters }) {
                     let currentSelectedFilter = selectedFilters.filter(filter => {
                         return filter.question_id == filtersCopy[key].question_id
                     })
-                    console.log(currentSelectedFilter)
                     filtersCopy[key]['selected_option'] = currentSelectedFilter[0].answer
                 }
             })

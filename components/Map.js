@@ -378,7 +378,7 @@ export default function Map() {
                 </h2>
                { showLegend && <div className='map-content'>
 				   <h3><span>{submissionCount}</span> total submissions.</h3>
-                    <h3 class='pb'>Average rent amount by neighborhood (USD)</h3>
+                    <h3 class='pb'>Average rent amount by neighborhood (LBP)</h3>
 
                     <div>
                         <div className='map-total-rent'><span>&gt; 3,000</span></div>

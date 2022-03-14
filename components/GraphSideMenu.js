@@ -212,7 +212,7 @@ export default function GraphSideMenu() {
                                             },
                                         },
                                         vAxis: {
-                                            title: 'Rental Value',
+                                            title: 'Average Rental Value in LBP',
                                             textPosition: 'in',
                                             minValue: 0,
                                             titleTextStyle: {
@@ -265,7 +265,7 @@ export default function GraphSideMenu() {
                                             },
                                         },
                                         vAxis: {
-                                            title: 'Rental Value',
+                                            title: 'Average Rental Value in LBP',
                                             textPosition: 'in',
                                             minValue: 0,
                                             titleTextStyle: {
@@ -289,7 +289,7 @@ export default function GraphSideMenu() {
 
                     <OwlCarousel options={carouselOptions}>
                         <div>
-                            <BarChart title="ZONE VS NUMBER OF HOUSEHOLD MEMBERS" >
+                            <BarChart title="AVERAGE NUMBER OF HOUSEHOLD MEMBERS IN RENTED UNIT PER ZONE" >
                                 <Chart
                                     width={'100%'}
                                     chartType="BarChart"
@@ -351,6 +351,7 @@ export default function GraphSideMenu() {
                             <BarChart title="NUMBER OF BEDROOMS / RENT COUNTS" >
                                 <Chart
                                     width={'100%'}
+                                    height={'200px'}
                                     chartType="PieChart"
                                     loader={<div>Loading Chart</div>}
                                     data={numberOfBedroomsDistribution}

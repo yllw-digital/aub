@@ -599,7 +599,7 @@ export default function Stats() {
                         colors: colorsArray,
                         title: '',
                         hAxis: { title: 'Person Count', titleTextStyle: { italic: false, bold: true } },
-                        vAxis: { title: 'Average Rental Value', titleTextStyle: { bold: true, italic: false } },
+                        vAxis: { title: 'Rental Value', titleTextStyle: { bold: true, italic: false } },
                         legend: 'none',
                     }}
                     rootProps={{ 'data-testid': '1' }}
@@ -608,19 +608,19 @@ export default function Stats() {
             
             <div ref={elRefs[10]} style={{ marginBottom: 80 }} className='chartContainer chartContainer__grid'>
                 <div>
-                    <div className='mainContentTitle chartTitle'><h2 className=''>Live under old rent contracts</h2></div>
                     <CircledNumber
                         text={''}
                         value={contractArrangements?.toString() + '+'}
                     />
+                    <div className='mainContentTitle chartTitle'><h2 className=''>Live under old rent contracts</h2></div>
                 </div>
 
                 <div>
-                    <div className='mainContentTitle chartTitle'><h2 className=''>Live in furnished apartments</h2></div>
                     <CircledNumber
                         text={''}
                         value={furnishedCount?.toString() + '+'}
                     />
+                    <div className='mainContentTitle chartTitle'><h2 className=''>Live in furnished apartments</h2></div>
                 </div>
             </div>
         </div>

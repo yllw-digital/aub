@@ -700,9 +700,9 @@ html {
 
 .filterButtonContainer--homepage {
 	position: absolute;
-	right: 400px;
+	right: 15px;
 	z-index: 90;
-	top: 200px;
+	bottom: 170px;
 }
 @media (max-width: 700px) {
 
@@ -933,7 +933,7 @@ html {
 /** Filters */
 
 .filtersOverlay {
-	position: absolute;
+	position: fixed;
 	top: 0;
 	bottom: 0;
 	left: 0;
@@ -1108,6 +1108,7 @@ html {
 }
 
 .leftSide {
+	position: relative;
 	width: 100%;
 	/* max-width: 1540px; */
 	justify-content: flex-end;
