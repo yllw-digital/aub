@@ -16,23 +16,21 @@ import { setConstantValue } from 'typescript';
 
 
 export async function getServerSideProps() {
-
-    const zoneRes = await getZones();
-    const zones = zoneRes?.data;
     const filtersRes = await getFilters();
     const allFilters = filtersRes?.data;
 
 
     return {
         props: {
-            zones,
+            // zones,
             allFilters
         }
     }
 }
 
-export default function Zones({ zones, allFilters }) {
+export default function Zones({ allFilters }) {
     const router = useRouter();
+    const [zones, setZones] = useState([]);
     const { zone_id, selectedMapFilters } = router.query
     const sidebarContext = useContext(SidebarContext);
     const [csvData, setCsvData] = useState([]);
@@ -47,6 +45,16 @@ export default function Zones({ zones, allFilters }) {
 
     const [filters, setFilters] = useState(allFilters)
 
+
+    useEffect(() => {
+        const getAllZones = async () => {
+            const zoneRes = await getZones();
+            const zones = zoneRes?.data;
+            setZones(zones);
+        }
+
+        getAllZones();
+    }, []);
     useEffect(() => {
         const fetchTableData = async (selectedFilters) => {
             let params = [];
