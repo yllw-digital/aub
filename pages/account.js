@@ -104,7 +104,7 @@ export default function Account() {
 
     }
     return (
-        <Layout>
+        <>
             <div className='accountSectionContainer'>
                 {useAuthUser && <div style={{ borderBottom: '1px solid' }}>
                     <div className='accountPadding'>
@@ -159,8 +159,6 @@ export default function Account() {
 
                 </div>
             </div>
-
-        </Layout>
-
+        </>
     )
 }

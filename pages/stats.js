@@ -174,8 +174,8 @@ export default function Stats() {
         </>
     }
 
-    return <Layout rightSideBar={<ScrollList />}>
-        <div className="pageContainer">
+    // return <Layout rightSideBar={<ScrollList />}>
+      return  <div className="pageContainer">
             <div ref={elRefs[0]} style={{ marginBottom: 80 }} className='chartContainer'>
                 <div className='mainContentTitle chartTitle'><h2 className=''>Building age vs Rental Value/SQM</h2></div>
                 <Chart
@@ -624,5 +624,5 @@ export default function Stats() {
                 </div>
             </div>
         </div>
-    </Layout>
+    // </Layout>
 }

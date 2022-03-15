@@ -223,7 +223,7 @@ export default function Zones({ allFilters }) {
                 filters={filters}
                 handleFormReset={onReset}
                 handleFormSubmit={onSubmit} />}
-            <Layout>
+            <>
                 <div className={'zonesLayoutContainer'}>
 
                     <div className={'leftSidebar'}>
@@ -284,7 +284,7 @@ export default function Zones({ allFilters }) {
                         </div>
                     </div>
                 </div>
-            </Layout>
+            </>
         </>
     )
 }

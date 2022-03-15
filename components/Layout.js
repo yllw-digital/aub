@@ -32,6 +32,7 @@ export default function Layout({ children, rightSideBar = null }) {
     const { takesurvey } = router.query
 
     useEffect(() => {
+        console.log('layout reset')
         const checkPopupStatus = async () => {
             const hidePopups = await Cookies.get('token');
             if (!hidePopups && shouldShowPopup()) {
@@ -195,8 +196,9 @@ export default function Layout({ children, rightSideBar = null }) {
                 </div>
 
                 <div className='rightSide'>
-                    {rightSideBar && rightSideBar}
-                    {!rightSideBar && <GraphSideMenu />}
+                    {/* {rightSideBar && rightSideBar} */}
+                    {/* {!rightSideBar && <GraphSideMenu />}  */}
+                    { route.pathname == "/stats" ? null : <GraphSideMenu /> }
                 </div>
             </div >
             <a href="https://www.aub.edu.lb.com" target="_blank" rel="noopener noreferrer" ><img src="/aub-logo.png" className='aubLogo hiddenOnMobile' /></a>

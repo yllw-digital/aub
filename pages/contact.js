@@ -5,7 +5,7 @@ import Layout from '../components/Layout';
 
 export default function About() {
     return (
-        <Layout>
+        <>
             <div className='pageContainer'>
                 <h1 className='pageTitle'>CONTACT US</h1>
 
@@ -78,7 +78,7 @@ export default function About() {
 
                 </div>
             </div>
-        </Layout>
+        </>
 
     )
 }

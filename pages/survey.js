@@ -289,7 +289,7 @@ export default function Survey() {
     }
 
     return (
-        <Layout>
+        <>
             <div className='pageContainer'>
                 <h1 className='pageTitle'>CITY OF TENANTS - RENTAL MAP SURVEY</h1>
                 <div className='researcherCheckbox'>
@@ -473,7 +473,7 @@ export default function Survey() {
                     </div>
                 </form>
             </div >
-        </Layout >
+        </ >
     )
 
 }

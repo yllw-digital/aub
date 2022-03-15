@@ -50,6 +50,7 @@ export default function GraphSideMenu() {
     const [submissionCount, setSubmissionCount] = useState(0);
 
     useEffect(() => {
+        console.log('graph bar reset');
         const fetchSubmissionCount = async () => {
             try {
                 const res = await getTable([]);
