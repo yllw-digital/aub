@@ -101,9 +101,9 @@ export default function Map() {
                 });
                 watchUtils.watch(view, "updating", onZoomChange);
                 function onZoomChange(newValue, oldValue, propertyName, target) {
-                    if (!view.updating){
+                    // if (!view.updating){
                     // View just finished updating. Get the new zoom value from the view
-                        if(view.zoom > 14.9) {
+                        if(view.zoom > 14.5) {
                             if(showingCircles) {
                                 webmap.remove(graphicsLayer);
                                 showingCircles = false;
@@ -114,8 +114,7 @@ export default function Map() {
                                 showingCircles = true;
                             }
                         }
-                        console.log("view.stationary", view.stationary, "view.updating", view.updating, view.zoom)
-                    }
+                    // }
                 }
 
                 const searchWidget = new Search({
@@ -333,8 +332,13 @@ export default function Map() {
                                                 {
                                                     type: "CIMSolidFill",
                                                     enable: true,
-                                                    color: [39, 129, 153, 255]
-                                                }
+                                                    color: [255, 192, 0, 150],
+                                                },
+                                                {
+                                                    type: "CIMSolidStroke",
+                                                    width: 0.5,
+                                                    color: [46, 59, 144, 255]
+                                                  }
                                             ]
                                         }
                                     }
