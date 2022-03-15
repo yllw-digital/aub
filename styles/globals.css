@@ -1424,7 +1424,7 @@ html {
 	width: 100%;
 	height: 100%;
 	border-radius: 100%;
-	background-color: #038487;
+	background-color: rgb(255, 192, 0);
 }
 
 .apt-size .apt-size-divs div:nth-child(2) {
