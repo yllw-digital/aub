@@ -10,6 +10,10 @@ export const getUserSubmissions = () => {
     return api.get(URL + '/api/user/submissions');
 }
 
+export const delDraft = (id) => {
+    return api.post(URL + '/api/user/delete-draft', { draft_id: id });
+}
+
 export const getUserDrafts = () => {
     return api.get(URL + '/api/user/drafts');
 }

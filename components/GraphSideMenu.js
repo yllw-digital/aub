@@ -213,7 +213,7 @@ export default function GraphSideMenu() {
                                             },
                                         },
                                         vAxis: {
-                                            title: 'Average Rental Value in LBP',
+                                            title: 'Building Status',
                                             textPosition: 'in',
                                             minValue: 0,
                                             titleTextStyle: {

@@ -704,7 +704,110 @@ html {
 	z-index: 90;
 	bottom: 170px;
 }
+
+.threed-btn button {
+	margin: 0;
+	padding: 10px;
+	width: auto;
+	height: auto;
+}
+
+.threed-btn {
+	position: absolute;
+	z-index: 30;
+	left: 57px;
+	top: 134px;
+}
+
+.survey-btns a {
+	display: inline-block;
+}
+
+.survey-btns a.del {
+	/* width: auto; */
+	border: 1px solid red;
+	color: red;
+	margin-top: 10px;
+	width: 100%;
+}
+
 @media (max-width: 700px) {
+	.threed-btn {
+		display: none;
+	}
+	.filters-and-legend {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		grid-column-gap: 10px;
+		position: relative;
+		width: 95%;
+		margin: 0 auto;
+	}
+	.filters-and-legend .map-legend {
+		margin-top: 0;
+		position: initial;
+		width: auto;
+		margin: 0;
+		padding-top: 0;
+		padding-bottom: 0;
+		line-height: 39px;
+		height: 39px;
+	}
+
+	.filters-and-legend .filterButtonContainer--homepage button {
+		margin-left: 0 !important;
+	}
+
+	.sideMenuContainer__collapse,
+	.sideMenuContainer__expand {
+		display: none !important;
+	}
+
+	.scrollarea.mainContent {
+		padding-top: 1rem;
+	}
+
+	.main.collapsed {
+		grid-template-columns: 1fr !important;
+	}
+
+	.inlineButtons,
+	.inlineButton {
+		display: grid !important;
+		margin-top: 0 !important;
+		grid-template-columns: 1fr 1fr;
+		grid-gap: 10px;
+	}
+
+	.inlineButtons .submitBtn,
+	.inlineButton .submitBtn {
+		width: auto;
+	}
+
+
+	.datatable {
+		margin-top: 0
+	}
+
+	.filterButtonContainer {
+		position: initial;
+		margin: 0;
+		padding: 0;
+	}
+
+	.filterButtonContainer .submitBtn {
+		display: table;
+		width: 95%;
+		margin: 15px auto;
+	}
+
+	.filters-and-legend .map-legend.opened {
+		position: absolute;
+		z-index: 91;
+		width: 100%;
+		height: auto;
+		background-color: #FFF;
+	}
 
 	.chartContainer.chartContainer__grid {
 		grid-template-columns: 1fr !important;
@@ -997,6 +1100,69 @@ html {
 	height: 4rem;
 	border: 1px solid;
 	display: block;
+}
+
+.formInput.formInput--price {
+	padding-left: 40px;
+}
+
+.formInput--lbp,
+.formInput--usd {
+	position: relative;
+}
+
+.formItem.formItem--full {
+	grid-column: span 2;
+}
+
+.formItem.formItem--full > div {
+	grid-template-columns: 1fr 1fr 1fr;
+	display: grid;
+	grid-column-gap: 2rem;
+}
+
+.formInput--lbp::after,
+.formInput--usd::after {
+	position: absolute;
+	left: 1px;
+	line-height: 40px;
+	width: 35px;
+	text-align: center;
+	height: 37px;
+	top: 1px;
+	background: #EEE;
+	display: block;
+}
+
+.formInput--lbp::after {
+	content: "LBP";
+}
+
+.formInput--usd::after {
+	content: "USD";
+}
+
+.formInput > div {
+	border: 0 !important;
+	box-shadow: none !important;
+}
+
+.formInput > div:hover {
+	border: 0 !important;
+	box-shadow: none !important;
+}
+
+.formInput > div > div {
+	padding-left: 0;
+}
+
+.formInput > div > div > span {
+	background-color: transparent;
+}
+
+.formInput > div > div > div {
+	padding-right: 0;
+	color: #000;
 }
 
 .formTextarea {

@@ -17,8 +17,8 @@ import { setConstantValue } from 'typescript';
 
 export async function getServerSideProps() {
     const filtersRes = await getFilters();
+    console.log("Got filters");
     const allFilters = filtersRes?.data;
-
 
     return {
         props: {
@@ -49,6 +49,7 @@ export default function Zones({ allFilters }) {
     useEffect(() => {
         const getAllZones = async () => {
             const zoneRes = await getZones();
+            console.log("Got zones");
             const zones = zoneRes?.data;
             setZones(zones);
         }
@@ -64,17 +65,43 @@ export default function Zones({ allFilters }) {
             }
 
             const res = await getTable(selectedFilters, zone_id || null);
-            let columnHeadersRes = res?.data?.questions?.map(question => question?.question)
+            let columnHeadersRes = res?.data?.questions;
             // ADD PID to the headers of the excel as it is not returned by backend
             if (res?.data?.is_admin) {
-                columnHeadersRes.unshift('PID');
+                columnHeadersRes.unshift({
+                    question: "PID"
+                });
+            }
+
+            let except = [];
+            for(let i = 0; i < columnHeadersRes.length; i++) {
+                if(except.includes(columnHeadersRes[i].id)) {
+                    continue;
+                }
+
+                if(columnHeadersRes[i].is_price) {
+                    // Duplicate after this entry
+                    except.push(columnHeadersRes[i].id);
+                    let lbp_title =  columnHeadersRes[i].question + " (LBP)";
+                    let usd_title =  columnHeadersRes[i].question + " (USD)";
+                    let total_title = columnHeadersRes[i].question + " (Total)";
+
+                    columnHeadersRes[i].question = lbp_title;
+                    let copy = {...columnHeadersRes[i]};
+                    copy.question = usd_title;
+                    columnHeadersRes.splice(i + 1, 0, copy);
+
+                    let copy2 = {...columnHeadersRes[i]};
+                    copy2.question = total_title;
+                    columnHeadersRes.splice(i + 2, 0, copy2);
+                }
             }
 
             let cols = [{ name: 'Survey', selector: row => row.answers[0], sortable: true},{ name: 'Zone', selector: row => row.answers[1], sortable: true}, {name: 'Date', selector: row => row.answers[2], sortable: true, hide: 'md'}];
             let cleanCol = ['Survey', 'Zone', 'Date'];
             columnHeadersRes.map((question, idx) => {
                 cols.push({
-                    name: question,
+                    name: question.question,
                     selector: row => row.answers[idx + 3],
                     sortable: true,
                     wrap: true,
@@ -108,6 +135,7 @@ export default function Zones({ allFilters }) {
                 selectedFilters.map(filter => filterIds.push(parseInt(filter.question_id)))
             }
 
+            console.log("Updaitng filters");
             keys.map((key) => {
                 if (filterIds.includes(filtersCopy[key].question_id)) {
                     let currentSelectedFilter = selectedFilters.filter(filter => {
@@ -116,6 +144,7 @@ export default function Zones({ allFilters }) {
                     filtersCopy[key]['selected_option'] = currentSelectedFilter[0].answer
                 }
             })
+            console.log("Updated filters");
             setFilters(filtersCopy)
         }
 
@@ -149,7 +178,6 @@ export default function Zones({ allFilters }) {
                     <div className='zoneMeta'>
                         <p className="boldLabel">Average rent amount</p>
                         <p className="regularText">{zone?.price_usd ?? 0}$</p>
-                        <p className="regularText">{zone?.price_lbp ?? 0}LBP</p>
                     </div>
 
                     <div className='zoneMeta'>
@@ -279,6 +307,8 @@ export default function Zones({ allFilters }) {
                             <DataTable
                                 columns={columns}
                                 data={rows}
+                                pagination={true}
+                                paginationPerPage={30}
                                 expandableRows expandableRowsComponent={ExpandedComponent}
                             />
                         </div>

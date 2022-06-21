@@ -102,7 +102,13 @@ export default function Survey() {
             switch (answer?.type) {
                 case "textfield":
                 case "dropdown":
-                    setValue(key, answer?.answers[0]?.answer)
+                    if(answer.is_price) {
+                        let parsedAnswer = JSON.parse(answer?.answers[0]?.answer);
+                        setValue(key+"_lbp", parsedAnswer.lbp);
+                        setValue(key+"_usd", parsedAnswer.usd);
+                    } else {
+                        setValue(key, answer?.answers[0]?.answer)
+                    }
                     break;
 
                 case "checkbox":
@@ -162,11 +168,27 @@ export default function Survey() {
 
         switch (config.type) {
             case "textfield":
-                return <div className='formItem' key={index.toString()}>
-                    {getLabel(config, question, questionId)}
-                    <input className='formInput' type="text"
-                        {...register(questionId.toString(), { required: config.researcher_validation == 'required' })} />
-                </div>
+                if(config.is_price) {
+                    return <div className='formItem formItem--full' key={index.toString()}>
+                        {getLabel(config, question, questionId)}
+                        <div>
+                            <div className=' formInput--lbp'>
+                                <input className='formInput formInput--price' type="text"
+                                    {...register(questionId.toString() + "_lbp", { required: config.researcher_validation == 'required' })} />
+                            </div>
+                            <div className=' formInput--usd'>
+                                <input className='formInput formInput--price' type="text"
+                                    {...register(questionId.toString() + "_usd", { required: config.researcher_validation == 'required' })} />
+                            </div>
+                        </div>
+                    </div>
+                } else {
+                    return <div className='formItem' key={index.toString()}>
+                        {getLabel(config, question, questionId)}
+                        <input className='formInput' type="text"
+                            {...register(questionId.toString(), { required: config.researcher_validation == 'required' })} />
+                    </div>
+                }
 
             case "textarea":
                 return <div className='formItem' key={index.toString()}>

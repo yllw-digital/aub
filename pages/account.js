@@ -5,7 +5,7 @@ import Layout from '../components/Layout';
 import Link from 'next/link'
 import { useAuth } from '../context/auth';
 import { useRouter } from 'next/router'
-import { getUserSubmissions, getUserDrafts } from '../services/answers/answers'
+import { getUserSubmissions, getUserDrafts, delDraft } from '../services/answers/answers'
 import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie'
 import api from '../services/config';
@@ -72,6 +72,17 @@ export default function Account() {
             router.replace('/')
         }
     }
+
+    const deleteDraft = (id) => {
+        console.log('delete draft', id)
+
+        Promise.all([
+            delDraft(id)
+        ]).then(data => {
+            location.reload()
+        });
+    }
+
     const Survey = ({ submission }) => {
         return <div className='surveyWrapper'>
             <div className='surveyContainer'>
@@ -92,13 +103,17 @@ export default function Account() {
                     </div>
                 </div>
 
-                {!submission?.is_draft && <Link href={`/submission/${submission.id}`}>
-                    VIEW SURVEY
-                </Link>}
+                <div className='survey-btns'>
+                    {!submission?.is_draft && <Link href={`/submission/${submission.id}`}>
+                        VIEW SURVEY
+                    </Link>}
 
-                {submission?.is_draft && <Link href={`/survey?zone=${submission.zone.arcgis_id}&pid=${submission.pid}&draftId=${submission.id}`}>
-                    VIEW DRAFT
-                </Link>}
+                    {submission?.is_draft && <Link href={`/survey?zone=${submission.zone.arcgis_id}&pid=${submission.pid}&draftId=${submission.id}`}>
+                        VIEW DRAFT
+                    </Link>}
+
+                    {submission?.is_draft && <a href='#' className='del' onClick={() => deleteDraft(submission.id)}>Delete</a>}
+                </div>
             </div>
         </div>
 
