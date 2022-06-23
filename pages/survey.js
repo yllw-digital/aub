@@ -174,11 +174,11 @@ export default function Survey() {
                         <div>
                             <div className=' formInput--lbp'>
                                 <input className='formInput formInput--price' type="text"
-                                    {...register(questionId.toString() + "_lbp", { required: config.researcher_validation == 'required' })} />
+                                    {...register(questionId.toString() + "_lbp")} />
                             </div>
                             <div className=' formInput--usd'>
                                 <input className='formInput formInput--price' type="text"
-                                    {...register(questionId.toString() + "_usd", { required: config.researcher_validation == 'required' })} />
+                                    {...register(questionId.toString() + "_usd")} />
                             </div>
                         </div>
                     </div>

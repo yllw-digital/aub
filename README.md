@@ -1,5 +1,5 @@
-1 - Add 3 zeros to the right of the LBP column
-2- Make the middle point the value
-3- Value of Rent when you first moved to the apartment (before renewal of lease agreement)
-4- otal monthly payable utility fees (in LBP)
-5- Switch everything that's more than 2 answers to multiple selection
+1 - Add consent popup to the survey page
+2 - Add checkbox at the end of the survey
+3 - Prefill email with user email & hide
+4 - Add 3 000
+5 - Add all to rows per page -- Make it 30/60/120/300/500/1000/All
