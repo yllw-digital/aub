@@ -360,6 +360,11 @@ html {
 	cursor: pointer;
 }
 
+.pageContainer form > .sectionContainer:nth-child(1) .thirdGrid .formItem:nth-child(1),
+.pageContainer form > .sectionContainer:nth-child(1) .thirdGrid .formItem:nth-child(2) {
+	display: none;
+}
+
 .zoneContainer h3 {
 	margin-top: 2rem;
 	font-family: "DIN-Condensed";
@@ -732,6 +737,7 @@ html {
 }
 
 @media (max-width: 700px) {
+	
 	.threed-btn {
 		display: none;
 	}
@@ -756,6 +762,7 @@ html {
 
 	.filters-and-legend .filterButtonContainer--homepage button {
 		margin-left: 0 !important;
+		width: 100%;
 	}
 
 	.sideMenuContainer__collapse,
@@ -1651,12 +1658,18 @@ html {
 /* MOBILE VIEW */
 
 @media (max-width: 1200px) {
+	.threed-btn {
+		right: 30px;
+		top: 188px;
+		left: auto;
+	}
+
 	.map-legend{
 		margin-top: 145px;
 	}
 
 	.filterButtonContainer--homepage button {
-		margin-left: 1rem !important;
+		margin-left: 3rem !important;
 	}
 	.map {
 		height: calc(100vh - 217px);
@@ -1780,6 +1793,22 @@ html {
 	}
 }
 
+@media all and (max-width: 760px) {
+	.filtersContainer {
+		padding: 2rem;
+	}
+
+	.filtersContainer .thirdGrid {
+		display: grid !important;
+		grid-template-columns: 1fr 1fr  !important;
+		column-gap: 2rem !important;
+	}
+
+	.filtersContainer .thirdGrid .submitBtn {
+		width: auto !important;
+		margin: 0 !important;
+	}
+}
 /** Scrolllist*/
 
 .stats-container {

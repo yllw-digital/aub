@@ -30,34 +30,33 @@ export default function resetPassword() {
         }
     }
     return (
-        <Layout>
-            <div className='signinContainer margin-0'>
-                <h2 className='popupTitle'>RESET PASSWORD</h2>
-                <form className='contactForm' onSubmit={handleSubmit(onReset)}>
-                    <div className="formItem">
-                        <p className="text-center">{text}</p>
-                    </div>
-                    <div className='formItem'>
-                        <label className='label'>NEW PASSWORD</label>
-                        {errors?.password?.type === 'required' && <p style={{ color: 'red', display: 'inline', marginLeft: 5 }}>The new password is required</p>}
-                        {errors?.password?.message && <p style={{ color: 'red', display: 'inline', marginLeft: 5 }}>{errors.password.message}</p>}
-                        <input className='formInput' type="password"
-                            {...register('password', { required: true })} />
-                    </div>
+        // <Layout>
+        <div className='signinContainer margin-0'>
+            <h2 className='popupTitle'>RESET PASSWORD</h2>
+            <form className='contactForm' onSubmit={handleSubmit(onReset)}>
+                <div className="formItem">
+                    <p className="text-center">{text}</p>
+                </div>
+                <div className='formItem'>
+                    <label className='label'>NEW PASSWORD</label>
+                    {errors?.password?.type === 'required' && <p style={{ color: 'red', display: 'inline', marginLeft: 5 }}>The new password is required</p>}
+                    {errors?.password?.message && <p style={{ color: 'red', display: 'inline', marginLeft: 5 }}>{errors.password.message}</p>}
+                    <input className='formInput' type="password"
+                        {...register('password', { required: true })} />
+                </div>
 
-                    <div className='formItem'>
-                        <label className='label'>NEW PASSWORD CONFIRMATION</label>
-                        {errors?.confirm_password?.type === 'required' && <p style={{ color: 'red', display: 'inline', marginLeft: 5 }}>The new password is required</p>}
-                        {errors?.confirm_password?.message && <p style={{ color: 'red', display: 'inline', marginLeft: 5 }}>{errors.confirm_password.message}</p>}
-                        <input className='formInput' type="password"
-                            {...register('confirm_password', { required: true })} />
-                    </div>
+                <div className='formItem'>
+                    <label className='label'>NEW PASSWORD CONFIRMATION</label>
+                    {errors?.confirm_password?.type === 'required' && <p style={{ color: 'red', display: 'inline', marginLeft: 5 }}>The new password is required</p>}
+                    {errors?.confirm_password?.message && <p style={{ color: 'red', display: 'inline', marginLeft: 5 }}>{errors.confirm_password.message}</p>}
+                    <input className='formInput' type="password"
+                        {...register('confirm_password', { required: true })} />
+                </div>
 
-                    <div className='inlineButtons'>
-                        <button className='submitBtn' type="submit">RESET PASSWORD</button>
-                    </div>
-                </form>
-            </div>
-        </Layout>
+                <div className='inlineButtons'>
+                    <button className='submitBtn' type="submit">RESET PASSWORD</button>
+                </div>
+            </form>
+        </div>
     )
 }

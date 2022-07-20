@@ -107,7 +107,7 @@ export default function Zones({ allFilters }) {
                     wrap: true,
                     hide: 'md'
                 })
-                cleanCol.push(question);
+                cleanCol.push(question.question);
             });
 
             let rows = [];
@@ -309,6 +309,7 @@ export default function Zones({ allFilters }) {
                                 data={rows}
                                 pagination={true}
                                 paginationPerPage={30}
+                                paginationRowsPerPageOptions={[30, 100, 200, 400, 600, 1000]}
                                 expandableRows expandableRowsComponent={ExpandedComponent}
                             />
                         </div>

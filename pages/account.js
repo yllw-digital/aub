@@ -104,15 +104,15 @@ export default function Account() {
                 </div>
 
                 <div className='survey-btns'>
-                    {!submission?.is_draft && <Link href={`/submission/${submission.id}`}>
+                    {!submission?.is_draft ? <Link href={`/submission/${submission.id}`}>
                         VIEW SURVEY
-                    </Link>}
+                    </Link> : null}
 
-                    {submission?.is_draft && <Link href={`/survey?zone=${submission.zone.arcgis_id}&pid=${submission.pid}&draftId=${submission.id}`}>
+                    {submission?.is_draft ? <Link href={`/survey?zone=${submission.zone.arcgis_id}&pid=${submission.pid}&draftId=${submission.id}`}>
                         VIEW DRAFT
-                    </Link>}
+                    </Link> : null}
 
-                    {submission?.is_draft && <a href='#' className='del' onClick={() => deleteDraft(submission.id)}>Delete</a>}
+                    {submission?.is_draft ? <a href='#' className='del' onClick={() => deleteDraft(submission.id)}>Delete</a> : null}
                 </div>
             </div>
         </div>
