@@ -360,10 +360,10 @@ html {
 	cursor: pointer;
 }
 
-.pageContainer form > .sectionContainer:nth-child(1) .thirdGrid .formItem:nth-child(1),
-.pageContainer form > .sectionContainer:nth-child(1) .thirdGrid .formItem:nth-child(2) {
-	display: none;
-}
+/* .pageContainer form > .sectionContainer:nth-child(1) .thirdGrid .formItem:nth-child(1), */
+/* .pageContainer form > .sectionContainer:nth-child(1) .thirdGrid .formItem:nth-child(2) { */
+	/* display: none; */
+/* } */
 
 .zoneContainer h3 {
 	margin-top: 2rem;
