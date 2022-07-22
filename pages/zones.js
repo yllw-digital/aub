@@ -121,7 +121,8 @@ export default function Zones({ allFilters }) {
             setCleanColumns(cleanCol);
             setColumns(cols);
             setColumnHeaders(columnHeadersRes);
-            setCsvData([columnHeadersRes, ...res?.data?.submissions])
+            let cleanColWithoutFirst = cleanCol.slice(1);
+            setCsvData([cleanColWithoutFirst, ...res?.data?.submissions])
             setTableData(res?.data);
         }
 
